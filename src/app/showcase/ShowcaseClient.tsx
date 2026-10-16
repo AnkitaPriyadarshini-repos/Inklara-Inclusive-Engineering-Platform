@@ -21,6 +21,7 @@ import {
   FolderKanban,
   FileText,
   Printer,
+  Download,
   Copy,
   Check,
   Code2,
@@ -329,6 +330,50 @@ export function ShowcaseClient() {
     navigator.clipboard.writeText(selector);
     setCopiedSelector(selector);
     setTimeout(() => setCopiedSelector(null), 2000);
+  };
+
+  // Download JSON report helper
+  const handleDownloadReportJson = () => {
+    const reportData = {
+      title: `Inklara Accessibility Evaluation Report — ${currentTarget.name}`,
+      generatedAt: new Date().toISOString(),
+      target: {
+        id: currentTarget.id,
+        name: currentTarget.name,
+        url: currentTarget.url,
+        viewport: selectedViewport,
+      },
+      evaluationEngine: "axe-core 4.10.2 via Playwright Headless Chromium Sandbox",
+      complianceIndex: `${liveCompliance}%`,
+      severitySummary: severityCounts,
+      findings: demoFindings.map((f) => ({
+        id: f.id,
+        ruleId: f.ruleId,
+        ruleTitle: f.ruleTitle,
+        impact: f.impact,
+        wcagCriterion: f.wcagId,
+        cssSelector: f.selector,
+        codeSnippet: f.snippet,
+        summary: f.summary,
+        status: f.status,
+        verifiedAt: f.verifiedAt || null,
+        remediationAdvice: REMEDIATION_CATALOG[f.ruleId]?.actionableFix || null,
+      })),
+      disclaimer:
+        "Automated evaluation covers ~35% of WCAG 2.2 AA. Zero automated violations does not certify full legal compliance.",
+    };
+
+    const blob = new Blob([JSON.stringify(reportData, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `inklara-audit-report-${currentTarget.id}-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Severity counts
@@ -1293,6 +1338,14 @@ export function ShowcaseClient() {
               </div>
 
               <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleDownloadReportJson}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-200 hover:text-white bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded-lg shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
+                >
+                  <Download className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Download JSON Report</span>
+                </button>
                 <button
                   type="button"
                   onClick={() => window.print()}

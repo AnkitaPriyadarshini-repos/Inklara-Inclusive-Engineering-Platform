@@ -186,6 +186,7 @@ test.describe("Inklara — Accessibility Compliance & Automated WCAG Audit", () 
     // Verify stage 5 report elements
     await expect(page.locator("text=Executive Accessibility Audit Report")).toBeVisible();
     await expect(page.locator("text=Severity Distribution")).toBeVisible();
+    await expect(page.locator("button:has-text('Download JSON Report')")).toBeVisible();
   });
 });
 
