@@ -1,0 +1,142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id            String     @id @default(cuid())
+  name          String
+  description   String?
+  repositoryUrl String?
+  isArchived    Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  targets       Target[]
+  auditRuns     AuditRun[]
+}
+
+model Target {
+  id          String     @id @default(cuid())
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name        String
+  url         String
+  environment String     @default("development") // development, staging, production, test
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  auditRuns   AuditRun[]
+}
+
+model AuditRun {
+  id                 String                @id @default(cuid())
+  projectId          String
+  project            Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  targetId           String?
+  target             Target?               @relation(fields: [targetId], references: [id], onDelete: SetNull)
+  name               String
+  targetUrl          String
+  scopeType          String                @default("single-page") // single-page, multi-page, wcag-em-sample
+  status             String                @default("PENDING")     // PENDING, RUNNING, COMPLETED, FAILED
+  wcagLevel          String                @default("WCAG_2_2_AA")
+  errorMessage       String?
+  startedAt          DateTime              @default(now())
+  completedAt        DateTime?
+  isBaseline         Boolean               @default(false)
+  
+  // Aggregate Automated Metrics
+  violationsCount    Int                   @default(0)
+  incompleteCount    Int                   @default(0)
+  passesCount        Int                   @default(0)
+  inapplicableCount  Int                   @default(0)
+  criticalCount      Int                   @default(0)
+  seriousCount       Int                   @default(0)
+  moderateCount      Int                   @default(0)
+  minorCount         Int                   @default(0)
+
+  // Scope & WCAG-EM metadata
+  evaluationScope    String?
+  executiveSummary   String?
+
+  scannedPages       ScannedPage[]
+  findings           Finding[]
+  manualChecklist    ManualChecklistItem[]
+  comparisonsAsNew   BaselineComparison[]  @relation("CurrentAudit")
+  comparisonsAsBase  BaselineComparison[]  @relation("BaselineAudit")
+}
+
+model ScannedPage {
+  id          String    @id @default(cuid())
+  auditRunId  String
+  auditRun    AuditRun  @relation(fields: [auditRunId], references: [id], onDelete: Cascade)
+  url         String
+  title       String?
+  statusCode  Int?
+  loadTimeMs  Int?
+  scannedAt   DateTime  @default(now())
+  findings    Finding[]
+}
+
+model Finding {
+  id                   String       @id @default(cuid())
+  auditRunId          String
+  auditRun             AuditRun     @relation(fields: [auditRunId], references: [id], onDelete: Cascade)
+  scannedPageId        String?
+  scannedPage          ScannedPage? @relation(fields: [scannedPageId], references: [id], onDelete: SetNull)
+  
+  // Automated Engine Raw Results
+  ruleId               String
+  ruleTitle            String
+  ruleDescription      String
+  ruleHelpUrl          String?
+  impact               String       // critical, serious, moderate, minor
+  wcagCriteria         String       // JSON string array e.g. ["1.1.1", "4.1.2"]
+  selector             String
+  htmlSnippet          String
+  failureSummary       String?
+  fingerprint          String       // Deterministic hash for regression diffing
+
+  // Verification & Human Remediation Lifecycle
+  status               String       @default("OPEN") // OPEN, IN_PROGRESS, FIXED_PENDING_VERIFICATION, VERIFIED_FIXED, NEEDS_FURTHER_REVIEW, NOT_APPLICABLE
+  naReason             String?
+  remediationNotes     String?
+  remediationCode      String?
+  remediatedAt         DateTime?
+  verifiedAt           DateTime?
+  verifiedByAuditRunId String?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+}
+
+model ManualChecklistItem {
+  id                      String    @id @default(cuid())
+  auditRunId              String
+  auditRun                AuditRun  @relation(fields: [auditRunId], references: [id], onDelete: Cascade)
+  category                String    // Keyboard, Focus, Modals, Forms, Zoom, Contrast, etc.
+  criterion               String    // e.g. "2.1.1 Keyboard", "2.4.7 Focus Visible"
+  title                   String
+  description             String
+  methodologyInstructions String
+  status                  String    @default("NOT_TESTED") // NOT_TESTED, PASS, FAIL, NOT_APPLICABLE
+  naReason                String?
+  notes                   String?
+  evidence                String?
+  evaluatedAt             DateTime?
+  updatedAt               DateTime  @updatedAt
+}
+
+model BaselineComparison {
+  id                     String    @id @default(cuid())
+  auditRunId             String
+  auditRun               AuditRun  @relation("CurrentAudit", fields: [auditRunId], references: [id], onDelete: Cascade)
+  baselineRunId          String
+  baselineRun            AuditRun  @relation("BaselineAudit", fields: [baselineRunId], references: [id], onDelete: Cascade)
+  newFindingsCount       Int       @default(0)
+  fixedFindingsCount     Int       @default(0)
+  persistentFindingsCount Int      @default(0)
+  summaryJson            String    // JSON breakdown of diffs
+  createdAt              DateTime  @default(now())
+}

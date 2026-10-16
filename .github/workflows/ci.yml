@@ -1,0 +1,52 @@
+name: Inklara CI — Quality Gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality-gates:
+    name: Lint, Test, & Production Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      DATABASE_URL: "file:./dev.db"
+      ALLOW_LOCAL_SCANNING: "true"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client & Sync SQLite
+        run: npx prisma db push
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Strict TypeScript Verification
+        run: npx tsc --noEmit
+
+      - name: ESLint Code Quality
+        run: npm run lint
+
+      - name: Unit & Integration Tests (Vitest)
+        run: npm test
+
+      - name: Production Bundle Build
+        run: npm run build
+
+      - name: Playwright E2E Tests
+        run: npm run test:e2e
