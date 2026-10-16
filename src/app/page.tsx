@@ -23,33 +23,47 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const [projects, audits, totalFindings, manualStats] = await Promise.all([
-    db.project.findMany({
-      orderBy: { updatedAt: "desc" },
-      include: {
-        targets: true,
-        auditRuns: {
-          select: { id: true, status: true, completedAt: true },
+  let projects: any[] = [];
+  let audits: any[] = [];
+  let totalFindings: any[] = [];
+  let manualStats: any[] = [];
+  let databaseError: string | null = null;
+
+  try {
+    const res = await Promise.all([
+      db.project.findMany({
+        orderBy: { updatedAt: "desc" },
+        include: {
+          targets: true,
+          auditRuns: {
+            select: { id: true, status: true, completedAt: true },
+          },
         },
-      },
-    }),
-    db.auditRun.findMany({
-      orderBy: { startedAt: "desc" },
-      take: 10,
-      include: {
-        project: { select: { id: true, name: true } },
-        target: { select: { id: true, name: true, environment: true } },
-      },
-    }),
-    db.finding.groupBy({
-      by: ["status"],
-      _count: { id: true },
-    }),
-    db.manualChecklistItem.groupBy({
-      by: ["status"],
-      _count: { id: true },
-    }),
-  ]);
+      }),
+      db.auditRun.findMany({
+        orderBy: { startedAt: "desc" },
+        take: 10,
+        include: {
+          project: { select: { id: true, name: true } },
+          target: { select: { id: true, name: true, environment: true } },
+        },
+      }),
+      db.finding.groupBy({
+        by: ["status"],
+        _count: { id: true },
+      }),
+      db.manualChecklistItem.groupBy({
+        by: ["status"],
+        _count: { id: true },
+      }),
+    ]);
+    projects = res[0];
+    audits = res[1];
+    totalFindings = res[2];
+    manualStats = res[3];
+  } catch (error) {
+    databaseError = error instanceof Error ? error.message : "Database connection failed";
+  }
 
   const totalOpenFindings =
     totalFindings.find((f) => f.status === "OPEN")?._count.id ?? 0;
@@ -107,6 +121,31 @@ export default async function DashboardPage() {
             </Link>
           </div>
         </div>
+
+        {/* Database Uninitialized / Serverless Preview Banner */}
+        {databaseError && (
+          <div className="mb-6 p-4 bg-amber-950/40 border border-amber-800/80 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <h2 className="text-sm font-bold text-amber-200">
+                  Persistent Storage Disconnected (Serverless Preview Mode)
+                </h2>
+                <p className="text-xs text-amber-300/80 mt-0.5">
+                  The dashboard is currently running in preview mode without an active PostgreSQL instance.
+                  Explore the completely self-contained, interactive recruiter demonstration at /showcase or configure DATABASE_URL.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/showcase"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-black rounded-lg transition-colors shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Launch Showcase (60s)</span>
+            </Link>
+          </div>
+        )}
 
         {/* Snowdog-Inspired Audit Lifecycle Workflow Bar */}
         <div className="bg-gradient-to-r from-apple-surface via-apple-elevated/40 to-apple-surface border border-apple-border rounded-xl p-4 mb-8 shadow-sm">

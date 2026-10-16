@@ -8,12 +8,17 @@ import { History, Play, ArrowRight, ShieldCheck } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function AuditsListPage() {
-  const audits = await db.auditRun.findMany({
-    orderBy: { startedAt: "desc" },
-    include: {
-      project: { select: { id: true, name: true } },
-    },
-  });
+  let audits: any[] = [];
+  try {
+    audits = await db.auditRun.findMany({
+      orderBy: { startedAt: "desc" },
+      include: {
+        project: { select: { id: true, name: true } },
+      },
+    });
+  } catch (error) {
+    console.error("Database unavailable on audits list page:", error);
+  }
 
   return (
     <div className="min-h-screen bg-apple-canvas text-apple-text font-sans">

@@ -6,15 +6,20 @@ import { ProjectsClient } from "./ProjectsClient";
 export const dynamic = "force-dynamic";
 
 export default async function ProjectsPage() {
-  const projects = await db.project.findMany({
-    orderBy: { updatedAt: "desc" },
-    include: {
-      targets: true,
-      auditRuns: {
-        orderBy: { startedAt: "desc" },
+  let projects: any[] = [];
+  try {
+    projects = await db.project.findMany({
+      orderBy: { updatedAt: "desc" },
+      include: {
+        targets: true,
+        auditRuns: {
+          orderBy: { startedAt: "desc" },
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error("Database unavailable on projects page:", error);
+  }
 
   return (
     <div className="min-h-screen bg-apple-canvas text-apple-text font-sans">
