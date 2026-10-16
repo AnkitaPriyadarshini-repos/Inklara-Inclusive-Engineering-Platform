@@ -128,4 +128,64 @@ test.describe("Inklara — Accessibility Compliance & Automated WCAG Audit", () 
     const activeTagName = await page.evaluate(() => document.activeElement?.tagName);
     expect(["A", "BUTTON"]).toContain(activeTagName);
   });
+
+  test("recruiter showcase page meets axe-core automated WCAG standards", async ({ page }) => {
+    await page.goto("/showcase");
+    await page.waitForLoadState("networkidle");
+
+    const results = await runAxe(page);
+    const criticalOrSerious = results.violations.filter(
+      (v: { impact: string }) => v.impact === "critical" || v.impact === "serious"
+    );
+    expect(criticalOrSerious).toEqual([]);
+  });
+
+  test("showcase interactive demonstration progresses through audit stages", async ({ page }) => {
+    await page.goto("/showcase");
+    await page.waitForLoadState("networkidle");
+
+    // Verify initial stage is visible
+    await expect(page.locator("text=Configure Audit Scope & Target Environment")).toBeVisible();
+
+    // Click "Execute Sandboxed Scan"
+    const startScanBtn = page.locator("button:has-text('Execute Sandboxed Scan')");
+    await expect(startScanBtn).toBeVisible();
+    await startScanBtn.click();
+
+    // Verify stage 2 is reached
+    await expect(page.locator("text=Sandboxed Scan Pipeline in Execution")).toBeVisible();
+
+    // Wait for stage 3 transition
+    await expect(page.locator("text=Interactive Accessibility Findings Explorer")).toBeVisible({
+      timeout: 10000,
+    });
+
+    // Verify findings are displayed and click "Remediate" on first finding
+    const remediateBtn = page.locator("button:has-text('Remediate')").first();
+    await expect(remediateBtn).toBeVisible();
+    await remediateBtn.click();
+
+    // Verify stage 4 is reached
+    await expect(page.locator("text=Actionable Remediation & Live Fix Verification")).toBeVisible();
+
+    // Click "Test Fix Resolution Against Fixture"
+    const testFixBtn = page.locator("button:has-text('Test Fix Resolution Against Fixture')");
+    await expect(testFixBtn).toBeVisible();
+    await testFixBtn.click();
+
+    // Verify fix verified feedback appears
+    await expect(page.locator("text=Automated Verification Confirmed")).toBeVisible({
+      timeout: 5000,
+    });
+
+    // Advance to stage 5 (Executive Report)
+    const viewReportBtn = page.locator("button:has-text('View Executive Report')");
+    await expect(viewReportBtn).toBeVisible();
+    await viewReportBtn.click();
+
+    // Verify stage 5 report elements
+    await expect(page.locator("text=Executive Accessibility Audit Report")).toBeVisible();
+    await expect(page.locator("text=Severity Distribution")).toBeVisible();
+  });
 });
+

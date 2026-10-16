@@ -92,6 +92,13 @@ export default async function DashboardPage() {
 
           <div className="flex items-center gap-3">
             <Link
+              href="/showcase"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
+            >
+              <Sparkles className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+              <span>Recruiter Showcase (60s)</span>
+            </Link>
+            <Link
               href="/fixtures"
               className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-slate-300 bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
             >

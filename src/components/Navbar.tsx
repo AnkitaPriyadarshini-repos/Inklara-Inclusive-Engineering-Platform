@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldCheck, Play, FolderKanban, BookOpen, Layers, History, Volume2 } from "lucide-react";
+import { ShieldCheck, Play, FolderKanban, BookOpen, Layers, History, Volume2, Sparkles } from "lucide-react";
 
 interface NavbarProps {
   onOpenAuditModal?: () => void;
@@ -13,6 +13,7 @@ export function Navbar({ onOpenAuditModal }: NavbarProps) {
   const pathname = usePathname();
 
   const navLinks = [
+    { href: "/showcase", label: "Showcase", icon: Sparkles, highlight: true },
     { href: "/", label: "Dashboard", icon: ShieldCheck },
     { href: "/projects", label: "Projects", icon: FolderKanban },
     { href: "/audits", label: "Audits", icon: History },
@@ -70,13 +71,15 @@ export function Navbar({ onOpenAuditModal }: NavbarProps) {
                       key={link.href}
                       href={link.href}
                       aria-current={isActive ? "page" : undefined}
-                      className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus ${
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus ${
                         isActive
                           ? "bg-apple-elevated text-white border border-apple-subtle"
+                          : link.highlight
+                          ? "text-blue-300 bg-blue-950/40 hover:bg-blue-900/50 border border-blue-700/60"
                           : "text-apple-muted hover:text-white hover:bg-apple-elevated/50"
                       }`}
                     >
-                      <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+                      <Icon className={`w-3.5 h-3.5 ${link.highlight ? "text-blue-400" : ""}`} aria-hidden="true" />
                       <span>{link.label}</span>
                     </Link>
                   );

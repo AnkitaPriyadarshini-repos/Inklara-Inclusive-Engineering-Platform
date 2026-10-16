@@ -9,6 +9,8 @@
 
 **Inklara** is a production-minded **Inclusive Engineering Platform** built from scratch to support Web Accessibility Engineers, software architects, and QA evaluators. It pairs automated browser accessibility scanning with a **Screen-Reader Testing Workbench**, structured WCAG-EM human evaluation protocols, actionable code remediation, deterministic regression diffing, and professional executive audit reporting.
 
+> 🌟 **Recruiter Fast Track:** Explore the dedicated interactive product showcase at [`/showcase`](file:///c:/Users/ankit/resume/INKLARA/src/app/showcase/page.tsx) or [http://localhost:3000/showcase](http://localhost:3000/showcase). Complete a self-contained 60–90 second end-to-end audit demonstration, switch between 4 role-tailored engineering lenses, inspect live Before/After code diffs, and test real fix verification workflows.
+
 > **Engineering Integrity Notice:** Automated scanning tools reliably detect approximately 30–40% of WCAG success criteria. Inklara explicitly differentiates automated engine findings from human manual verifications and never asserts full WCAG conformance based solely on passing an automated scan. Furthermore, Inklara evaluates computed Accessibility Tree properties and expected screen reader speech patterns (Apple VoiceOver, NVDA)—it never presents simulated text as actual speech output.
 
 ---
@@ -18,6 +20,7 @@
 ```
 Inklara — Inclusive Engineering Platform
 ├── Presentation & User Interface (Next.js 15+ App Router, React 19, Strict TypeScript)
+│   ├── Dedicated Recruiter Showcase Route (/showcase) with 60-90s interactive demo stepper
 │   ├── Enterprise-grade high-contrast dark design system with ergonomic typography
 │   ├── Universal WCAG 2.4.11 compliant :focus-visible outlines (2px solid #38bdf8)
 │   ├── Accessible Skip Navigation link (#main-content)
@@ -26,11 +29,12 @@ Inklara — Inclusive Engineering Platform
 │
 ├── Automated Scanning & SSRF Security Engine
 │   ├── SSRF Protection Layer (Blocks private IPv4/IPv6, link-local, cloud metadata 169.254.169.254)
+│   ├── Unconditional Obfuscated IP Protection (Blocks integer dword, hex, and octal notations)
 │   ├── Playwright Chromium Sandbox (Denied permissions, isolated network routing, 30s timeout)
 │   ├── axe-core Runner (Configured for WCAG 2.2 AA rules, separating violations/incomplete/passes)
 │   └── SHA-256 Fingerprinting (Deterministic tracking of ruleId + selector + normalized DOM)
 │
-├── Screen-Reader Testing Workbench
+├── Screen-Reader Testing Workbench (/screen-reader)
 │   ├── Phase 1 — Scenario Runner (Modal dialogs, form validation, ARIA live regions, tabs, switches)
 │   ├── Phase 2 — Announcement Timeline (User action, expected speech, computed A11y tree node, status)
 │   └── Phase 3 — Native VoiceOver & Assistive Tech Protocol (Platform detection, macOS AppleScript/osascript bridge,
@@ -58,6 +62,7 @@ Inklara — Inclusive Engineering Platform
 
 | Module | Purpose | Implementation Details |
 | :--- | :--- | :--- |
+| **Recruiter Showcase (`/showcase`)** | 60–90s Interactive Tour & Role Lenses | Guided 5-stage demonstration stepper, 4 recruiter role lenses, Before/After diffs, live fix verification simulation, and printable reports. |
 | **Module A: Projects & Audits** | Application & Environment Management | CRUD projects, target environments (Dev, Staging, Prod), audit run execution, empty states (zero fabricated metrics). |
 | **Module B: Secure Scanning Engine** | Real Automated Accessibility Analysis | Sandboxed Playwright Chromium executing axe-core; SSRF DNS resolution & IP filtering; redirect interception. |
 | **Module C: Finding Details & Evidence** | Detailed Technical Inspection | Rule IDs, impact ratings, mapped WCAG criteria, sanitized DOM snippets, failure summaries, lifecycle status management. |
@@ -119,10 +124,11 @@ Allowing a server-side browser to navigate to arbitrary URLs exposes servers to 
    - **Private Networks:** `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
    - **Link-Local & Cloud Metadata:** `169.254.0.0/16` (including AWS/GCP/Azure `169.254.169.254`), `fe80::/10`
    - **Internal Hostnames:** `metadata.google.internal`, `metadata.azure.com`, `instance-data`
-4. **Navigation & Redirect Interception:** Playwright request routing hooks into `page.route('**/*', ...)` to re-validate every HTTP redirect destination before network egress.
-5. **Controlled Local Development Mode:** Local loopback scanning is enabled ONLY if the deliberate environment flag `ALLOW_LOCAL_SCANNING="true"` is set, permitting tests against local fixtures. In production, this flag is disabled.
-6. **Browser Sandboxing:** Chromium runs with `--no-sandbox`, disabled GPU, restricted permissions (geolocation, camera, microphone denied), and strict 30-second timeouts.
-7. **DOM Sanitization:** All HTML evidence rendered in Inklara is escaped using entity encoding to prevent stored XSS attacks from scanned web pages.
+4. **Alternative IP Encodings Blocked:** Obfuscated notation like integer dword (`http://2130706433/`), hex, and octal notations are unconditionally blocked before loopback whitelist checks.
+5. **Navigation & Redirect Interception:** Playwright request routing hooks into `page.route('**/*', ...)` to re-validate every HTTP redirect destination before network egress.
+6. **Controlled Local Development Mode:** Local loopback scanning is enabled ONLY if the deliberate environment flag `ALLOW_LOCAL_SCANNING="true"` is set, permitting tests against local fixtures. In production (`NODE_ENV === "production"`), local scanning is rejected unconditionally (fail-closed).
+7. **Browser Sandboxing:** Chromium runs with `--no-sandbox`, disabled GPU, restricted permissions (geolocation, camera, microphone denied), and strict 30-second timeouts.
+8. **DOM Sanitization:** All HTML evidence rendered in Inklara is escaped using entity encoding to prevent stored XSS attacks from scanned web pages.
 
 ---
 
@@ -135,7 +141,7 @@ Inklara includes three built-in test targets:
 - **Target 2 — Inaccessible Demo (`/demo/inaccessible`):**
   Intentional WCAG violations: low contrast text (2.3:1), missing `alt`, empty button icon, unlabeled inputs, positive `tabindex="5"`, skipped heading levels (`<h1>` directly to `<h4>`), and non-standard ARIA role.
 - **Target 3 — Remediated Accessible Fixture (`/demo/accessible`):**
-  Accessible companion: skip navigation links, high contrast text (9.5:1), descriptive alt text, visible button labels, associated `<label for="...">`, natural tab order, and sequential heading hierarchy.
+  Accessible companion: skip navigation links, high contrast text (11.2:1), descriptive alt text, visible button labels, associated `<label for="...">`, natural tab order, and sequential heading hierarchy.
 
 ---
 
@@ -165,8 +171,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-Click **"Seed Benchmark Fixtures"** on the dashboard to populate the demonstration project and local fixtures.
+Explore the Recruiter Showcase at [http://localhost:3000/showcase](http://localhost:3000/showcase).
 
 ---
 
@@ -194,9 +199,9 @@ npx prisma db push --schema=prisma/schema.postgresql.prisma
 | **Strict TypeScript** | `npx tsc --noEmit` | Strict type checking across all routes, components, and libraries. | **PASS (0 errors)** |
 | **Unit & Integration** | `npm test` | Runs 31 Vitest tests (SSRF, finding normalizer, WCAG mapping, regression diffing, screen-reader scenarios). | **PASS (6/6 suites, 31/31 tests)** |
 | **ESLint Quality** | `npm run lint` | ESLint 9 checks across `src/`. | **PASS (0 errors, 0 warnings)** |
-| **Accessibility E2E** | `npx playwright test e2e/accessibility.spec.ts` | 9 automated axe-core & WCAG compliance tests (landmarks, dialogs, reflow 320px, reduced motion, focus rings). | **PASS (9/9 tests)** |
-| **Full Playwright Suite** | `npm run test:e2e` | 14 end-to-end integration tests covering workbench flows, audit lifecycle, and screen-reader scenarios. | **PASS (14/14 tests)** |
-| **Production Build** | `npm run build` | Compiles optimized Next.js production bundle. | **PASS (Exit Code 0)** |
+| **Accessibility E2E** | `npx playwright test e2e/accessibility.spec.ts` | 11 automated axe-core & WCAG compliance tests (showcase, landmarks, dialogs, reflow 320px, reduced motion, focus rings). | **PASS (11/11 tests)** |
+| **Full Playwright Suite** | `npm run test:e2e` | 16 end-to-end integration tests covering workbench flows, audit lifecycle, showcase stepper, and screen-reader scenarios. | **PASS (16/16 tests)** |
+| **Production Build** | `npm run build` | Compiles optimized Next.js 15 production bundle (all 15 static/dynamic routes). | **PASS (Exit Code 0)** |
 
 > **Database Verification Note:** SQLite is fully verified and seeded in local and CI environments (`prisma/schema.prisma`). PostgreSQL schema (`prisma/schema.postgresql.prisma`) and client generation have been validated with Prisma; local Docker container integration remains unverified in environments where the Docker daemon is stopped.
 
@@ -213,7 +218,7 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 > * **Security Engineering & SSRF Defense:** Designed and implemented multi-tier SSRF protection gating server-side headless browsers, combining DNS pre-resolution, private/loopback/cloud-metadata CIDR filtering (AWS/GCP `169.254.169.254`), alternative IP notation blocking (hex, dword, octal), and fail-closed production enforcement.  
 > * **Automation Pipeline:** Orchestrated headless Playwright Chromium worker contexts executing `axe-core` accessibility audits with configurable device viewports, CPU throttling, and deterministic SHA-256 finding fingerprinting.  
 > * **Database & Data Modeling:** Implemented dual-database support (local SQLite development / production PostgreSQL) with relations across projects, audit runs, baseline regressions, and WCAG-EM manual evaluation logs.  
-> * **Quality Gates & CI/CD:** Achieved 100% type safety under strict TypeScript (`tsc --noEmit`), automated GitHub Actions CI running 31 Vitest unit/integration tests and 14 Playwright E2E browser tests on every commit.
+> * **Quality Gates & CI/CD:** Achieved 100% type safety under strict TypeScript (`tsc --noEmit`), automated GitHub Actions CI running 31 Vitest unit/integration tests and 16 Playwright E2E browser tests on every commit.
 
 ### Profile B: Senior Frontend / UI Systems Engineer
 > **Inklara — Inclusive Engineering Platform | Senior Frontend & UI Systems Engineer**  
@@ -236,7 +241,7 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 > *Playwright, Vitest, TypeScript, axe-core, GitHub Actions, Docker, Headless Chromium, CI/CD*  
 > * **Automated Test Orchestration:** Designed an automated testing pipeline using Playwright to launch sandboxed Chromium instances, navigate complex SPAs, inject axe-core, and capture DOM snapshots in under 5 seconds per audit.  
 > * **Deterministic Fingerprinting & Regression Diffing:** Devised a SHA-256 fingerprinting algorithm hashing rule IDs, CSS selectors, and normalized DOM snippets to reliably track regressions and resolved issues across multiple build iterations.  
-> * **E2E & Unit Test Coverage:** Built a test suite spanning 31 Vitest unit/integration tests and 14 Playwright end-to-end integration tests, integrated with GitHub Actions CI for automated pull request quality gating.
+> * **E2E & Unit Test Coverage:** Built a test suite spanning 31 Vitest unit/integration tests and 16 Playwright end-to-end integration tests, integrated with GitHub Actions CI for automated pull request quality gating.
 
 ---
 
@@ -249,8 +254,9 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 - **Zod:** Runtime schema validation.
 - **Tailwind CSS:** Design tokens and utility styling.
 - **Lucide Icons:** Accessible UI icon vectors.
-- **Design Inspiration — Snowdog Accessibility Audit Tool (`SnowdogApps/a11y-audit-tool`):** Inklara draws inspiration from Snowdog's combined automated/manual workflow model, audit estate hierarchy, and findings presentation. Inklara implements its own original Next.js 15 App Router architecture, proprietary dark design system, Screen-Reader Announcement Workbench, regression diffing engine, and strict multi-tier SSRF security sandbox.
+- **Design Inspiration — Snowdog Accessibility Audit Tool ([SnowdogApps/a11y-audit-tool](https://github.com/SnowdogApps/a11y-audit-tool) & [Service Overview](https://www.snow.dog/services/accessibility/a11y-audit-tool)):** Inklara studies and draws architectural inspiration from Snowdog's combined automated/manual workflow model, audit estate hierarchy, and findings presentation. Inklara implements its own original Next.js 15 App Router architecture, proprietary dark design system, Screen-Reader Announcement Workbench, regression diffing engine, and strict multi-tier SSRF security sandbox.
 
 ---
 
 **Inklara — Inclusive Engineering Platform** | High-Yield Technical Portfolio Showcase
+
