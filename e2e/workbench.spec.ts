@@ -58,21 +58,38 @@ test.describe("Inklara — Inclusive Engineering Platform Workbench Flow", () =>
     await page.goto("/");
     const seedBtn = page.getByRole("button", { name: /Seed Benchmark Fixtures/i });
     if (await seedBtn.isVisible()) {
+      const seedPromise = page.waitForResponse(
+        (res) => res.url().includes("/api/seed") && (res.status() === 200 || res.status() === 201),
+        { timeout: 20000 }
+      );
       await seedBtn.click();
-      await page.waitForTimeout(1000);
+      await seedPromise;
+      // Wait for project to appear in active projects section
+      await expect(page.getByText("Enterprise Design System Benchmark").first()).toBeVisible({
+        timeout: 15000,
+      });
     }
 
     // 2. Open Execute Audit Modal
     const executeBtn = page.getByRole("button", { name: "Execute Audit" });
     await executeBtn.click();
 
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+
     // 3. Select Inaccessible Demo preset
     const inaccessiblePreset = page.getByRole("button", { name: /Inaccessible Demo/i });
     await inaccessiblePreset.click();
 
-    // 4. Submit audit
+    // 4. Submit audit and await scanner API completion
+    const auditPromise = page.waitForResponse(
+      (res) => res.url().includes("/api/audits") && res.request().method() === "POST",
+      { timeout: 45000 }
+    );
     const startBtn = page.getByRole("button", { name: "Start Evaluation" });
     await startBtn.click();
+    const auditRes = await auditPromise;
+    expect(auditRes.status()).toBe(201);
 
     // 5. Expect navigation to audit results page
     await expect(page).toHaveURL(/\/audits\/[a-zA-Z0-9]+/, { timeout: 35000 });

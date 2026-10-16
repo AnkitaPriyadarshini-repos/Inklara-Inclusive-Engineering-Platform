@@ -187,6 +187,72 @@ export default async function AuditReportPage({
               </span>
             </div>
           </div>
+
+          {/* Visual Severity Distribution Bar */}
+          {audit.violationsCount > 0 && (
+            <div className="p-4 bg-slate-800/40 border border-slate-700 rounded-xl print:bg-slate-50 print:border-slate-300 space-y-2">
+              <div className="flex items-center justify-between text-xs text-slate-300 print:text-slate-700">
+                <span className="font-semibold">Violations Severity Distribution</span>
+                <span className="font-mono text-[11px]">{audit.violationsCount} total automated findings</span>
+              </div>
+              <div className="w-full h-3 rounded-full overflow-hidden flex bg-slate-700/50 print:bg-slate-200">
+                {audit.criticalCount > 0 && (
+                  <div
+                    className="bg-rose-500 h-full"
+                    style={{ width: `${(audit.criticalCount / audit.violationsCount) * 100}%` }}
+                    title={`Critical: ${audit.criticalCount}`}
+                  />
+                )}
+                {audit.seriousCount > 0 && (
+                  <div
+                    className="bg-amber-500 h-full"
+                    style={{ width: `${(audit.seriousCount / audit.violationsCount) * 100}%` }}
+                    title={`Serious: ${audit.seriousCount}`}
+                  />
+                )}
+                {audit.moderateCount > 0 && (
+                  <div
+                    className="bg-sky-500 h-full"
+                    style={{ width: `${(audit.moderateCount / audit.violationsCount) * 100}%` }}
+                    title={`Moderate: ${audit.moderateCount}`}
+                  />
+                )}
+                {audit.minorCount > 0 && (
+                  <div
+                    className="bg-slate-400 h-full"
+                    style={{ width: `${(audit.minorCount / audit.violationsCount) * 100}%` }}
+                    title={`Minor: ${audit.minorCount}`}
+                  />
+                )}
+              </div>
+              <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-400 print:text-slate-600 pt-1">
+                {audit.criticalCount > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
+                    <span>Critical: {audit.criticalCount}</span>
+                  </span>
+                )}
+                {audit.seriousCount > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
+                    <span>Serious: {audit.seriousCount}</span>
+                  </span>
+                )}
+                {audit.moderateCount > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-sky-500 inline-block" />
+                    <span>Moderate: {audit.moderateCount}</span>
+                  </span>
+                )}
+                {audit.minorCount > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block" />
+                    <span>Minor: {audit.minorCount}</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* Detailed Automated Findings */}

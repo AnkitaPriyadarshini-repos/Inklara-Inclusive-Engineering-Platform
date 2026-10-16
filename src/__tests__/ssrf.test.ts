@@ -55,19 +55,68 @@ describe("SSRF Protection Security Suite", () => {
     expect(isPrivateOrReservedIpv6("fe80::1")).toBe(true);
   });
 
-  it("blocks localhost when allowLocalScanning is disabled", async () => {
-    const res = await validateTargetUrl("http://localhost:3000/demo", {
-      allowLocalScanning: false,
-    });
-    expect(res.isValid).toBe(false);
-    expect(res.error).toContain("Scanning localhost is disabled");
+  it("blocks IPv4-mapped IPv6 addresses (both dotted and hex format)", () => {
+    // Dotted IPv4-mapped IPv6
+    expect(isPrivateOrReservedIpv6("::ffff:127.0.0.1")).toBe(true);
+    expect(isPrivateOrReservedIpv6("::ffff:169.254.169.254")).toBe(true);
+    expect(isPrivateOrReservedIpv6("::ffff:10.0.0.1")).toBe(true);
+    expect(isPrivateOrReservedIpv6("::ffff:192.168.1.1")).toBe(true);
+
+    // Hex-encoded IPv4-mapped IPv6 (e.g. 7f00:1 is 127.0.0.1, a9fe:a9fe is 169.254.169.254)
+    expect(isPrivateOrReservedIpv6("::ffff:7f00:1")).toBe(true);
+    expect(isPrivateOrReservedIpv6("::ffff:a9fe:a9fe")).toBe(true);
+    expect(isPrivateOrReservedIpv6("[::ffff:a9fe:a9fe]")).toBe(true);
+
+    // Public IPv4-mapped IPv6
+    expect(isPrivateOrReservedIpv6("::ffff:8.8.8.8")).toBe(false);
   });
 
-  it("permits localhost when allowLocalScanning is deliberately enabled for dev fixtures", async () => {
-    const res = await validateTargetUrl("http://localhost:3000/demo/inaccessible", {
+  it("blocks URLs with alternative IP representations (integer dwords and octal/hex notation)", async () => {
+    // Integer dwords
+    const loopbackDword = await validateTargetUrl("http://2130706433/"); // 127.0.0.1
+    expect(loopbackDword.isValid).toBe(false);
+
+    const metadataDword = await validateTargetUrl("http://2852039166/"); // 169.254.169.254
+    expect(metadataDword.isValid).toBe(false);
+    expect(metadataDword.error).toMatch(/private, link-local, or reserved|Integer IP address/);
+
+    // Octal and hex dotted notation (WHATWG parser normalizes to 127.0.0.1, which is blocked as loopback)
+    const octalResult = await validateTargetUrl("http://0177.0.0.1/");
+    expect(octalResult.isValid).toBe(false);
+
+    const hexResult = await validateTargetUrl("http://0x7f.0.0.1/");
+    expect(hexResult.isValid).toBe(false);
+  });
+
+  it("blocks URLs containing embedded authentication credentials", async () => {
+    const res = await validateTargetUrl("http://admin:secret123@example.com/api");
+    expect(res.isValid).toBe(false);
+    expect(res.error).toContain("authentication credentials are not permitted");
+  });
+
+  it("handles bracketed IPv6 loopback URLs correctly", async () => {
+    const blockedRes = await validateTargetUrl("http://[::1]:3000/demo", {
+      allowLocalScanning: false,
+    });
+    expect(blockedRes.isValid).toBe(false);
+
+    const allowedRes = await validateTargetUrl("http://[::1]:3000/demo", {
       allowLocalScanning: true,
     });
-    expect(res.isValid).toBe(true);
-    expect(res.sanitizedUrl).toBe("http://localhost:3000/demo/inaccessible");
+    expect(allowedRes.isValid).toBe(true);
+  });
+
+  it("fails closed in production environment even if allowLocalScanning is requested", async () => {
+    const originalEnv = process.env.NODE_ENV;
+    try {
+      (process.env as Record<string, string | undefined>).NODE_ENV = "production";
+      const res = await validateTargetUrl("http://localhost:3000/demo", {
+        allowLocalScanning: true,
+      });
+      expect(res.isValid).toBe(false);
+      expect(res.error).toContain("Scanning localhost is disabled by security policy");
+    } finally {
+      (process.env as Record<string, string | undefined>).NODE_ENV = originalEnv;
+    }
   });
 });

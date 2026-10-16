@@ -106,6 +106,16 @@ export async function scanPage(
           await route.abort("accessdenied");
           return;
         }
+      } else if (
+        reqUrl.startsWith("data:") ||
+        reqUrl.startsWith("about:") ||
+        reqUrl.startsWith("blob:")
+      ) {
+        // Safe in-memory schemes allowed
+      } else {
+        // Abort any unsupported or dangerous protocol schemes (e.g. file://, gopher://, ftp://)
+        await route.abort("accessdenied");
+        return;
       }
 
       await route.continue();

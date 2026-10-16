@@ -36,9 +36,11 @@ export function Navbar({ onOpenAuditModal }: NavbarProps) {
               <Link
                 href="/"
                 className="flex items-center gap-3 focus-visible:ring-2 focus-visible:ring-apple-focus rounded-md p-1"
-                aria-label="Inklara Home — Inclusive Engineering Platform"
               >
-                <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold">
+                <div
+                  className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold"
+                  aria-hidden="true"
+                >
                   <ShieldCheck className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <div>

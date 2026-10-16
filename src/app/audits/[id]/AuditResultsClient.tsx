@@ -21,8 +21,15 @@ import {
   ArrowRight,
   Loader2,
   ShieldAlert,
+  Copy,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Wrench,
+  Sparkles,
 } from "lucide-react";
 import type { AuditRun, Finding, ManualChecklistItem, Project } from "@prisma/client";
+import { REMEDIATION_CATALOG } from "@/lib/remediation/catalog";
 
 interface AuditWithRelations extends AuditRun {
   project: { id: string; name: string };
@@ -45,9 +52,16 @@ export function AuditResultsClient({
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Manual Checklist State
+  // Interactive Findings State
+  const [findings, setFindings] = useState<Finding[]>(audit.findings);
+  const [updatingFindingId, setUpdatingFindingId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [expandedRemediationIds, setExpandedRemediationIds] = useState<Set<string>>(new Set());
+
+  // Manual Checklist State & Filter
   const [checklist, setChecklist] = useState<ManualChecklistItem[]>(audit.manualChecklist);
   const [savingItemId, setSavingItemId] = useState<string | null>(null);
+  const [manualFilter, setManualFilter] = useState<string>("ALL");
 
   // Regression Comparison State
   const [selectedBaselineId, setSelectedBaselineId] = useState<string>(
@@ -56,8 +70,43 @@ export function AuditResultsClient({
   const [isComparing, setIsComparing] = useState(false);
   const [comparisonDiff, setComparisonDiff] = useState<any>(null);
 
+  const toggleRemediation = (findingId: string) => {
+    setExpandedRemediationIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(findingId)) next.delete(findingId);
+      else next.add(findingId);
+      return next;
+    });
+  };
+
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleUpdateFindingStatus = async (findingId: string, newStatus: string) => {
+    setUpdatingFindingId(findingId);
+    try {
+      const res = await fetch(`/api/findings/${findingId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (res.ok) {
+        setFindings((prev) =>
+          prev.map((f) => (f.id === findingId ? { ...f, status: newStatus as any } : f))
+        );
+      }
+    } catch {
+      // fallback
+    } finally {
+      setUpdatingFindingId(null);
+    }
+  };
+
   // Filter findings
-  const filteredFindings = audit.findings.filter((f) => {
+  const filteredFindings = findings.filter((f) => {
     if (severityFilter !== "ALL" && f.impact.toLowerCase() !== severityFilter.toLowerCase()) {
       return false;
     }
@@ -285,7 +334,7 @@ export function AuditResultsClient({
           </h2>
 
           {/* Filters Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 bg-apple-surface border border-apple-border rounded-xl">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3.5 bg-apple-surface border border-apple-border rounded-xl shadow-sm">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs text-apple-muted font-medium flex items-center gap-1.5">
                 <Filter className="w-3.5 h-3.5" aria-hidden="true" />
@@ -298,11 +347,34 @@ export function AuditResultsClient({
                   onClick={() => setSeverityFilter(sev)}
                   className={`px-2.5 py-1 text-xs rounded font-medium transition-colors ${
                     severityFilter === sev
-                      ? "bg-blue-600 text-white font-semibold"
+                      ? "bg-blue-600 text-white font-semibold shadow-sm"
                       : "bg-apple-elevated text-apple-muted hover:text-white"
                   }`}
                 >
                   {sev}
+                </button>
+              ))}
+
+              <span className="text-apple-border mx-1 hidden sm:inline">|</span>
+
+              <span className="text-xs text-apple-muted font-medium">Status:</span>
+              {[
+                { id: "ALL", label: "All" },
+                { id: "OPEN", label: "Open" },
+                { id: "IN_PROGRESS", label: "In Progress" },
+                { id: "VERIFIED_FIXED", label: "Fixed" },
+              ].map((st) => (
+                <button
+                  key={st.id}
+                  type="button"
+                  onClick={() => setStatusFilter(st.id)}
+                  className={`px-2.5 py-1 text-xs rounded font-medium transition-colors ${
+                    statusFilter === st.id
+                      ? "bg-indigo-600 text-white font-semibold shadow-sm"
+                      : "bg-apple-elevated text-apple-muted hover:text-white"
+                  }`}
+                >
+                  {st.label}
                 </button>
               ))}
             </div>
@@ -332,11 +404,13 @@ export function AuditResultsClient({
             <div className="space-y-4">
               {filteredFindings.map((finding) => {
                 const wcagList: string[] = JSON.parse(finding.wcagCriteria || "[]");
+                const remediation = REMEDIATION_CATALOG[finding.ruleId];
+                const isRemediationOpen = expandedRemediationIds.has(finding.id);
 
                 return (
                   <article
                     key={finding.id}
-                    className="p-5 bg-apple-surface border border-apple-border rounded-xl shadow-sm space-y-3 transition-colors hover:border-apple-subtle"
+                    className="p-5 bg-apple-surface border border-apple-border rounded-xl shadow-sm space-y-3.5 transition-colors hover:border-apple-subtle"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div className="flex flex-wrap items-center gap-2">
@@ -344,7 +418,28 @@ export function AuditResultsClient({
                         <span className="font-mono text-xs font-bold text-white bg-apple-elevated px-2 py-0.5 rounded border border-apple-border">
                           {finding.ruleId}
                         </span>
-                        <StatusBadge status={finding.status} />
+                        
+                        {/* Quick Inline Status Changer */}
+                        <div className="inline-flex items-center gap-1.5 bg-apple-elevated/80 border border-apple-border rounded px-2 py-0.5 text-xs">
+                          <label htmlFor={`status-sel-${finding.id}`} className="text-[10px] text-apple-muted uppercase font-semibold">
+                            Status:
+                          </label>
+                          <select
+                            id={`status-sel-${finding.id}`}
+                            value={finding.status}
+                            disabled={updatingFindingId === finding.id}
+                            onChange={(e) => handleUpdateFindingStatus(finding.id, e.target.value)}
+                            className="bg-transparent text-white text-[11px] font-medium outline-none cursor-pointer focus-visible:ring-1 focus-visible:ring-apple-focus"
+                          >
+                            <option value="OPEN" className="bg-slate-900 text-white">Open</option>
+                            <option value="IN_PROGRESS" className="bg-slate-900 text-white">In Progress</option>
+                            <option value="VERIFIED_FIXED" className="bg-slate-900 text-white">Verified Fixed</option>
+                            <option value="NOT_APPLICABLE" className="bg-slate-900 text-white">Not Applicable</option>
+                          </select>
+                          {updatingFindingId === finding.id && (
+                            <Loader2 className="w-3 h-3 animate-spin text-blue-400" aria-hidden="true" />
+                          )}
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-2">
@@ -358,7 +453,7 @@ export function AuditResultsClient({
                         ))}
                         <Link
                           href={`/findings/${finding.id}`}
-                          className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
+                          className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus shadow-sm"
                         >
                           <span>Remediate</span>
                           <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -375,11 +470,31 @@ export function AuditResultsClient({
                       </p>
                     </div>
 
-                    {/* Selector & HTML Snippet Evidence */}
+                    {/* Selector with Copy Action & HTML Snippet Evidence */}
                     <div className="space-y-2">
-                      <div className="text-[11px] font-mono text-slate-300 bg-apple-elevated/70 px-3 py-1.5 rounded border border-apple-border/80 truncate">
-                        <span className="text-apple-muted mr-1.5 font-sans">Selector:</span>
-                        {finding.selector}
+                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-300 bg-apple-elevated/70 px-3 py-1.5 rounded border border-apple-border/80">
+                        <div className="truncate mr-2">
+                          <span className="text-apple-muted mr-1.5 font-sans">Selector:</span>
+                          {finding.selector}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(finding.selector, `sel-${finding.id}`)}
+                          className="text-apple-muted hover:text-white px-2 py-0.5 rounded hover:bg-apple-elevated text-[11px] shrink-0 font-sans flex items-center gap-1 focus-visible:ring-1 focus-visible:ring-apple-focus transition-colors"
+                          title="Copy CSS Selector to clipboard"
+                        >
+                          {copiedId === `sel-${finding.id}` ? (
+                            <>
+                              <Check className="w-3 h-3 text-emerald-400" aria-hidden="true" />
+                              <span className="text-emerald-400 font-medium">Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" aria-hidden="true" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
                       </div>
 
                       <SanitizedCodeBlock
@@ -397,6 +512,68 @@ export function AuditResultsClient({
                         <pre className="font-mono text-[11px] text-rose-300 whitespace-pre-wrap">
                           {finding.failureSummary}
                         </pre>
+                      </div>
+                    )}
+
+                    {/* Expandable Remediation Preview Accordion */}
+                    {remediation && (
+                      <div className="pt-2 border-t border-apple-border/60">
+                        <button
+                          type="button"
+                          onClick={() => toggleRemediation(finding.id)}
+                          className="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1.5 focus-visible:ring-1 focus-visible:ring-apple-focus rounded px-1 py-0.5"
+                          aria-expanded={isRemediationOpen}
+                        >
+                          <Wrench className="w-3.5 h-3.5" aria-hidden="true" />
+                          <span>{isRemediationOpen ? "Collapse Remediation Advice" : "Preview Recommended Code Fix"}</span>
+                          {isRemediationOpen ? (
+                            <ChevronUp className="w-3 h-3" aria-hidden="true" />
+                          ) : (
+                            <ChevronDown className="w-3 h-3" aria-hidden="true" />
+                          )}
+                        </button>
+
+                        {isRemediationOpen && (
+                          <div className="mt-3 p-3.5 bg-apple-elevated/40 border border-apple-border rounded-lg space-y-3 text-xs">
+                            <div>
+                              <span className="font-semibold text-slate-200 block text-[11px] mb-0.5">
+                                Technical Root Cause:
+                              </span>
+                              <p className="text-apple-muted text-[11px] leading-relaxed">
+                                {remediation.technicalCause}
+                              </p>
+                            </div>
+
+                            <div>
+                              <span className="font-semibold text-slate-200 block text-[11px] mb-1">
+                                Actionable Fix:
+                              </span>
+                              <p className="text-slate-300 text-[11px] leading-relaxed">
+                                {remediation.actionableFix}
+                              </p>
+                            </div>
+
+                            <div>
+                              <span className="font-semibold text-slate-200 block text-[11px] mb-1">
+                                Code Remedy Example:
+                              </span>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 font-mono text-[11px]">
+                                <div className="p-2.5 bg-rose-950/20 border border-rose-900/40 rounded-lg text-rose-200">
+                                  <span className="text-[10px] uppercase font-bold text-rose-400 block font-sans mb-1">
+                                    Problematic Markup
+                                  </span>
+                                  <pre className="overflow-x-auto whitespace-pre-wrap">{remediation.codeExample.problematic}</pre>
+                                </div>
+                                <div className="p-2.5 bg-emerald-950/20 border border-emerald-900/40 rounded-lg text-emerald-200">
+                                  <span className="text-[10px] uppercase font-bold text-emerald-400 block font-sans mb-1">
+                                    Remediated Accessible Markup
+                                  </span>
+                                  <pre className="overflow-x-auto whitespace-pre-wrap">{remediation.codeExample.remediated}</pre>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </article>
@@ -427,12 +604,37 @@ export function AuditResultsClient({
           <div className="space-y-8">
             {categories.map((category) => {
               const categoryItems = checklist.filter((c) => c.category === category);
+              const evaluatedCount = categoryItems.filter((c) => c.status !== "NOT_TESTED").length;
+              const totalCount = categoryItems.length;
+              const percent = Math.round((evaluatedCount / totalCount) * 100);
 
               return (
                 <div key={category} className="space-y-3">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider text-slate-300 border-b border-apple-border pb-1.5">
-                    {category}
-                  </h3>
+                  <div className="flex items-center justify-between border-b border-apple-border pb-1.5">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                      {category}
+                    </h3>
+                    <div className="flex items-center gap-2.5 text-xs">
+                      <span className="text-apple-muted text-[11px] font-medium">
+                        {evaluatedCount} of {totalCount} evaluated ({percent}%)
+                      </span>
+                      <div
+                        className="w-20 bg-apple-elevated rounded-full h-1.5 overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={percent}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={`${category} evaluation progress`}
+                      >
+                        <div
+                          className={`h-full rounded-full transition-all duration-300 ${
+                            percent === 100 ? "bg-emerald-500" : "bg-blue-500"
+                          }`}
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="space-y-4">
                     {categoryItems.map((item) => (

@@ -370,21 +370,45 @@ export function ScreenReaderClient({
                     </h3>
                   </div>
 
-                  <span
-                    className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wide border ${
-                      event.status === "PASS"
-                        ? "bg-emerald-950 text-emerald-300 border-emerald-800"
+                  <div className="flex items-center gap-2">
+                    {/* Capture State Badge */}
+                    <span
+                      className={`px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide border ${
+                        event.speechCaptureState === "CAPTURED"
+                          ? "bg-emerald-950/80 text-emerald-300 border-emerald-800"
+                          : event.speechCaptureState === "MANUAL_VERIFICATION_REQUIRED"
+                          ? "bg-amber-950/80 text-amber-300 border-amber-800"
+                          : event.speechCaptureState === "CAPTURE_FAILED"
+                          ? "bg-red-950/80 text-red-300 border-red-800"
+                          : "bg-slate-900 text-slate-400 border-slate-700"
+                      }`}
+                      title={event.captureDetail || "VoiceOver speech capture status"}
+                    >
+                      {event.speechCaptureState === "CAPTURED"
+                        ? "VoiceOver Speech Captured"
+                        : event.speechCaptureState === "MANUAL_VERIFICATION_REQUIRED"
+                        ? "Ear Verification Required"
+                        : event.speechCaptureState === "CAPTURE_FAILED"
+                        ? "Capture Failed (Check TCC)"
+                        : "Speech Capture Unavailable"}
+                    </span>
+
+                    <span
+                      className={`px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wide border ${
+                        event.status === "PASS"
+                          ? "bg-emerald-950 text-emerald-300 border-emerald-800"
+                          : event.status === "FAIL"
+                          ? "bg-red-950 text-red-300 border-red-800"
+                          : "bg-amber-950 text-amber-300 border-amber-800"
+                      }`}
+                    >
+                      {event.status === "PASS"
+                        ? "Pass"
                         : event.status === "FAIL"
-                        ? "bg-red-950 text-red-300 border-red-800"
-                        : "bg-amber-950 text-amber-300 border-amber-800"
-                    }`}
-                  >
-                    {event.status === "PASS"
-                      ? "Pass"
-                      : event.status === "FAIL"
-                      ? "Fail"
-                      : "Manual Review"}
-                  </span>
+                        ? "Fail"
+                        : "Manual Review"}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Expected vs Observed */}

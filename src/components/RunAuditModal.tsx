@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Modal } from "./Modal";
 import { Play, Loader2, AlertCircle, Sparkles } from "lucide-react";
@@ -33,14 +33,37 @@ export function RunAuditModal({
   const [isBaseline, setIsBaseline] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [failedAuditId, setFailedAuditId] = useState<string | null>(null);
+
+  // Sync selected projectId whenever modal opens or projects list updates
+  useEffect(() => {
+    if (isOpen && projects.length > 0) {
+      if (!projectId || !projects.some((p) => p.id === projectId)) {
+        setProjectId(defaultProjectId || projects[0].id);
+      }
+    }
+  }, [isOpen, projects, defaultProjectId, projectId]);
+
+  const getPresetUrl = (path: string) => {
+    if (typeof window !== "undefined" && window.location.origin) {
+      return `${window.location.origin}${path}`;
+    }
+    return `http://localhost:3000${path}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setFailedAuditId(null);
     setIsLoading(true);
 
     try {
       let finalProjectId = projectId;
+
+      // Fallback to first available project if none explicitly selected
+      if (!finalProjectId && projects.length > 0) {
+        finalProjectId = projects[0].id;
+      }
 
       // If user chose to create a new project inline
       if (!finalProjectId && newProjectName.trim()) {
@@ -76,6 +99,9 @@ export function RunAuditModal({
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.auditRunId) {
+          setFailedAuditId(data.auditRunId);
+        }
         throw new Error(data.message || data.error || "Failed to execute audit.");
       }
 
@@ -105,9 +131,21 @@ export function RunAuditModal({
             className="p-3 bg-red-950/70 border border-red-800 rounded-lg text-red-200 text-xs flex items-start gap-2.5"
           >
             <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" aria-hidden="true" />
-            <div>
+            <div className="space-y-1">
               <p className="font-semibold">Audit Execution Error</p>
               <p>{error}</p>
+              {failedAuditId && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    router.push(`/audits/${failedAuditId}`);
+                  }}
+                  className="underline text-blue-400 hover:text-blue-300 font-mono text-[11px] block mt-1"
+                >
+                  View recorded failure audit #{failedAuditId.slice(0, 8)}
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -120,7 +158,7 @@ export function RunAuditModal({
           {projects.length > 0 ? (
             <select
               id="audit-project-select"
-              value={projectId}
+              value={projectId || (projects[0]?.id ?? "")}
               onChange={(e) => setProjectId(e.target.value)}
               className="w-full bg-apple-elevated border border-apple-border text-white text-xs rounded-lg px-3 py-2 focus-visible:ring-2 focus-visible:ring-apple-focus outline-none"
             >
@@ -167,7 +205,7 @@ export function RunAuditModal({
             <button
               type="button"
               onClick={() => {
-                setTargetUrl("http://localhost:3000/demo/inaccessible");
+                setTargetUrl(getPresetUrl("/demo/inaccessible"));
                 setName("Inaccessible Demo Baseline");
               }}
               className="px-2 py-1 bg-red-950/50 hover:bg-red-900/60 border border-red-800/60 text-red-300 rounded text-[11px] transition-colors focus-visible:ring-1 focus-visible:ring-apple-focus"
@@ -177,7 +215,7 @@ export function RunAuditModal({
             <button
               type="button"
               onClick={() => {
-                setTargetUrl("http://localhost:3000/demo/accessible");
+                setTargetUrl(getPresetUrl("/demo/accessible"));
                 setName("Remediated Accessible Verification");
               }}
               className="px-2 py-1 bg-emerald-950/50 hover:bg-emerald-900/60 border border-emerald-800/60 text-emerald-300 rounded text-[11px] transition-colors focus-visible:ring-1 focus-visible:ring-apple-focus"

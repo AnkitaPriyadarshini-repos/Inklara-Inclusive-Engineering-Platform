@@ -60,4 +60,20 @@ describe("Screen Reader Testing Workbench — Scenarios & Platform Layer", () =>
       expect(status.isMacOS).toBe(true);
     }
   });
+
+  it("never fabricates or mocks VoiceOver speech output", async () => {
+    const { captureCurrentVoiceOverSpeech } = await import("../lib/screenreader/voiceover");
+    const capture = await captureCurrentVoiceOverSpeech();
+
+    expect(capture).toBeDefined();
+    expect(["CAPTURED", "MANUAL_VERIFICATION_REQUIRED", "UNAVAILABLE", "CAPTURE_FAILED"]).toContain(
+      capture.state
+    );
+
+    if (process.platform !== "darwin") {
+      expect(capture.state).toBe("UNAVAILABLE");
+      expect(capture.capturedText).toBeNull();
+      expect(capture.detail).toContain("does not support Apple VoiceOver");
+    }
+  });
 });

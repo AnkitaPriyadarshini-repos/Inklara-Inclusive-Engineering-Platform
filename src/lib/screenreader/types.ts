@@ -31,6 +31,12 @@ export interface ObservedNodeProperties {
   htmlSnippet: string;
 }
 
+export type SpeechCaptureState =
+  | "CAPTURED"
+  | "MANUAL_VERIFICATION_REQUIRED"
+  | "UNAVAILABLE"
+  | "CAPTURE_FAILED";
+
 export interface TimelineEvent {
   stepNumber: number;
   userAction: string;
@@ -38,7 +44,9 @@ export interface TimelineEvent {
   expectedProperties: ExpectedNodeProperties;
   observedProperties: ObservedNodeProperties | null;
   actualVoiceOverOutput: string | null;
-  voiceOverCaptureStatus: "CAPTURED" | "MANUAL_VERIFICATION_REQUIRED" | "UNSUPPORTED_HOST_OS";
+  speechCaptureState: SpeechCaptureState;
+  voiceOverCaptureStatus: string;
+  captureDetail?: string;
   status: ScenarioStatus;
   explanation: string;
   reproductionInstructions: string;

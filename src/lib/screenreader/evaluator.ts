@@ -257,17 +257,7 @@ export async function evaluateScreenReaderScenario(
       else manualReviewCount++;
 
       // Try capturing speech on macOS if available
-      let capturedSpeech: string | null = null;
-      if (platformStatus.isMacOS && platformStatus.automationAvailable) {
-        capturedSpeech = await captureCurrentVoiceOverSpeech();
-      }
-
-      const captureStatus =
-        platformStatus.isMacOS && capturedSpeech
-          ? "CAPTURED"
-          : !platformStatus.isMacOS
-          ? "UNSUPPORTED_HOST_OS"
-          : "MANUAL_VERIFICATION_REQUIRED";
+      const captureResult = await captureCurrentVoiceOverSpeech();
 
       timeline.push({
         stepNumber: i + 1,
@@ -275,8 +265,10 @@ export async function evaluateScreenReaderScenario(
         expectedAnnouncement: step.expectedAnnouncement,
         expectedProperties: step.expectedProps,
         observedProperties: observedProps,
-        actualVoiceOverOutput: capturedSpeech,
-        voiceOverCaptureStatus: captureStatus,
+        actualVoiceOverOutput: captureResult.capturedText,
+        speechCaptureState: captureResult.state,
+        voiceOverCaptureStatus: captureResult.state,
+        captureDetail: captureResult.detail,
         status,
         explanation,
         reproductionInstructions: step.reproductionNote,

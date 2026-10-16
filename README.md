@@ -84,19 +84,27 @@ Provides pre-configured test scenarios for critical accessibility interaction pa
 6. **Accessible Tabs:** Verifies WAI-ARIA tablist pattern (`role="tab"`, `aria-selected="true"`, `role="tabpanel"`, arrow key navigation).
 7. **Toggle Switch:** Verifies `role="switch"` and `aria-checked="true" / "false"` state communication.
 
-### **Phase 2: Announcement Timeline**
+### **Phase 2: Announcement Timeline & Assistive States**
 A visual, chronological event stream displaying for each interaction step:
 * **User Action:** (e.g. *"Tab focus to Email Input"*, *"Activate Review Order Button"*)
 * **Expected Speech Announcement:** (e.g. *&quot;Order Summary, dialog, 2 items. Focus placed inside dialog.&quot;*)
 * **Computed Accessibility Tree Node:** Role, Accessible Name, Description, Value, Focus state, Modal state, Live region politeness.
-* **Captured Speech & Status:** Clearly shows whether actual speech was captured via macOS or requires manual ear verification.
+* **Speech Capture State:** Explicitly categorized into:
+  - `CAPTURED`: Genuine text retrieved from the assistive technology subsystem.
+  - `MANUAL_VERIFICATION_REQUIRED`: VoiceOver is active but Caption Panel is not exposed, or auditory verification by ear is necessary.
+  - `UNAVAILABLE`: Running on a non-macOS host (Windows/Linux) or VoiceOver process is stopped.
+  - `CAPTURE_FAILED`: Host permissions (macOS TCC Accessibility) denied or AppleScript query failed.
 * **Evaluation Verdict:** `PASS`, `FAIL`, or `NEEDS_MANUAL_REVIEW`.
 * **VoiceOver Key Commands & Verification Guide:** Exact assistive keyboard shortcuts (`VO + Space`, `VO + Left/Right`, `VO + Shift + Down`).
 
 ### **Phase 3: Screen Reader & VoiceOver Integration Protocol**
-* **Native macOS Support (`darwin`):** Uses AppleScript / `osascript` to communicate with the macOS Accessibility subsystem. When Apple VoiceOver is running (`Cmd + F5`) with the Caption Panel enabled (`VoiceOver Utility > Visuals > Show Caption Panel`), Inklara queries speech buffer text.
-* **TCC Entitlements:** Explains macOS permission requirements (granting Terminal / Node.js access in *System Settings > Privacy & Security > Accessibility*).
-* **Cross-Platform Support & Fallback:** When running on Windows (`win32`) or Linux, Inklara detects the host platform, explicitly discloses that native macOS VoiceOver automation is platform-gated, and activates the **Accessibility Tree & Expected Announcement Inspector** alongside guided VoiceOver (macOS) and NVDA (Windows) testing instructions without faking speech results.
+* **Native macOS Support (`darwin`):** Communicates with macOS Accessibility via `osascript`. Genuine capture requires:
+  1. macOS operating system (`process.platform === "darwin"`).
+  2. Apple VoiceOver running (`Cmd + F5`).
+  3. Caption Panel enabled in *VoiceOver Utility > Visuals > Show Caption Panel*.
+  4. Automation/Accessibility permissions granted in *System Settings > Privacy & Security > Accessibility*.
+* **Honest Speech Representation:** Inklara NEVER fabricates or mocks VoiceOver speech output. If genuine speech capture cannot be obtained, the workbench clearly marks the state (`UNAVAILABLE` or `MANUAL_VERIFICATION_REQUIRED`) and provides a guided manual testing protocol.
+* **Cross-Platform Support & Fallback:** When running on Windows (`win32`) or Linux, Inklara detects the host platform, explicitly discloses that native macOS VoiceOver automation is platform-gated, and activates the **Accessibility Tree & Expected Announcement Inspector** alongside guided VoiceOver (macOS) and NVDA (Windows) testing instructions.
 
 ---
 
@@ -184,10 +192,13 @@ npx prisma db push --schema=prisma/schema.postgresql.prisma
 | Gate | Command | Description | Status |
 | :--- | :--- | :--- | :--- |
 | **Strict TypeScript** | `npx tsc --noEmit` | Strict type checking across all routes, components, and libraries. | **PASS (0 errors)** |
-| **Unit & Integration** | `npm test` | Runs 27 Vitest tests (SSRF, finding normalizer, WCAG mapping, regression diffing, screen-reader scenarios). | **PASS (6/6 suites, 27/27 tests)** |
+| **Unit & Integration** | `npm test` | Runs 31 Vitest tests (SSRF, finding normalizer, WCAG mapping, regression diffing, screen-reader scenarios). | **PASS (6/6 suites, 31/31 tests)** |
 | **ESLint Quality** | `npm run lint` | ESLint 9 checks across `src/`. | **PASS (0 errors, 0 warnings)** |
-| **Playwright E2E** | `npm run test:e2e` | End-to-end tests for skip links, modal focus traps, audit execution, and screen-reader workbench. | **PASS (5/5 tests)** |
+| **Accessibility E2E** | `npx playwright test e2e/accessibility.spec.ts` | 9 automated axe-core & WCAG compliance tests (landmarks, dialogs, reflow 320px, reduced motion, focus rings). | **PASS (9/9 tests)** |
+| **Full Playwright Suite** | `npm run test:e2e` | 14 end-to-end integration tests covering workbench flows, audit lifecycle, and screen-reader scenarios. | **PASS (14/14 tests)** |
 | **Production Build** | `npm run build` | Compiles optimized Next.js production bundle. | **PASS (Exit Code 0)** |
+
+> **Database Verification Note:** SQLite is fully verified and seeded in local and CI environments (`prisma/schema.prisma`). PostgreSQL schema (`prisma/schema.postgresql.prisma`) and client generation have been validated with Prisma; local Docker container integration remains unverified in environments where the Docker daemon is stopped.
 
 ---
 
@@ -199,17 +210,17 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 > **Inklara — Inclusive Engineering Platform | Full-Stack Software Engineer**  
 > *TypeScript, Next.js 15 (App Router), React 19, Playwright, axe-core, Prisma, PostgreSQL/SQLite, Vitest, Docker, Tailwind CSS*  
 > * **Full-Stack Architecture:** Architected an enterprise accessibility workbench in Next.js 15 and React 19, engineering end-to-end RESTful APIs with Zod schema validation, Prisma ORM transaction handling, and modular service abstractions.  
-> * **Security Engineering & SSRF Defense:** Designed and implemented multi-tier SSRF protection gating server-side headless browsers, combining DNS pre-resolution, private/loopback/cloud-metadata CIDR filtering (AWS/GCP `169.254.169.254`), and HTTP redirect-chain inspection.  
+> * **Security Engineering & SSRF Defense:** Designed and implemented multi-tier SSRF protection gating server-side headless browsers, combining DNS pre-resolution, private/loopback/cloud-metadata CIDR filtering (AWS/GCP `169.254.169.254`), alternative IP notation blocking (hex, dword, octal), and fail-closed production enforcement.  
 > * **Automation Pipeline:** Orchestrated headless Playwright Chromium worker contexts executing `axe-core` accessibility audits with configurable device viewports, CPU throttling, and deterministic SHA-256 finding fingerprinting.  
 > * **Database & Data Modeling:** Implemented dual-database support (local SQLite development / production PostgreSQL) with relations across projects, audit runs, baseline regressions, and WCAG-EM manual evaluation logs.  
-> * **Quality Gates & CI/CD:** Achieved 100% type safety under strict TypeScript (`tsc --noEmit`), automated GitHub Actions CI running 27 Vitest unit/integration tests and 5 Playwright E2E browser tests on every commit.
+> * **Quality Gates & CI/CD:** Achieved 100% type safety under strict TypeScript (`tsc --noEmit`), automated GitHub Actions CI running 31 Vitest unit/integration tests and 14 Playwright E2E browser tests on every commit.
 
 ### Profile B: Senior Frontend / UI Systems Engineer
 > **Inklara — Inclusive Engineering Platform | Senior Frontend & UI Systems Engineer**  
 > *React 19, Next.js 15, TypeScript, Tailwind CSS, WAI-ARIA 1.2, Playwright, Component Architecture*  
 > * **Design System & Accessible Component Engineering:** Built a responsive, high-contrast dark design system with ergonomic typography, fluid layouts, accessible focus rings (WCAG 2.4.11), and skip navigation mechanisms.  
 > * **Complex Interaction Patterns:** Engineered accessible interactive components including WAI-ARIA modal dialogs with focus trapping, tablists with roving tabIndex, disclosures, and accessible live alert banners.  
-> * **Assistive Tech Simulation:** Developed an interactive Screen-Reader Announcement Timeline UI mapping sequential DOM events, ARIA live region politeness (`assertive`/`polite`), and computed Accessibility Tree nodes.  
+> * **Assistive Tech Simulation:** Developed an interactive Screen-Reader Announcement Timeline UI mapping sequential DOM events, ARIA live region politeness (`assertive`/`polite`), and computed Accessibility Tree nodes with honest platform capability boundaries.  
 > * **Performance & Print Optimization:** Optimized rendering using Next.js App Router server/client components and implemented print-specific CSS media queries (`@media print`) generating pixel-perfect executive audit reports and PDF exports.
 
 ### Profile C: Web Accessibility Specialist / Inclusive Design Lead
@@ -225,11 +236,11 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 > *Playwright, Vitest, TypeScript, axe-core, GitHub Actions, Docker, Headless Chromium, CI/CD*  
 > * **Automated Test Orchestration:** Designed an automated testing pipeline using Playwright to launch sandboxed Chromium instances, navigate complex SPAs, inject axe-core, and capture DOM snapshots in under 5 seconds per audit.  
 > * **Deterministic Fingerprinting & Regression Diffing:** Devised a SHA-256 fingerprinting algorithm hashing rule IDs, CSS selectors, and normalized DOM snippets to reliably track regressions and resolved issues across multiple build iterations.  
-> * **E2E & Unit Test Coverage:** Built a test suite spanning 27 Vitest unit/integration tests and 5 Playwright end-to-end integration tests, integrated with GitHub Actions CI for automated pull request quality gating.
+> * **E2E & Unit Test Coverage:** Built a test suite spanning 31 Vitest unit/integration tests and 14 Playwright end-to-end integration tests, integrated with GitHub Actions CI for automated pull request quality gating.
 
 ---
 
-## 10. Open-Source Attribution & Dependencies
+## 10. Open-Source Attribution & Design References
 
 - **Next.js & React:** Frontend framework & App Router architecture.
 - **axe-core (Deque Systems):** Rule engine for automated DOM accessibility checks.
@@ -238,6 +249,7 @@ Inklara is architected as an **enterprise-grade, production-minded flagship plat
 - **Zod:** Runtime schema validation.
 - **Tailwind CSS:** Design tokens and utility styling.
 - **Lucide Icons:** Accessible UI icon vectors.
+- **Design Inspiration — Snowdog Accessibility Audit Tool (`SnowdogApps/a11y-audit-tool`):** Inklara draws inspiration from Snowdog's combined automated/manual workflow model, audit estate hierarchy, and findings presentation. Inklara implements its own original Next.js 15 App Router architecture, proprietary dark design system, Screen-Reader Announcement Workbench, regression diffing engine, and strict multi-tier SSRF security sandbox.
 
 ---
 

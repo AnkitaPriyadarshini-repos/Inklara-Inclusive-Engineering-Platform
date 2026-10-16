@@ -13,6 +13,11 @@ import {
   ShieldCheck,
   Layers,
   ArrowRight,
+  CheckCircle2,
+  Activity,
+  FileText,
+  Sparkles,
+  Cpu,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -56,6 +61,12 @@ export default async function DashboardPage() {
     .filter((s) => s.status !== "NOT_TESTED")
     .reduce((acc, curr) => acc + curr._count.id, 0);
 
+  const totalPasses = audits.reduce((acc, a) => acc + (a.passesCount || 0), 0);
+  const manualPercent =
+    totalManualChecks > 0
+      ? Math.round((evaluatedManualChecks / totalManualChecks) * 100)
+      : 0;
+
   return (
     <div className="min-h-screen bg-apple-canvas text-apple-text font-sans">
       <DashboardClient
@@ -64,7 +75,7 @@ export default async function DashboardPage() {
 
       <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 outline-none">
         {/* Page Heading & Scope */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-apple-border mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-apple-border mb-6">
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-2xl font-bold tracking-tight text-white">
@@ -90,6 +101,63 @@ export default async function DashboardPage() {
           </div>
         </div>
 
+        {/* Snowdog-Inspired Audit Lifecycle Workflow Bar */}
+        <div className="bg-gradient-to-r from-apple-surface via-apple-elevated/40 to-apple-surface border border-apple-border rounded-xl p-4 mb-8 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-blue-400" aria-hidden="true" />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+                Four-Stage Accessibility Audit Lifecycle
+              </span>
+            </div>
+            <span className="text-[11px] text-apple-muted hidden sm:inline">
+              Hybrid Automated &amp; Human-Centered Verification
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div className="p-3 bg-apple-surface/80 border border-apple-border rounded-lg">
+              <div className="flex items-center gap-2 font-semibold text-white mb-1">
+                <span className="w-5 h-5 rounded-full bg-blue-600/30 text-blue-400 border border-blue-500/40 flex items-center justify-center text-[10px]">1</span>
+                <span>Scope &amp; Target</span>
+              </div>
+              <p className="text-[11px] text-apple-muted">
+                Group targets by project, viewport, and environment (Prod, Staging, Dev).
+              </p>
+            </div>
+
+            <div className="p-3 bg-apple-surface/80 border border-apple-border rounded-lg">
+              <div className="flex items-center gap-2 font-semibold text-white mb-1">
+                <span className="w-5 h-5 rounded-full bg-indigo-600/30 text-indigo-400 border border-indigo-500/40 flex items-center justify-center text-[10px]">2</span>
+                <span>Automated Scan</span>
+              </div>
+              <p className="text-[11px] text-apple-muted">
+                Playwright Chromium sandbox runs axe-core with SSRF guardrails (~30-40% WCAG).
+              </p>
+            </div>
+
+            <div className="p-3 bg-apple-surface/80 border border-apple-border rounded-lg">
+              <div className="flex items-center gap-2 font-semibold text-white mb-1">
+                <span className="w-5 h-5 rounded-full bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-[10px]">3</span>
+                <span>Manual Verification</span>
+              </div>
+              <p className="text-[11px] text-apple-muted">
+                13 WCAG-EM guided checks for keyboard traps, screen reader audio, and reflow.
+              </p>
+            </div>
+
+            <div className="p-3 bg-apple-surface/80 border border-apple-border rounded-lg">
+              <div className="flex items-center gap-2 font-semibold text-white mb-1">
+                <span className="w-5 h-5 rounded-full bg-amber-600/30 text-amber-400 border border-amber-500/40 flex items-center justify-center text-[10px]">4</span>
+                <span>Remediate &amp; Report</span>
+              </div>
+              <p className="text-[11px] text-apple-muted">
+                Track code fix diffs, verify regression baselines, and print executive reports.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Real Metrics Grid - Zero Fabricated Data */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <div className="p-4 bg-apple-surface border border-apple-border rounded-xl shadow-sm">
@@ -110,7 +178,7 @@ export default async function DashboardPage() {
             </div>
             <p className="text-2xl font-bold text-white">{audits.length}</p>
             <p className="text-[11px] text-apple-muted mt-1">
-              {audits.filter((a) => a.isBaseline).length} saved baselines
+              {audits.filter((a) => a.isBaseline).length} saved baselines • {totalPasses} verified passes
             </p>
           </div>
 
@@ -130,14 +198,16 @@ export default async function DashboardPage() {
               <span className="text-xs font-medium">Manual Check Progress</span>
               <ClipboardCheck className="w-4 h-4 text-emerald-400" aria-hidden="true" />
             </div>
-            <p className="text-2xl font-bold text-white">
-              {totalManualChecks > 0
-                ? `${Math.round((evaluatedManualChecks / totalManualChecks) * 100)}%`
-                : "0%"}
-            </p>
-            <p className="text-[11px] text-apple-muted mt-1">
-              {evaluatedManualChecks} of {totalManualChecks} checklist items reviewed
-            </p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-2xl font-bold text-white">{manualPercent}%</p>
+              <span className="text-xs text-apple-muted">({evaluatedManualChecks}/{totalManualChecks})</span>
+            </div>
+            <div className="w-full bg-apple-elevated rounded-full h-1.5 mt-2 overflow-hidden" role="progressbar" aria-valuenow={manualPercent} aria-valuemin={0} aria-valuemax={100} aria-label="Manual accessibility evaluation progress">
+              <div
+                className="bg-emerald-500 h-full rounded-full transition-all duration-300"
+                style={{ width: `${manualPercent}%` }}
+              />
+            </div>
           </div>
         </div>
 

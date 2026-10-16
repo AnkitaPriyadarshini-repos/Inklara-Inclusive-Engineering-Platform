@@ -1,6 +1,12 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
-import type { VoiceOverPlatformStatus } from "./types";
+import type { VoiceOverPlatformStatus, SpeechCaptureState } from "./types";
+
+export interface SpeechCaptureResult {
+  state: SpeechCaptureState;
+  capturedText: string | null;
+  detail: string;
+}
 
 const execAsync = promisify(exec);
 
@@ -122,34 +128,95 @@ export async function getVoiceOverPlatformStatus(): Promise<VoiceOverPlatformSta
 
 /**
  * Attempts to capture the latest VoiceOver announcement via macOS Caption Window.
- * Returns null if not running on macOS or if speech capture is unavailable.
- * Never fabricates or hallucinates speech output.
+ * 
+ * Policy & Architecture:
+ * - Distinguishes between unavailable platforms, missing VoiceOver process, closed caption panels, and genuine capture.
+ * - Returns explicit capture states: 'UNAVAILABLE', 'MANUAL_VERIFICATION_REQUIRED', 'CAPTURED', or 'CAPTURE_FAILED'.
+ * - Never fabricates or hallucinates speech output.
  */
-export async function captureCurrentVoiceOverSpeech(): Promise<string | null> {
+export async function captureCurrentVoiceOverSpeech(): Promise<SpeechCaptureResult> {
   if (process.platform !== "darwin") {
-    return null;
+    return {
+      state: "UNAVAILABLE",
+      capturedText: null,
+      detail: `Host platform '${process.platform}' does not support Apple VoiceOver. Auditory screen-reader evaluation requires macOS (VoiceOver) or Windows (NVDA/JAWS).`,
+    };
   }
 
   try {
-    const { stdout } = await execAsync(
-      `osascript -e '
-        tell application "System Events"
-          tell process "VoiceOver"
-            try
-              set captionWin to window "VoiceOver Caption"
-              return value of static text 1 of captionWin
-            on error
-              return ""
-            end try
-          end tell
-        end tell
-      '`,
+    // Check if VoiceOver is running
+    const { stdout: runningCheck } = await execAsync(
+      `osascript -e 'tell application "System Events" to (name of processes) contains "VoiceOver"'`,
       { timeout: 2000 }
     );
+    if (runningCheck.trim().toLowerCase() !== "true") {
+      return {
+        state: "UNAVAILABLE",
+        capturedText: null,
+        detail: "macOS VoiceOver process is not currently running. Toggle VoiceOver on via Command + F5.",
+      };
+    }
 
-    const speech = stdout.trim();
-    return speech.length > 0 ? speech : null;
-  } catch {
-    return null;
+    // Query caption window
+    try {
+      const { stdout } = await execAsync(
+        `osascript -e '
+          tell application "System Events"
+            tell process "VoiceOver"
+              try
+                set captionWin to window "VoiceOver Caption"
+                return value of static text 1 of captionWin
+              on error errMsg
+                return "ERR_NO_CAPTION:" & errMsg
+              end try
+            end tell
+          end tell
+        '`,
+        { timeout: 2500 }
+      );
+
+      const output = stdout.trim();
+      if (output.startsWith("ERR_NO_CAPTION:")) {
+        return {
+          state: "MANUAL_VERIFICATION_REQUIRED",
+          capturedText: null,
+          detail: "VoiceOver is running, but the Caption Panel is closed or inaccessible. Manual ear verification required (or enable Caption Panel in VoiceOver Utility > Visuals).",
+        };
+      }
+
+      if (output.length > 0) {
+        return {
+          state: "CAPTURED",
+          capturedText: output,
+          detail: "Successfully captured live caption text from macOS VoiceOver Caption Window.",
+        };
+      }
+
+      return {
+        state: "MANUAL_VERIFICATION_REQUIRED",
+        capturedText: null,
+        detail: "VoiceOver caption window returned empty text. Ear verification required.",
+      };
+    } catch (osErr: unknown) {
+      const errStr = String(osErr);
+      const isPermDenied =
+        errStr.includes("-1743") ||
+        errStr.includes("Not authorized") ||
+        errStr.includes("not allowed to send keystrokes");
+
+      return {
+        state: "CAPTURE_FAILED",
+        capturedText: null,
+        detail: isPermDenied
+          ? "macOS TCC permission denied: Terminal/Node is not authorized to control VoiceOver in System Settings > Privacy & Security > Accessibility."
+          : `Failed to query VoiceOver AppleScript: ${errStr.slice(0, 100)}`,
+      };
+    }
+  } catch (procErr: unknown) {
+    return {
+      state: "CAPTURE_FAILED",
+      capturedText: null,
+      detail: `Process inspection error: ${String(procErr).slice(0, 100)}`,
+    };
   }
 }
