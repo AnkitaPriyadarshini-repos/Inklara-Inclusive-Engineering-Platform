@@ -225,7 +225,7 @@ export default function ScreenReaderDemoFixturePage() {
                 aria-label="Payment Methods Details"
                 className="mt-2 p-4 bg-slate-900/60 border border-slate-800 rounded-lg text-xs text-slate-300 space-y-1"
               >
-                <p>Apple Pay • Credit Card ending in 4242</p>
+                <p>Digital Wallet • Credit Card ending in 4242</p>
                 <p className="text-slate-400 text-[11px]">Billing address verified.</p>
               </div>
             )}
@@ -324,7 +324,7 @@ export default function ScreenReaderDemoFixturePage() {
                 aria-label="Billing Information"
                 className="p-4 bg-slate-900 rounded-b-lg text-xs text-slate-300 outline-none focus-visible:ring-1 focus-visible:ring-blue-400"
               >
-                <p className="font-semibold text-white">Apple Pay Default Card</p>
+                <p className="font-semibold text-white">Digital Wallet Default Card</p>
                 <p className="text-slate-400 text-[11px] mt-0.5">Authorized for contactless tokenization.</p>
               </div>
             )}

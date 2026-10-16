@@ -167,7 +167,7 @@ export function ProjectsClient({ projects }: ProjectsClientProps) {
             <input
               type="text"
               required
-              placeholder="e.g. Apple Music Web Player"
+              placeholder="e.g. Global Design System & Portal"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-apple-elevated border border-apple-border text-white rounded-lg px-3 py-2 focus-visible:ring-2 focus-visible:ring-apple-focus outline-none"

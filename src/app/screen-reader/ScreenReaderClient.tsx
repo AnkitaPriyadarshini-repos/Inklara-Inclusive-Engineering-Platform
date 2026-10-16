@@ -11,7 +11,6 @@ import {
   HelpCircle,
   ExternalLink,
   Laptop,
-  Apple,
   Terminal,
   ShieldAlert,
   Info,
@@ -89,7 +88,7 @@ export function ScreenReaderClient({
                 Screen Reader Testing Workbench
               </span>
               <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-apple-elevated text-apple-muted border border-apple-border">
-                Apple VoiceOver Protocol
+                Screen Reader &amp; VoiceOver Protocol
               </span>
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">

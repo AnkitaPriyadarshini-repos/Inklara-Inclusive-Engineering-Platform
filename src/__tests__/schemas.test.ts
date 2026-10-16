@@ -14,7 +14,7 @@ describe("Zod Validation Schemas Suite", () => {
 
   it("accepts valid project creation payload", () => {
     const res = CreateProjectSchema.safeParse({
-      name: "Apple Store Online",
+      name: "Enterprise Commerce Platform",
       description: "E-commerce platform",
     });
     expect(res.success).toBe(true);

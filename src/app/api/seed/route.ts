@@ -5,7 +5,11 @@ export async function POST() {
   try {
     // Check if demo project already exists
     const existing = await db.project.findFirst({
-      where: { name: "Apple Web Experience Benchmark" },
+      where: {
+        name: {
+          in: ["Enterprise Design System Benchmark", "Apple Web Experience Benchmark"],
+        },
+      },
     });
 
     if (existing) {
@@ -17,10 +21,10 @@ export async function POST() {
 
     const project = await db.project.create({
       data: {
-        name: "Apple Web Experience Benchmark",
+        name: "Enterprise Design System Benchmark",
         description:
           "Benchmark audit suite evaluating core e-commerce, portal, and checkout user journeys against WCAG 2.2 AA standards.",
-        repositoryUrl: "https://github.com/apple/accessibility-benchmarks",
+        repositoryUrl: "https://github.com/enterprise/design-system-benchmarks",
         targets: {
           create: [
             {

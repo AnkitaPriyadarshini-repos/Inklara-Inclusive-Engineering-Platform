@@ -135,7 +135,7 @@ export function RunAuditModal({
               id="audit-project-select"
               type="text"
               required
-              placeholder="e.g. Apple Core Experience"
+              placeholder="e.g. Enterprise Core Experience / Checkout Flow"
               value={newProjectName}
               onChange={(e) => setNewProjectName(e.target.value)}
               className="w-full bg-apple-elevated border border-apple-border text-white text-xs rounded-lg px-3 py-2 focus-visible:ring-2 focus-visible:ring-apple-focus outline-none"
