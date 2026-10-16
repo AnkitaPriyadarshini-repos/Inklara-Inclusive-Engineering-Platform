@@ -151,6 +151,31 @@ export async function validateTargetUrl(
     };
   }
 
+  // Extract the unnormalized host string from inputUrl to detect obfuscated representations
+  const rawUrlHostMatch = inputUrl.match(/^[a-zA-Z]+:\/\/([^/:]+)/);
+  const rawUrlHost = rawUrlHostMatch ? rawUrlHostMatch[1].toLowerCase() : cleanHost;
+
+  // Check for decimal / Dword integer IP literals e.g. 2130706433 (127.0.0.1) or 2852039166 (169.254.169.254)
+  if (/^\d+$/.test(rawUrlHost) || /^\d+$/.test(cleanHost)) {
+    return {
+      isValid: false,
+      error: `Integer IP address notation in '${rawUrlHost}' is forbidden.`,
+    };
+  }
+
+  // Check for octal or hex dotted IP notation e.g. 0177.0.0.1 or 0x7f.0.0.1
+  if (
+    /^0x[0-9a-fA-F]+/i.test(rawUrlHost) ||
+    /(^|\.)0\d+/.test(rawUrlHost) ||
+    /^0x[0-9a-fA-F]+/i.test(cleanHost) ||
+    /(^|\.)0\d+/.test(cleanHost)
+  ) {
+    return {
+      isValid: false,
+      error: `Non-standard octal or hex IP representation in '${rawUrlHost}' is forbidden.`,
+    };
+  }
+
   // Check local loopback explicitly
   const isLoopbackHost =
     cleanHost === "localhost" ||
@@ -170,32 +195,6 @@ export async function validateTargetUrl(
       isValid: true,
       sanitizedUrl: parsed.toString(),
       resolvedIps: ["127.0.0.1"],
-    };
-  }
-
-  // Check for decimal / Dword integer IP literals e.g. 2130706433 (127.0.0.1) or 2852039166 (169.254.169.254)
-  if (/^\d+$/.test(cleanHost)) {
-    const num = parseInt(cleanHost, 10);
-    if (!isNaN(num) && num >= 0 && num <= 4294967295) {
-      const b1 = (num >>> 24) & 0xff;
-      const b2 = (num >>> 16) & 0xff;
-      const b3 = (num >>> 8) & 0xff;
-      const b4 = num & 0xff;
-      const dotted = `${b1}.${b2}.${b3}.${b4}`;
-      if (isPrivateOrReservedIpv4(dotted)) {
-        return {
-          isValid: false,
-          error: `Integer IP address '${cleanHost}' (${dotted}) is in a private, link-local, or reserved network range.`,
-        };
-      }
-    }
-  }
-
-  // Check for octal or hex dotted IP notation e.g. 0177.0.0.1 or 0x7f.0.0.1
-  if (/^0x[0-9a-fA-F]+/i.test(cleanHost) || /(^|\.)0\d+/.test(cleanHost)) {
-    return {
-      isValid: false,
-      error: `Non-standard octal or hex IP representation in '${cleanHost}' is forbidden.`,
     };
   }
 
