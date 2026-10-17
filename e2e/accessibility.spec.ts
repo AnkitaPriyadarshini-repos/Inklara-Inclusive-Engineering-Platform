@@ -64,6 +64,17 @@ test.describe("Inklara — Accessibility Compliance & Automated WCAG Audit", () 
     expect(criticalOrSerious).toEqual([]);
   });
 
+  test("product overview page meets axe-core automated WCAG standards", async ({ page }) => {
+    await page.goto("/overview");
+    await page.waitForLoadState("networkidle");
+
+    const results = await runAxe(page);
+    const criticalOrSerious = results.violations.filter(
+      (v: { impact: string }) => v.impact === "critical" || v.impact === "serious"
+    );
+    expect(criticalOrSerious).toEqual([]);
+  });
+
   test("accessible benchmark fixture passes axe-core with 0 violations", async ({ page }) => {
     await page.goto("/demo/accessible");
     await page.waitForLoadState("networkidle");

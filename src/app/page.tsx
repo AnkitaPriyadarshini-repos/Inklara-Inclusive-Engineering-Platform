@@ -25,6 +25,7 @@ import {
   Lock,
   Eye,
   Check,
+  Monitor,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -158,6 +159,14 @@ export default async function DashboardPage() {
                 <span className="px-1.5 py-0.5 rounded text-[10px] bg-white/20 font-bold tracking-wide uppercase">
                   30s Demo
                 </span>
+              </Link>
+
+              <Link
+                href="/overview"
+                className="inline-flex items-center gap-2 px-4 py-3 text-xs sm:text-sm font-semibold text-slate-100 bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700/80 rounded-xl transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:outline-none"
+              >
+                <Monitor className="w-4 h-4 text-sky-400" aria-hidden="true" />
+                <span>Product Overview</span>
               </Link>
 
               <Link

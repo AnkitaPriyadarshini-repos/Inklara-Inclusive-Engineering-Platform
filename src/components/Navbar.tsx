@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShieldCheck, Play, FolderKanban, BookOpen, Layers, History, Volume2, Sparkles } from "lucide-react";
+import { ShieldCheck, Play, FolderKanban, BookOpen, Layers, History, Volume2, Sparkles, Globe } from "lucide-react";
 import { InklaraLogo } from "./brand/InklaraLogo";
 
 interface NavbarProps {
@@ -14,6 +14,7 @@ export function Navbar({ onOpenAuditModal }: NavbarProps) {
   const pathname = usePathname();
 
   const navLinks = [
+    { href: "/overview", label: "Product", icon: Globe },
     { href: "/showcase", label: "Showcase", icon: Sparkles, highlight: true },
     { href: "/", label: "Dashboard", icon: ShieldCheck },
     { href: "/projects", label: "Projects", icon: FolderKanban },
