@@ -9,6 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        inklara: {
+          deep: "#06070a",
+          canvas: "#090b14",
+          surface: "#101322",
+          elevated: "#181d2e",
+          border: "#22283d",
+          subtle: "#313954",
+          brand: "#6366f1",
+          "brand-light": "#818cf8",
+          "brand-dark": "#4338ca",
+          lens: "#38bdf8",
+          verify: "#10b981",
+          "verify-bg": "#064e3b",
+        },
         apple: {
           canvas: "#090a0f",
           surface: "#12141c",

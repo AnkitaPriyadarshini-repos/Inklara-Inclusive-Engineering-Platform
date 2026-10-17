@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShieldCheck, Play, FolderKanban, BookOpen, Layers, History, Volume2, Sparkles } from "lucide-react";
+import { InklaraLogo } from "./brand/InklaraLogo";
 
 interface NavbarProps {
   onOpenAuditModal?: () => void;
@@ -36,25 +37,9 @@ export function Navbar({ onOpenAuditModal }: NavbarProps) {
             <div className="flex items-center gap-8">
               <Link
                 href="/"
-                className="flex items-center gap-3 focus-visible:ring-2 focus-visible:ring-apple-focus rounded-md p-1"
+                className="flex items-center focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md p-1"
               >
-                <div
-                  className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold"
-                  aria-hidden="true"
-                >
-                  <ShieldCheck className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div>
-                  <span className="text-base font-bold tracking-tight text-white flex items-center gap-2">
-                    Inklara
-                    <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700/50">
-                      Platform
-                    </span>
-                  </span>
-                  <span className="text-[11px] text-apple-muted block -mt-0.5">
-                    Inclusive Engineering &amp; Verification
-                  </span>
-                </div>
+                <InklaraLogo size="md" />
               </Link>
 
               {/* Navigation Links */}

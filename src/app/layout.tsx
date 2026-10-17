@@ -2,9 +2,38 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Inklara — Inclusive Engineering Platform | Accessibility Workbench",
+  metadataBase: new URL("https://inklara.vercel.app"),
+  title: "Inklara — Inclusive Engineering Platform",
   description:
-    "Production-grade accessibility engineering workbench. Automated axe-core scanning, screen-reader scenario testing, guided manual evaluation, remediation tracking, and regression analysis.",
+    "Inklara reveals what interfaces leave behind. Sandboxed axe-core automation, Screen-Reader Testing Workbench, and continuous WCAG 2.2 Level AA verification.",
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/brand/inklara-symbol.svg",
+  },
+  openGraph: {
+    title: "Inklara — Inclusive Engineering Platform",
+    description:
+      "Inklara reveals what interfaces leave behind. Sandboxed axe-core automation, Screen-Reader Testing Workbench, and continuous WCAG 2.2 Level AA verification.",
+    url: "https://inklara.vercel.app",
+    siteName: "Inklara",
+    images: [
+      {
+        url: "/brand/inklara-social-preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Inklara Inclusive Engineering Platform — Discover, Understand, Remediate, Verify",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Inklara — Inclusive Engineering Platform",
+    description:
+      "Inklara reveals what interfaces leave behind. Continuous accessibility verification and developer tooling.",
+    images: ["/brand/inklara-social-preview.png"],
+  },
 };
 
 export default function RootLayout({
@@ -16,8 +45,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#090b14" />
       </head>
-      <body className="min-h-screen bg-apple-canvas text-apple-text antialiased selection:bg-blue-600 selection:text-white">
+      <body className="min-h-screen bg-apple-canvas text-apple-text antialiased selection:bg-indigo-600 selection:text-white">
         {children}
       </body>
     </html>
