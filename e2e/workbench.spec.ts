@@ -71,7 +71,7 @@ test.describe("Inklara — Inclusive Engineering Platform Workbench Flow", () =>
     }
 
     // 2. Open Execute Audit Modal
-    const executeBtn = page.getByRole("button", { name: "Execute Audit" });
+    const executeBtn = page.getByRole("button", { name: "Execute Audit" }).first();
     await executeBtn.click();
 
     const dialog = page.getByRole("dialog");
