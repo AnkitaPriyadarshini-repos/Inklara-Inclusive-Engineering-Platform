@@ -4,12 +4,12 @@
 
 <p><strong>Reveals what interfaces leave behind.</strong></p>
 
-<p>An enterprise-grade, recruiter-ready accessibility engineering platform pairing sandboxed browser automation with an interactive Screen-Reader Testing Workbench, actionable Before/After remediation diffs, continuous regression verification, and executive reporting.</p>
+<p>An open-source accessibility engineering platform pairing sandboxed browser automation with an interactive Screen-Reader Testing Workbench, actionable Before/After remediation diffs, continuous regression verification, and executive reporting.</p>
 
 <p>
   <a href="https://inklara.vercel.app"><img src="https://img.shields.io/badge/Production%20Deployment-Verified%20on%20Vercel-10b981?style=for-the-badge&logo=vercel" alt="Vercel Deployment" /></a>
-  <a href="https://inklara.vercel.app/overview"><img src="https://img.shields.io/badge/Product%20Overview-Snowdog--Inspired%20Design-0284c7?style=for-the-badge&logo=compass" alt="Product Overview" /></a>
-  <a href="https://inklara.vercel.app/showcase"><img src="https://img.shields.io/badge/Interactive%20Showcase-Explore%20Live%20Demo-6366f1?style=for-the-badge&logo=sparkles" alt="Interactive Showcase" /></a>
+  <a href="https://inklara.vercel.app/overview"><img src="https://img.shields.io/badge/Product%20Overview-Capabilities%20%26%20Scope-0284c7?style=for-the-badge&logo=compass" alt="Product Overview" /></a>
+  <a href="https://inklara.vercel.app/showcase"><img src="https://img.shields.io/badge/Interactive%20Demo-Explore%20Live-6366f1?style=for-the-badge&logo=sparkles" alt="Interactive Demo" /></a>
   <a href="https://github.com/AnkitaPriyadarshini-repos/Inklara-Inclusive-Engineering-Platform"><img src="https://img.shields.io/badge/GitHub-Repository-1e293b?style=for-the-badge&logo=github" alt="GitHub Repo" /></a>
 </p>
 
@@ -28,7 +28,7 @@
 
 ---
 
-## Animated Product Walkthrough
+## Product Walkthrough
 
 <div align="center">
   <img src="./public/brand/inklara-workflow-preview.gif" alt="Inklara 5-Stage Verification Workflow Demonstration" width="100%" />
@@ -37,9 +37,9 @@
 
 ---
 
-## Key Product Capabilities
+## Key Capabilities
 
-* 🌐 **Verified Production Showcase (`/showcase`):** Guided 5-stage interactive demonstration, 4 recruiter role lenses (Full-Stack, Frontend, Accessibility, SDET), live Before/After code diffs, and downloadable JSON audit reports.
+* 🌐 **Interactive Platform Demonstration (`/showcase`):** Guided 5-stage interactive demonstration, engineering perspective deep dives (Frontend, Accessibility, Full-Stack, SDET), live Before/After code diffs, and downloadable JSON audit reports.
 * 🛡️ **Hardened Scanner Sandbox:** Sandboxed Playwright Chromium worker context executing `axe-core 4.10.2` with multi-tier SSRF protection (DNS pre-resolution, private RFC 1918 CIDR filtering, cloud metadata blocking, and obfuscated IP rejection).
 * 🔊 **Screen-Reader Testing Workbench (`/screen-reader`):** Automated scenario runner testing 7 assistive interaction patterns (dialogs, form validation, ARIA live regions, tabs, switches) with computed Accessibility Tree nodes and honest speech representation.
 * 📐 **Authoritative WCAG 2.2 Level AA Catalog (`/wcag`):** 50+ success criteria mapped to automated rules, official W3C Understanding documentation, and 13-point WCAG-EM human evaluation checklists.
@@ -55,7 +55,7 @@
 ```
 Inklara — Inclusive Engineering Platform
 ├── Presentation & Design System (Next.js 15 App Router, React 19, Strict TypeScript)
-│   ├── Dedicated Recruiter Showcase Route (/showcase) with 5-stage animated demo & workbench
+│   ├── Dedicated Interactive Showcase Route (/showcase) with 5-stage workflow demo
 │   ├── Proprietary high-contrast dark design system with tailored tokens (Inklara Ink, Lens, Verify)
 │   ├── Universal WCAG 2.4.11 compliant :focus-visible outlines (2px solid #38bdf8)
 │   ├── Accessible Skip Navigation link (#main-content) & semantic landmark hierarchy
@@ -96,57 +96,44 @@ Inklara — Inclusive Engineering Platform
 
 | Module | Route / File | Implementation Details |
 | :--- | :--- | :--- |
-| **Recruiter Showcase** | `/showcase` | Guided 5-stage animated demonstration, 4 recruiter role lenses, Before/After diffs, live fix verification simulation, and printable reports. |
+| **Interactive Demo** | `/showcase` | Guided 5-stage animated demonstration, engineering perspectives, Before/After diffs, live fix verification simulation, and printable reports. |
 | **Dashboard & Estate** | `/` | Application overview, active projects, recent audit runs, target distribution, and quick audit launcher. |
-| **Project Management** | `/projects` | CRUD operations for projects and target environments (Dev, Staging, Prod), URL management, and run history. |
-| **Audit Runner & Engine** | `/api/audits` | Playwright Chromium executing axe-core 4.10.2; SSRF DNS pre-resolution & IP filtering; redirect interception. |
-| **Findings & Evidence** | `/findings/[id]` | Detailed technical inspection: rule IDs, impact badges, WCAG criteria, sanitized DOM snippets, and status management. |
-| **Screen-Reader Workbench**| `/screen-reader` | 7 interactive scenarios with expected VoiceOver announcements, computed A11y tree nodes, and assistive timeline. |
-| **WCAG 2.2 Catalog** | `/wcag` | Authoritative search and multi-filter workbench mapping 50+ WCAG 2.2 criteria across principles and levels (A, AA, AAA). |
-| **Manual Checklist** | `/api/manual` | 13 WCAG-EM human evaluation criteria (keyboard traps, modal focus trapping, 400% zoom reflow). |
-| **Regression Comparator**| `/api/regression/compare` | Deterministic SHA-256 finding fingerprinting detecting regressions (`+`), fixes (`-`), and persistent issues. |
-| **Report Generator** | `/audits/[id]/report` | Print-ready PDF report, machine-readable JSON manifest download (`inklara-audit-<id>.json`), and non-certification disclaimer. |
+| **Product Overview** | `/overview` | Architectural summary, target personas, version selection matrix, and core platform capabilities. |
+| **Audit Workspace** | `/audits/[id]` | Full audit drill-down, severity breakdown, calculated luminance evidence, and actionable code diffs. |
+| **Audit Executive Report** | `/audits/[id]/report` | Print-optimized compliance scorecard with `@media print` styling, VPAT/ACR declarations, and non-certification disclaimers. |
+| **Finding Detail & Verify** | `/findings/[id]` | Deep-dive finding view with WCAG criterion mapping, live target re-scan verification, and resolution state tracking. |
+| **Screen-Reader Workbench** | `/screen-reader` | Automated scenario runner testing 7 assistive interaction patterns with computed accessibility tree properties. |
+| **WCAG 2.2 Catalog** | `/wcag` | Searchable index of 50+ WCAG criteria with Level filters, automated test mappings, and manual testing procedures. |
+| **Projects & Targets** | `/projects` | Workspace environment manager supporting multiple URLs, environments (Production, Staging, Local), and baseline tags. |
+| **Test Fixtures** | `/fixtures` | Known-inaccessible and known-accessible benchmark pages for verification and engine calibration. |
 
 ---
 
-## 3. Threat Model & SSRF Security Architecture
+## 3. Engineering Quality Gates
 
-Allowing a server-side browser to navigate to arbitrary URLs exposes servers to Server-Side Request Forgery (SSRF), DNS rebinding, and cloud metadata theft. Inklara implements strict defenses in `src/lib/scanner/ssrf.ts`:
+### Type Safety & Linting
+* **Strict TypeScript:** `noImplicitAny: true`, `strictNullChecks: true`, zero `ts-ignore` in business logic.
+* **ESLint:** Enforces Next.js App Router rules, React 19 hooks dependencies, and accessibility naming standards.
 
-1. **Protocol Whitelisting:** Permitted protocols are strictly restricted to `http:` and `https:`. File schemes (`file://`), FTP, Gopher, and JavaScript URLs are rejected.
-2. **DNS Pre-Validation:** Target hostnames are resolved via Node.js `dns.promises.lookup` with all addresses checked prior to browser invocation.
-3. **Restricted IP Ranges Blocked:**
-   - **Loopback:** `127.0.0.0/8`, `::1`
-   - **Private Networks:** `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`
-   - **Link-Local & Cloud Metadata:** `169.254.0.0/16` (including AWS/GCP/Azure `169.254.169.254`), `fe80::/10`
-   - **Internal Hostnames:** `metadata.google.internal`, `metadata.azure.com`, `instance-data`
-4. **Alternative IP Encodings Blocked:** Obfuscated notation like integer dword (`http://2130706433/`), hex, and octal notations are unconditionally blocked before loopback whitelist checks.
-5. **Navigation & Redirect Interception:** Playwright request routing hooks into `page.route('**/*', ...)` to re-validate every HTTP redirect destination before network egress.
-6. **Controlled Local Development Mode:** Local loopback scanning is enabled ONLY if the deliberate environment flag `ALLOW_LOCAL_SCANNING="true"` is set, permitting tests against local fixtures. In production (`NODE_ENV === "production"`), local scanning is rejected unconditionally (fail-closed).
-7. **Browser Sandboxing:** Chromium runs with `--no-sandbox`, disabled GPU, restricted permissions (geolocation, camera, microphone denied), and strict 30-second timeouts.
-8. **DOM Sanitization:** All HTML evidence rendered in Inklara is escaped using entity encoding to prevent stored XSS attacks from scanned web pages.
+### Test Automation Suite
+* **Unit & Integration Suite (Vitest):** 35 unit tests covering brand assets, SSRF validator defenses, WCAG mappings, schema parsing, and screen-reader evaluators.
+* **Automated Accessibility Regression (Playwright + axe-core):** 17 automated end-to-end tests verifying zero critical or serious WCAG 2.2 AA violations across all core routes.
 
----
+```bash
+# Run Vitest unit tests:
+npm test
 
-## 4. Quality Gates & Verified Test Commands
-
-| Quality Gate | Command | Scope & Coverage | Verified Status |
-| :--- | :--- | :--- | :--- |
-| **Strict TypeScript** | `npx tsc --noEmit` | Strict type checking across App Router, components, APIs, and libraries. | **PASS (0 errors)** |
-| **Unit & Integration** | `npm test` | 35 Vitest tests (Brand assets, SSRF, finding normalizer, WCAG mapping, regression diffing, screen-reader). | **PASS (7/7 suites, 35/35 tests)** |
-| **ESLint Quality** | `npm run lint` | ESLint 9 checks with Next.js core web vitals and React rules. | **PASS (0 errors, 0 warnings)** |
-| **Accessibility E2E** | `npx playwright test e2e/accessibility.spec.ts` | Automated axe-core audits (showcase, landmarks, dialogs, reflow 320px, reduced motion, focus rings). | **PASS (0 critical/serious violations)** |
-| **Full Playwright Suite** | `npm run test:e2e` | End-to-end integration tests covering audit lifecycle, showcase stepper, and screen-reader scenarios. | **PASS (14/14 tests)** |
-| **Production Build** | `npm run build` | Compiles optimized Next.js 15 production bundle across all 15 static and dynamic routes. | **PASS (Exit Code 0)** |
+# Run Playwright automated accessibility audit:
+npx playwright test e2e/accessibility.spec.ts
+```
 
 ---
 
-## 5. Local Installation & Setup
+## 4. Getting Started
 
 ### Prerequisites
-* **Node.js:** v20.x or v22.x LTS
-* **npm:** v10.x+
-* **Git**
+* Node.js 18.18+ or 20+
+* npm 9+
 
 ### Quick Start (Zero-Configuration Local Mode)
 ```bash
@@ -167,7 +154,7 @@ npx playwright install chromium
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application or [http://localhost:3000/showcase](http://localhost:3000/showcase) to test the Recruiter Showcase.
+Open [http://localhost:3000](http://localhost:3000) to view the application or [http://localhost:3000/showcase](http://localhost:3000/showcase) to test the Interactive Platform Demo.
 
 ### Dual-Database Configuration (SQLite / PostgreSQL)
 `scripts/prisma-generate.js` automatically inspects `DATABASE_URL` at install and build time:
@@ -187,7 +174,7 @@ docker compose up -d
 
 ---
 
-## 6. Project Structure
+## 5. Project Structure
 
 ```
 c:/Users/ankit/resume/INKLARA
@@ -198,15 +185,14 @@ c:/Users/ankit/resume/INKLARA
 │       ├── inklara-symbol.svg                # Standalone geometric brand mark
 │       ├── inklara-logo-dark.svg             # Horizontal brand lockup on dark ink
 │       ├── inklara-logo-light.svg            # Horizontal brand lockup on light background
-│       ├── inklara-demo-preview.svg          # Animated vector product demonstration
+│       ├── inklara-workflow-preview.gif      # 5-stage product workflow demonstration
 │       └── inklara-social-preview.png        # High-res social preview image
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx                        # Root layout with OpenGraph & Twitter metadata
 │   │   ├── page.tsx                          # Live Dashboard (Projects, targets, quick audit)
-│   │   ├── showcase/                         # Recruiter-facing interactive showcase (/showcase)
-│   │   │   ├── page.tsx
-│   │   │   └── ShowcaseClient.tsx
+│   │   ├── overview/                         # Product overview & architecture (/overview)
+│   │   ├── showcase/                         # Interactive demonstration (/showcase)
 │   │   ├── audits/                           # Audit run history & executive reports
 │   │   ├── projects/                         # Project & target environment management
 │   │   ├── screen-reader/                    # Assistive tech scenario workbench
@@ -236,7 +222,7 @@ c:/Users/ankit/resume/INKLARA
 
 ---
 
-## 7. Open-Source Attribution & Design References
+## 6. Open-Source Attribution & References
 
 * **Next.js & React:** Frontend framework & App Router architecture.
 * **axe-core (Deque Systems):** Rule engine for automated DOM accessibility checks.
@@ -245,11 +231,11 @@ c:/Users/ankit/resume/INKLARA
 * **Zod:** Runtime schema validation.
 * **Tailwind CSS:** Design tokens and utility styling.
 * **Lucide Icons:** Accessible UI icon vectors.
-* **Design Inspiration — Snowdog Accessibility Audit Tool ([SnowdogApps/a11y-audit-tool](https://github.com/SnowdogApps/a11y-audit-tool) & [Service Overview](https://www.snow.dog/services/accessibility/a11y-audit-tool)):** Inklara studies and draws architectural inspiration from Snowdog's combined automated/manual workflow model, audit estate hierarchy, and findings presentation. Inklara implements its own original Next.js 15 App Router architecture, proprietary dark design system, Screen-Reader Announcement Workbench, regression diffing engine, and strict multi-tier SSRF security sandbox.
+* **Inspiration:** Inklara draws inspiration from modern accessibility engineering principles established by the W3C Web Accessibility Initiative (WAI) and open-source tooling like Snowdog's accessibility audit platform, implementing original Next.js 15 App Router architecture, a Screen-Reader Announcement Workbench, regression diffing engine, and strict multi-tier SSRF security isolation.
 
 ---
 
 <div align="center">
   <p><strong>Inklara — Inclusive Engineering Platform</strong></p>
-  <p>Designed and built as a flagship open-source engineering portfolio project.</p>
+  <p>Continuous Accessibility Verification &amp; Developer Tooling</p>
 </div>

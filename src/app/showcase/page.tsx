@@ -4,9 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { ShowcaseClient } from "./ShowcaseClient";
 
 export const metadata: Metadata = {
-  title: "Recruiter Showcase — Inklara Inclusive Engineering Platform",
+  title: "Interactive Demonstration — Inklara Inclusive Engineering Platform",
   description:
-    "Interactive 60-second end-to-end accessibility engineering demonstration, architectural blueprints, role-specific engineering deep dives, and live verification workflows.",
+    "Interactive end-to-end accessibility engineering demonstration, role-based architecture deep dives, component remediation diffs, and verified compliance workflows.",
 };
 
 export default function ShowcasePage() {

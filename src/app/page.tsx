@@ -377,7 +377,7 @@ export default async function DashboardPage() {
                   href="/showcase"
                   className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
                 >
-                  <span>Explore Recruiter Showcase</span>
+                  <span>Explore Interactive Demo</span>
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
@@ -566,7 +566,7 @@ export default async function DashboardPage() {
                     className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
                   >
                     <Sparkles className="w-4 h-4" aria-hidden="true" />
-                    <span>Launch Interactive Recruiter Showcase</span>
+                    <span>Launch Platform Demonstration</span>
                   </Link>
                 </div>
               </div>
@@ -714,7 +714,7 @@ export default async function DashboardPage() {
               href="/showcase"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-300 hover:text-white rounded px-2 py-1 focus-visible:ring-2 focus-visible:ring-indigo-400"
             >
-              <span>Launch Full Recruiter Showcase</span>
+              <span>Launch Interactive Demo</span>
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </Link>
           </div>

@@ -14,14 +14,14 @@ export function InklaraLogo({
 }: InklaraLogoProps) {
   const symbolSizes = {
     sm: "w-7 h-7",
-    md: "w-9 h-9",
-    lg: "w-11 h-11",
+    md: "w-8 h-8",
+    lg: "w-10 h-10",
   };
 
   const titleSizes = {
     sm: "text-sm",
     md: "text-base",
-    lg: "text-xl",
+    lg: "text-lg",
   };
 
   const taglineSizes = {
@@ -31,24 +31,19 @@ export function InklaraLogo({
   };
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <InklaraSymbol className={`${symbolSizes[size]} shrink-0`} glow />
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      <InklaraSymbol className={`${symbolSizes[size]} shrink-0`} />
       <div className="flex flex-col">
-        <div className="flex items-center gap-2">
-          <span
-            className={`font-bold tracking-tight text-white ${titleSizes[size]}`}
-          >
-            Inklara
-          </span>
-          <span className="text-[9.5px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-700/60">
-            Platform
-          </span>
-        </div>
+        <span
+          className={`font-semibold tracking-tight text-white leading-none ${titleSizes[size]}`}
+        >
+          Inklara
+        </span>
         {withTagline && (
           <span
-            className={`text-slate-400 font-medium -mt-0.5 tracking-tight ${taglineSizes[size]}`}
+            className={`text-slate-400 font-normal tracking-normal mt-1 leading-none ${taglineSizes[size]}`}
           >
-            Inclusive Engineering &amp; Verification
+            Inclusive Engineering
           </span>
         )}
       </div>

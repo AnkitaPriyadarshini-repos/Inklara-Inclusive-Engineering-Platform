@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 import { OverviewClient } from "./OverviewClient";
 
 export const metadata: Metadata = {
-  title: "Inklara A11y Audit Tool — Product Overview",
+  title: "Product Overview — Inklara Inclusive Engineering Platform",
   description:
-    "Your comprehensive solution for desktop, mobile, and web apps accessibility testing and report generation. Inspired by Snowdog's a11y audit tool.",
+    "Comprehensive accessibility verification platform for desktop, mobile, and web applications. Automated browser testing, guided WCAG-EM human evaluation, and regression tracking.",
   openGraph: {
-    title: "Inklara A11y Audit Tool — Product Overview",
+    title: "Product Overview — Inklara Inclusive Engineering Platform",
     description:
-      "Your comprehensive solution for desktop, mobile, and web apps accessibility testing and report generation.",
+      "Comprehensive accessibility verification platform for desktop, mobile, and web applications. Automated browser testing, guided WCAG-EM human evaluation, and continuous verification.",
     url: "https://inklara.vercel.app/overview",
     siteName: "Inklara",
     images: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
         url: "https://inklara.vercel.app/brand/inklara-social-preview.png",
         width: 1200,
         height: 630,
-        alt: "Inklara A11y Audit Tool — Comprehensive Accessibility Engineering",
+        alt: "Inklara Inclusive Engineering Platform — Product Overview",
       },
     ],
   },

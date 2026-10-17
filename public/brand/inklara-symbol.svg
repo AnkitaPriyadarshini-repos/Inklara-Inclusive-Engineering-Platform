@@ -1,66 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" fill="none">
   <defs>
-    <!-- Background / Frame Gradient -->
-    <linearGradient id="inklara-portal" x1="15%" y1="10%" x2="85%" y2="90%">
+    <linearGradient id="inklara-portal" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#818cf8" />
-      <stop offset="60%" stop-color="#6366f1" />
-      <stop offset="100%" stop-color="#4338ca" />
+      <stop offset="100%" stop-color="#4f46e5" />
     </linearGradient>
 
-    <!-- Inspection Lens Gradient -->
-    <linearGradient id="inklara-lens" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#a5f3fc" />
+    <linearGradient id="inklara-lens" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
     </linearGradient>
 
-    <!-- Verification Check Path Gradient -->
     <linearGradient id="inklara-verify" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" />
-      <stop offset="100%" stop-color="#34d399" />
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
     </linearGradient>
-
-    <!-- Ambient Glow Filter -->
-    <filter id="inklara-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
   </defs>
 
-  <!-- Base Rounded Container (Dark Ink) -->
-  <rect width="100" height="100" rx="24" fill="#090b14" />
-  <rect width="98" height="98" x="1" y="1" rx="23" stroke="#1e2438" stroke-width="2" />
+  <!-- Solid Architectural Tile -->
+  <rect width="100" height="100" rx="22" fill="#06080f" />
+  <rect width="98" height="98" x="1" y="1" rx="21" stroke="#1c2438" stroke-width="1.5" />
 
-  <!-- 1. The Inclusive Portal Frame (Open Doorway) -->
-  <!-- Left Column and Top Beam forming an open threshold -->
+  <!-- 1. Inklara Portal: Inclusive Frame & Structural Stem -->
   <path
-    d="M 28 78 L 28 30 C 28 24.5 32.5 20 38 20 L 70 20 C 75.5 20 80 24.5 80 30 L 80 38"
+    id="inklara-portal"
+    d="M 32 74 L 32 30 C 32 23 37 18 44 18 L 66 18 C 73 18 78 23 78 30 L 78 38"
     stroke="url(#inklara-portal)"
-    stroke-width="7"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-
-  <!-- 2. The Inspection Lens Arc (Aperture) -->
-  <path
-    d="M 68 36 A 22 22 0 1 0 46 76"
-    stroke="url(#inklara-lens)"
     stroke-width="6"
     stroke-linecap="round"
-    stroke-dasharray="85 15"
+    stroke-linejoin="round"
   />
 
-  <!-- 3. Continuous Verification Path (The Check Trajectory) -->
-  <!-- Flows from inside the portal through the aperture into a sharp verification check -->
+  <!-- 2. Inklara Lens: Calibrated Inspection Aperture -->
   <path
-    d="M 38 52 L 48 64 L 76 34"
+    id="inklara-lens"
+    d="M 68 36 A 20 20 0 1 0 48 72"
+    stroke="url(#inklara-lens)"
+    stroke-width="5"
+    stroke-linecap="round"
+  />
+
+  <!-- 3. Inklara Verify: Precision Verification Vector -->
+  <path
+    id="inklara-verify"
+    d="M 38 52 L 48 62 L 72 36"
     stroke="url(#inklara-verify)"
-    stroke-width="7.5"
+    stroke-width="6.5"
     stroke-linecap="round"
     stroke-linejoin="round"
-    filter="url(#inklara-glow)"
   />
 
-  <!-- Aperture Focal Center Node -->
-  <circle cx="50" cy="50" r="3" fill="#38bdf8" opacity="0.9" />
+  <!-- Focal Calibration Point -->
+  <circle cx="50" cy="50" r="2.5" fill="#38bdf8" />
 </svg>

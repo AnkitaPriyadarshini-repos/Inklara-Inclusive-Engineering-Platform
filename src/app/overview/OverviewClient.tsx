@@ -56,7 +56,7 @@ export function OverviewClient() {
 
       <main id="main-content" tabIndex={-1} className="outline-none">
         {/* ========================================================= */}
-        {/* BREADCRUMBS (Matching Snowdog: Home > Services > a11y)   */}
+        {/* BREADCRUMBS: Home > Product > Overview                    */}
         {/* ========================================================= */}
         <div className="border-b border-slate-800/80 bg-slate-950/60 py-2.5 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs text-slate-400">
@@ -67,83 +67,67 @@ export function OverviewClient() {
               Home
             </Link>
             <ChevronRight className="w-3 h-3 text-slate-600" aria-hidden="true" />
-            <span className="text-slate-400">Services</span>
+            <span className="text-slate-400">Product</span>
             <ChevronRight className="w-3 h-3 text-slate-600" aria-hidden="true" />
-            <Link
-              href="/wcag"
-              className="hover:text-slate-200 transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400 rounded px-1"
-            >
-              Accessibility
-            </Link>
-            <ChevronRight className="w-3 h-3 text-slate-600" aria-hidden="true" />
-            <span className="text-indigo-300 font-semibold truncate">
-              Inklara A11y Audit Tool
+            <span className="text-white font-medium truncate">
+              Overview &amp; Architecture
             </span>
           </div>
         </div>
 
         {/* ========================================================= */}
-        {/* 1. HERO BANNER: Centered Title & Value Proposition        */}
+        {/* 1. HERO BANNER: Editorial Headline & Clear Product Mission */}
         {/* ========================================================= */}
-        <section aria-labelledby="hero-title" className="relative pt-12 pb-16 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
-          {/* Ambient Glow */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[800px] h-[360px] bg-gradient-to-b from-indigo-600/15 via-sky-600/10 to-transparent blur-3xl opacity-75"
-          />
-
+        <section aria-labelledby="hero-title" className="relative pt-16 pb-16 px-4 sm:px-6 lg:px-8 text-center border-b border-slate-800/80">
           <div className="relative max-w-4xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-xs font-semibold text-slate-300 shadow-sm backdrop-blur">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
-              <span className="text-white">Product Overview</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-900 border border-slate-700/80 text-xs font-semibold text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true" />
+              <span className="text-white">Inklara Platform</span>
               <span className="text-slate-500" aria-hidden="true">•</span>
-              <span className="text-indigo-300">Inspired by Snowdog a11y-audit-tool</span>
+              <span className="text-slate-300">Product Capabilities</span>
             </div>
 
             <h1
               id="hero-title"
-              className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight"
+              className="text-4xl sm:text-6xl font-bold tracking-tight text-white leading-[1.1]"
             >
-              A11y Audit Tool
+              Inclusive Engineering at Scale
             </h1>
 
-            <p className="text-lg sm:text-xl font-medium text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Your comprehensive solution for desktop, mobile, and web apps accessibility testing and report generation.
+            <p className="text-base sm:text-xl font-normal text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              A comprehensive accessibility verification platform for desktop, mobile, and web applications, combining browser-isolated automated scans with structured human evaluation.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
-              <button
-                type="button"
-                onClick={scrollToContact}
-                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-lg shadow-indigo-600/30 transition-all focus-visible:ring-2 focus-visible:ring-indigo-400"
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <Link
+                href="/showcase"
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
               >
-                <span>Let&apos;s Talk</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </button>
+                <Sparkles className="w-4 h-4 text-white" aria-hidden="true" />
+                <span>Launch Interactive Demo</span>
+              </Link>
 
               <a
                 href="https://github.com/AnkitaPriyadarshini-repos/Inklara-Inclusive-Engineering-Platform"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-slate-200 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 rounded-xl transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
+                className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
               >
                 <Code2 className="w-4 h-4 text-slate-400" aria-hidden="true" />
-                <span>Go to GitHub</span>
+                <span>GitHub Repository</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
               </a>
 
-              <Link
-                href="/showcase"
-                className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-indigo-300 hover:text-white bg-indigo-950/40 hover:bg-indigo-900/60 border border-indigo-700/60 rounded-xl transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
+              <button
+                type="button"
+                onClick={scrollToContact}
+                className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-slate-300 hover:text-white bg-slate-900/60 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-indigo-400"
               >
-                <Sparkles className="w-4 h-4 text-indigo-300" aria-hidden="true" />
-                <span>Explore Showcase Film</span>
-              </Link>
+                <span>Contact Inquiries</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </button>
             </div>
           </div>
-
-          {/* Horizontal Divider Line matching Snowdog */}
-          <div className="max-w-5xl mx-auto mt-16 border-t border-slate-800/80" />
         </section>
 
         {/* ========================================================= */}
@@ -158,9 +142,9 @@ export function OverviewClient() {
             <div className="lg:col-span-6 space-y-6">
               <h2
                 id="who-benefits-heading"
-                className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug"
+                className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug"
               >
-                Who can benefit from the A11y Audit Tool?
+                Who can benefit from Inklara?
               </h2>
 
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
@@ -393,12 +377,12 @@ export function OverviewClient() {
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <h2
               id="why-choose-heading"
-              className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight"
+              className="text-2xl sm:text-4xl font-bold text-white tracking-tight"
             >
-              Why choose the A11y Audit Tool?
+              Why choose Inklara?
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-              Say goodbye to time-consuming manual tests and hello to faster, more comprehensive accessibility audits with our tool.
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              Bridge the 60% manual accessibility testing gap and maintain verified WCAG 2.2 Level AA compliance with continuous browser automation.
             </p>
           </div>
 

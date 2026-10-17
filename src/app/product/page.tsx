@@ -4,7 +4,7 @@ import OverviewPage, { metadata as overviewMetadata } from "../overview/page";
 
 export const metadata: Metadata = {
   ...overviewMetadata,
-  title: "A11y Audit Tool | Inklara Product Overview",
+  title: "Product Overview | Inklara Inclusive Engineering Platform",
 };
 
 export default function ProductPage() {

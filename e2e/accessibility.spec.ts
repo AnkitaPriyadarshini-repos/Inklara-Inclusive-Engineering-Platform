@@ -140,7 +140,7 @@ test.describe("Inklara — Accessibility Compliance & Automated WCAG Audit", () 
     expect(["A", "BUTTON"]).toContain(activeTagName);
   });
 
-  test("recruiter showcase page meets axe-core automated WCAG standards", async ({ page }) => {
+  test("interactive showcase page meets axe-core automated WCAG standards", async ({ page }) => {
     await page.goto("/showcase");
     await page.waitForLoadState("networkidle");
 

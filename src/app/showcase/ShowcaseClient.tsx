@@ -396,7 +396,7 @@ export function ShowcaseClient() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/90 text-indigo-300 border border-indigo-800/80 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-indigo-400" aria-hidden="true" />
-              Recruiter Showcase Experience
+              Interactive Platform Demonstration
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800/60">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
@@ -419,7 +419,7 @@ export function ShowcaseClient() {
               className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight"
             >
               Accessibility isn&apos;t a final check.{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-300 to-teal-300">
+              <span className="text-indigo-400">
                 It&apos;s part of the build.
               </span>
             </h1>
@@ -516,18 +516,18 @@ export function ShowcaseClient() {
         </div>
       </section>
 
-      {/* 2. Recruiter Role Lens Selector */}
+      {/* 2. Engineering Perspectives Selector */}
       <section aria-labelledby="role-lens-heading" className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
               <Compass className="w-4 h-4 text-blue-400" aria-hidden="true" />
               <h2 id="role-lens-heading" className="text-lg font-bold text-white">
-                Recruiter Role Lens: Tailored Engineering Highlights
+                Engineering Perspectives: Role-Based Deep Dives
               </h2>
             </div>
             <p className="text-xs text-apple-muted mt-0.5">
-              Select your hiring domain to inspect the exact engineering patterns, architectural trade-offs, and quality gates implemented in Inklara.
+              Select an engineering domain to inspect the exact patterns, architectural trade-offs, and quality gates implemented in Inklara.
             </p>
           </div>
         </div>
