@@ -8,6 +8,7 @@
 
 <p>
   <a href="https://inklara.vercel.app"><img src="https://img.shields.io/badge/Production%20Deployment-Verified%20on%20Vercel-10b981?style=for-the-badge&logo=vercel" alt="Vercel Deployment" /></a>
+  <a href="https://inklara.vercel.app/overview"><img src="https://img.shields.io/badge/Product%20Overview-Snowdog--Inspired%20Design-0284c7?style=for-the-badge&logo=compass" alt="Product Overview" /></a>
   <a href="https://inklara.vercel.app/showcase"><img src="https://img.shields.io/badge/Interactive%20Showcase-Explore%20Live%20Demo-6366f1?style=for-the-badge&logo=sparkles" alt="Interactive Showcase" /></a>
   <a href="https://github.com/AnkitaPriyadarshini-repos/Inklara-Inclusive-Engineering-Platform"><img src="https://img.shields.io/badge/GitHub-Repository-1e293b?style=for-the-badge&logo=github" alt="GitHub Repo" /></a>
 </p>
@@ -19,7 +20,7 @@
   <img src="https://img.shields.io/badge/Engine-axe--core_4.10.2-red?style=flat" alt="axe-core" />
   <img src="https://img.shields.io/badge/Automation-Playwright_1.49-green?style=flat&logo=playwright" alt="Playwright" />
   <img src="https://img.shields.io/badge/Target-WCAG_2.2_Level_AA-purple?style=flat" alt="WCAG 2.2" />
-  <img src="https://img.shields.io/badge/Tests-35_Unit_%2B_14_E2E-10b981?style=flat" alt="Tests" />
+  <img src="https://img.shields.io/badge/Tests-35_Unit_%2B_17_E2E-10b981?style=flat" alt="Tests" />
   <img src="https://img.shields.io/badge/Security-SSRF_Fail--Closed-indigo?style=flat" alt="SSRF Security" />
 </p>
 
@@ -30,7 +31,7 @@
 ## Animated Product Walkthrough
 
 <div align="center">
-  <img src="./public/brand/inklara-demo-preview.svg" alt="Inklara 5-Stage Verification Workflow Demonstration" width="100%" />
+  <img src="./public/brand/inklara-workflow-preview.gif" alt="Inklara 5-Stage Verification Workflow Demonstration" width="100%" />
   <p><em>Inklara 5-Stage Continuous Verification Workflow: <strong>Discover</strong> (Sandboxed axe-core scan) &rarr; <strong>Understand</strong> (Computed contrast &amp; A11y Tree) &rarr; <strong>Remediate</strong> (Actionable Before/After code patches) &rarr; <strong>Verify</strong> (Deterministic SHA-256 regression comparison) &rarr; <strong>Report</strong> (Executive PDF &amp; machine-readable JSON export).</em></p>
 </div>
 
