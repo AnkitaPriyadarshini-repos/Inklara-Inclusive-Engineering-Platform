@@ -15,6 +15,7 @@ interface RunAuditModalProps {
   onClose: () => void;
   projects?: ProjectOption[];
   defaultProjectId?: string;
+  defaultTargetUrl?: string;
 }
 
 export function RunAuditModal({
@@ -22,12 +23,13 @@ export function RunAuditModal({
   onClose,
   projects = [],
   defaultProjectId,
+  defaultTargetUrl,
 }: RunAuditModalProps) {
   const router = useRouter();
   const [projectId, setProjectId] = useState(defaultProjectId || (projects[0]?.id ?? ""));
   const [newProjectName, setNewProjectName] = useState("");
   const [name, setName] = useState("Automated WCAG 2.2 AA Audit");
-  const [targetUrl, setTargetUrl] = useState("http://localhost:3000/demo/inaccessible");
+  const [targetUrl, setTargetUrl] = useState(defaultTargetUrl || "http://localhost:3000/demo/inaccessible");
   const [scopeType, setScopeType] = useState<"single-page" | "multi-page" | "wcag-em-sample">("single-page");
   const [wcagLevel, setWcagLevel] = useState("WCAG_2_2_AA");
   const [isBaseline, setIsBaseline] = useState(false);
@@ -35,14 +37,19 @@ export function RunAuditModal({
   const [error, setError] = useState<string | null>(null);
   const [failedAuditId, setFailedAuditId] = useState<string | null>(null);
 
-  // Sync selected projectId whenever modal opens or projects list updates
+  // Sync selected projectId and targetUrl whenever modal opens or defaults update
   useEffect(() => {
-    if (isOpen && projects.length > 0) {
-      if (!projectId || !projects.some((p) => p.id === projectId)) {
-        setProjectId(defaultProjectId || projects[0].id);
+    if (isOpen) {
+      if (defaultTargetUrl) {
+        setTargetUrl(defaultTargetUrl);
+      }
+      if (projects.length > 0) {
+        if (!projectId || !projects.some((p) => p.id === projectId)) {
+          setProjectId(defaultProjectId || projects[0].id);
+        }
       }
     }
-  }, [isOpen, projects, defaultProjectId, projectId]);
+  }, [isOpen, projects, defaultProjectId, projectId, defaultTargetUrl]);
 
   const getPresetUrl = (path: string) => {
     if (typeof window !== "undefined" && window.location.origin) {

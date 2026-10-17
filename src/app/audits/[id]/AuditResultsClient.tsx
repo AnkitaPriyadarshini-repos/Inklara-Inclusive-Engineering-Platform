@@ -27,6 +27,8 @@ import {
   ChevronUp,
   Wrench,
   Sparkles,
+  Download,
+  Trash2,
 } from "lucide-react";
 import type { AuditRun, Finding, ManualChecklistItem, Project } from "@prisma/client";
 import { REMEDIATION_CATALOG } from "@/lib/remediation/catalog";
@@ -69,6 +71,10 @@ export function AuditResultsClient({
   );
   const [isComparing, setIsComparing] = useState(false);
   const [comparisonDiff, setComparisonDiff] = useState<any>(null);
+
+  // Deletion Modal State
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeletingAudit, setIsDeletingAudit] = useState(false);
 
   const toggleRemediation = (findingId: string) => {
     setExpandedRemediationIds((prev) => {
@@ -178,6 +184,89 @@ export function AuditResultsClient({
     }
   };
 
+  const handleExportJson = () => {
+    const exportData = {
+      platform: "Inklara Inclusive Engineering Platform",
+      exportedAt: new Date().toISOString(),
+      audit: {
+        id: audit.id,
+        name: audit.name,
+        targetUrl: audit.targetUrl,
+        wcagLevel: audit.wcagLevel,
+        startedAt: audit.startedAt,
+        completedAt: audit.completedAt,
+        isBaseline: audit.isBaseline,
+        metrics: {
+          violationsCount: audit.violationsCount,
+          criticalCount: audit.criticalCount,
+          seriousCount: audit.seriousCount,
+          moderateCount: audit.moderateCount,
+          minorCount: audit.minorCount,
+          passesCount: audit.passesCount,
+        },
+        findings: findings.map((f) => {
+          let parsedCriteria: string[] = [];
+          try {
+            parsedCriteria = JSON.parse(f.wcagCriteria || "[]");
+          } catch {
+            parsedCriteria = [];
+          }
+          return {
+            id: f.id,
+            ruleId: f.ruleId,
+            ruleTitle: f.ruleTitle,
+            ruleDescription: f.ruleDescription,
+            impact: f.impact,
+            status: f.status,
+            wcagCriteria: parsedCriteria,
+            selector: f.selector,
+            htmlSnippet: f.htmlSnippet,
+            failureSummary: f.failureSummary,
+            remediationNotes: f.remediationNotes,
+          };
+        }),
+        manualChecklist: checklist.map((c) => ({
+          id: c.id,
+          category: c.category,
+          criterion: c.criterion,
+          title: c.title,
+          status: c.status,
+          notes: c.notes,
+          naReason: c.naReason,
+        })),
+      },
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `inklara-audit-${audit.id}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDeleteAudit = async () => {
+    setIsDeletingAudit(true);
+    try {
+      const res = await fetch(`/api/audits/${audit.id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        router.push(`/projects/${audit.projectId}`);
+      }
+    } catch (err) {
+      console.error("Failed to delete audit:", err);
+    } finally {
+      setIsDeletingAudit(false);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
   // Group manual checklist by category
   const categories = Array.from(new Set(checklist.map((c) => c.category)));
 
@@ -219,6 +308,16 @@ export function AuditResultsClient({
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={handleExportJson}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
+              title="Download structured JSON report"
+            >
+              <Download className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Export JSON</span>
+            </button>
+
             <Link
               href={`/audits/${audit.id}/report`}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
@@ -234,6 +333,16 @@ export function AuditResultsClient({
             >
               <GitCompare className="w-3.5 h-3.5" aria-hidden="true" />
               <span>Compare Baseline</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-rose-400 hover:text-rose-300 bg-rose-950/30 hover:bg-rose-900/40 border border-rose-800/60 rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-rose-500"
+              title="Delete this audit run"
+            >
+              <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Delete Audit</span>
             </button>
           </div>
         </div>
@@ -880,6 +989,42 @@ export function AuditResultsClient({
           )}
         </section>
       )}
+      {/* Delete Audit Confirmation Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title="Delete Audit Run Confirmation"
+      >
+        <div className="space-y-4 text-xs">
+          <div className="flex items-start gap-3 p-3 bg-rose-950/30 border border-rose-900/50 rounded-lg text-rose-200">
+            <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <div>
+              <p className="font-semibold text-rose-300">Permanent Action</p>
+              <p className="mt-1 leading-relaxed">
+                Are you sure you want to delete this audit run (<strong className="text-white">{audit.name}</strong>)? This will permanently remove all associated automated findings, DOM evidence snippets, manual checklist evaluation results, and baseline regression references.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-apple-border">
+            <button
+              type="button"
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="px-3.5 py-1.5 text-slate-300 hover:text-white rounded-md hover:bg-apple-elevated transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={isDeletingAudit}
+              onClick={handleDeleteAudit}
+              className="px-4 py-1.5 font-semibold text-white bg-rose-600 hover:bg-rose-500 rounded-md transition-colors disabled:opacity-50"
+            >
+              {isDeletingAudit ? "Deleting..." : "Confirm Delete Audit"}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

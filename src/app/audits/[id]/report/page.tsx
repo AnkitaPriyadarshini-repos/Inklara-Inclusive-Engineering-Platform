@@ -8,7 +8,6 @@ import { SanitizedCodeBlock } from "@/components/SanitizedCodeBlock";
 import { ReportPrintButton } from "./ReportPrintButton";
 import {
   ShieldCheck,
-  Printer,
   ArrowLeft,
   AlertTriangle,
   ClipboardCheck,

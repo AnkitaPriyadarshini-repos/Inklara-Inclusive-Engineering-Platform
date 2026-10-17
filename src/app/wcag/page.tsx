@@ -1,12 +1,11 @@
 import React from "react";
 import { Navbar } from "@/components/Navbar";
 import { WCAG_CATALOG } from "@/lib/wcag/catalog";
-import { BookOpen, ExternalLink, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
+import { WcagCatalogClient } from "./WcagCatalogClient";
 
 export default function WcagReferencePage() {
   const criteriaList = Object.values(WCAG_CATALOG);
-
-  const principles = ["Perceivable", "Operable", "Understandable", "Robust"] as const;
 
   return (
     <div className="min-h-screen bg-apple-canvas text-apple-text font-sans">
@@ -37,90 +36,10 @@ export default function WcagReferencePage() {
           </p>
         </div>
 
-        {/* Group by Principle */}
-        <div className="space-y-8">
-          {principles.map((principle) => {
-            const items = criteriaList.filter((c) => c.principle === principle);
-
-            return (
-              <section key={principle} aria-labelledby={`principle-${principle}`} className="space-y-4">
-                <div className="flex items-center justify-between border-b border-apple-border pb-2">
-                  <h2 id={`principle-${principle}`} className="text-lg font-bold text-white">
-                    Principle: {principle}
-                  </h2>
-                  <span className="text-xs text-apple-muted">
-                    {items.length} Success Criteria
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {items.map((criterion) => (
-                    <article
-                      key={criterion.id}
-                      className="p-5 bg-apple-surface border border-apple-border rounded-xl shadow-sm space-y-3"
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 rounded text-xs font-bold bg-blue-950 text-blue-300 border border-blue-800">
-                              {criterion.num}
-                            </span>
-                            <span className="text-xs font-bold uppercase text-slate-300">
-                              Level {criterion.level}
-                            </span>
-                            <span className="text-[10px] text-apple-muted font-mono">
-                              v{criterion.version}
-                            </span>
-                          </div>
-                          <h3 className="text-sm font-semibold text-white mt-1">
-                            {criterion.title}
-                          </h3>
-                        </div>
-
-                        <a
-                          href={criterion.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-apple-muted hover:text-white p-1 rounded focus-visible:ring-1 focus-visible:ring-apple-focus"
-                          aria-label={`Open W3C Understanding ${criterion.num} documentation`}
-                        >
-                          <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                        </a>
-                      </div>
-
-                      <p className="text-xs text-apple-muted leading-relaxed">
-                        {criterion.description}
-                      </p>
-
-                      <div className="pt-2 border-t border-apple-border/70 text-[11px]">
-                        <span className="text-apple-muted block mb-1 font-semibold">
-                          Associated Axe Rules:
-                        </span>
-                        {criterion.associatedAxeRules.length > 0 ? (
-                          <div className="flex flex-wrap gap-1">
-                            {criterion.associatedAxeRules.map((r) => (
-                              <span
-                                key={r}
-                                className="px-1.5 py-0.5 rounded bg-apple-elevated text-slate-300 font-mono text-[10px] border border-apple-border"
-                              >
-                                {r}
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <span className="text-amber-400 font-sans italic">
-                            Requires human manual verification (no reliable automated check)
-                          </span>
-                        )}
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
+        {/* Interactive Criteria Browser */}
+        <WcagCatalogClient criteria={criteriaList} />
       </main>
     </div>
   );
 }
+
