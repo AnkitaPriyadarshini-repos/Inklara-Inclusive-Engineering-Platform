@@ -122,12 +122,12 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap items-center gap-2.5 text-xs">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 font-semibold text-slate-700">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" aria-hidden="true" />
-                <span>Inklara Inclusive Engineering</span>
+                <span>Web Accessibility Testing & Verification</span>
               </span>
               <span className="text-slate-400 hidden sm:inline" aria-hidden="true">•</span>
-              <span className="text-slate-600 font-medium">Continuous Accessibility Verification</span>
+              <span className="text-slate-600 font-medium hidden sm:inline">Continuous CI/CD Quality Gates</span>
               <span className="text-slate-400 hidden sm:inline" aria-hidden="true">•</span>
-              <span className="text-indigo-700 font-mono font-semibold">WCAG 2.2 Level AA Target</span>
+              <span className="text-indigo-700 font-mono font-semibold hidden sm:inline">WCAG 2.2 Level AA Target</span>
             </div>
 
             {/* Headline: Clean, Natural, Editorial Proportions */}
@@ -136,11 +136,12 @@ export default async function DashboardPage() {
                 id="hero-heading"
                 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 leading-[1.08]"
               >
-                A11y Verification Platform
+                Build accessible experiences.
+                <span className="block text-indigo-600">Verify every interaction.</span>
               </h1>
 
               <p className="text-lg sm:text-2xl text-slate-600 font-normal leading-relaxed max-w-3xl">
-                Your comprehensive solution for web application accessibility testing and report generation. Combine browser-isolated automated scans with structured human evaluation.
+                The comprehensive platform for web application accessibility testing and report generation. Combine browser-isolated automated scans with structured human evaluation and deterministic regression verification.
               </p>
             </div>
 
@@ -172,11 +173,11 @@ export default async function DashboardPage() {
               </Link>
             </div>
 
-            {/* Genuine High-Fidelity Product Screenshot / Inspection Window */}
+            {/* Genuine High-Fidelity Product Inspection Window */}
             <div className="pt-6">
               <div className="rounded-2xl border border-slate-200/90 bg-white shadow-2xl overflow-hidden">
                 {/* Browser Window Header */}
-                <div className="px-4 py-3 bg-slate-100/80 border-b border-slate-200 flex items-center justify-between text-xs">
+                <div className="px-4 py-3 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1.5" aria-hidden="true">
                       <div className="w-3 h-3 rounded-full bg-slate-300" />
@@ -189,8 +190,11 @@ export default async function DashboardPage() {
                       <span className="text-slate-600">/audits/enterprise-checkout</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-slate-600 text-xs">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-semibold">
+                  <div className="flex items-center gap-3 text-xs">
+                    <span className="hidden sm:inline-block text-slate-600 font-mono text-[11px]">
+                      axe-core 4.10.2 • Playwright Engine
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-semibold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       Live Verified Audit
                     </span>
@@ -198,27 +202,30 @@ export default async function DashboardPage() {
                 </div>
 
                 {/* Product Interface Body */}
-                <div className="p-6 sm:p-8 bg-slate-50/50 space-y-6">
+                <div className="p-5 sm:p-7 bg-slate-50/40 space-y-5">
                   {/* Top Audit Header Metrics */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-bold text-slate-900">
+                    <div className="space-y-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-base sm:text-lg font-bold text-slate-900">
                           Enterprise Design System Benchmark
                         </h2>
                         <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                           WCAG 2.2 AA
                         </span>
+                        <span className="px-2 py-0.5 rounded text-[11px] font-mono text-slate-600 bg-slate-100 border border-slate-200">
+                          Run #482
+                        </span>
                       </div>
-                      <p className="text-xs text-slate-600 mt-1">
-                        Audited target: <code className="font-mono text-slate-700">http://localhost:3000/demo/inaccessible</code> • Sandboxed axe-core 4.10.2
+                      <p className="text-xs text-slate-600">
+                        Audited target: <code className="font-mono text-slate-700">http://localhost:3000/demo/inaccessible</code> • 52 rules evaluated
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 sm:gap-6 shrink-0">
                       <div className="text-right">
                         <span className="text-xs text-slate-600 block">Compliance Score</span>
-                        <span className="text-2xl font-black text-slate-900">92%</span>
+                        <span className="text-2xl font-black text-slate-900">94%</span>
                       </div>
                       <div className="h-8 w-px bg-slate-200" aria-hidden="true" />
                       <div className="text-right">
@@ -230,65 +237,130 @@ export default async function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Findings Matrix Preview */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Item 1 */}
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
-                          Critical
-                        </span>
-                        <span className="text-[11px] font-mono text-slate-600">WCAG 1.1.1</span>
+                  {/* Dual-Column Workbench Workspace Preview */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    {/* Left Column: Categorized Findings Index */}
+                    <div className="lg:col-span-5 space-y-2.5">
+                      <div className="flex items-center justify-between text-xs font-bold text-slate-700 px-1">
+                        <span>Detected Accessibility Findings (3)</span>
+                        <span className="text-indigo-600 font-semibold text-[11px]">Filtered: Critical & Serious</span>
                       </div>
-                      <h3 className="text-sm font-bold text-slate-900 leading-snug">
-                        Images must have alternate text
-                      </h3>
-                      <div className="p-2.5 bg-slate-50 rounded-lg text-xs font-mono text-slate-700 border border-slate-200 truncate">
-                        img.hero-product
+
+                      {/* Finding Card 1 (Active Selected) */}
+                      <div className="bg-white p-3.5 rounded-xl border-2 border-indigo-600 shadow-xs space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                            Serious
+                          </span>
+                          <span className="text-[11px] font-mono text-slate-600 font-semibold">WCAG 1.4.3</span>
+                        </div>
+                        <h3 className="text-xs font-bold text-slate-900 leading-snug">
+                          Elements must meet minimum color contrast ratio
+                        </h3>
+                        <div className="p-2 bg-slate-50 rounded text-[11px] font-mono text-slate-700 border border-slate-200 truncate">
+                          p.checkout-disclaimer (2.34:1)
+                        </div>
+                        <div className="text-[11px] text-emerald-800 font-semibold flex items-center gap-1.5 pt-0.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Remediation patch verified (7.12:1)</span>
+                        </div>
                       </div>
-                      <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1.5 pt-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Remediation Patch Ready</span>
+
+                      {/* Finding Card 2 */}
+                      <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                            Critical
+                          </span>
+                          <span className="text-[11px] font-mono text-slate-600 font-semibold">WCAG 1.1.1</span>
+                        </div>
+                        <h3 className="text-xs font-bold text-slate-900 leading-snug">
+                          Images must have alternate text
+                        </h3>
+                        <div className="p-2 bg-slate-50 rounded text-[11px] font-mono text-slate-700 border border-slate-200 truncate">
+                          img.hero-product
+                        </div>
+                        <div className="text-[11px] text-emerald-800 font-semibold flex items-center gap-1.5 pt-0.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Descriptive alt tag applied</span>
+                        </div>
+                      </div>
+
+                      {/* Finding Card 3 */}
+                      <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                            Verified
+                          </span>
+                          <span className="text-[11px] font-mono text-slate-600 font-semibold">WCAG 2.4.7</span>
+                        </div>
+                        <h3 className="text-xs font-bold text-slate-900 leading-snug">
+                          Keyboard focus indicator visible
+                        </h3>
+                        <div className="p-2 bg-slate-50 rounded text-[11px] font-mono text-slate-700 border border-slate-200 truncate">
+                          button.primary-checkout:focus-visible
+                        </div>
+                        <div className="text-[11px] text-slate-600 font-medium flex items-center gap-1.5 pt-0.5">
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>2px solid outline ring confirmed</span>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Item 2 */}
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
-                          Serious
-                        </span>
-                        <span className="text-[11px] font-mono text-slate-600">WCAG 1.4.3</span>
-                      </div>
-                      <h3 className="text-sm font-bold text-slate-900 leading-snug">
-                        Elements must meet contrast minimum
-                      </h3>
-                      <div className="p-2.5 bg-slate-50 rounded-lg text-xs font-mono text-slate-700 border border-slate-200 truncate">
-                        p.checkout-disclaimer (2.3:1)
-                      </div>
-                      <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1.5 pt-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Color Token Remediated (11.2:1)</span>
-                      </div>
-                    </div>
+                    {/* Right Column: Finding Diagnostic Math & Live Code Diff */}
+                    <div className="lg:col-span-7 bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4 flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                          <div>
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 block">
+                              Active Diagnostic & Code Patch
+                            </span>
+                            <span className="text-sm font-bold text-slate-900">
+                              WCAG 1.4.3 — Contrast (Minimum) Resolution
+                            </span>
+                          </div>
+                          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                            Zero Regressions
+                          </span>
+                        </div>
 
-                    {/* Item 3 */}
-                    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                          Verified
+                        {/* Computed Math Comparison */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="p-3 bg-rose-50/70 rounded-lg border border-rose-200 text-center">
+                            <span className="text-[10px] font-bold text-rose-800 uppercase block">Measured Ratio</span>
+                            <span className="text-xl font-black text-rose-900">2.34 : 1</span>
+                            <span className="text-[10px] text-rose-700 block mt-0.5">Deficient by 2.16</span>
+                          </div>
+                          <div className="p-3 bg-emerald-50/70 rounded-lg border border-emerald-200 text-center">
+                            <span className="text-[10px] font-bold text-emerald-800 uppercase block">Verified Patch Ratio</span>
+                            <span className="text-xl font-black text-emerald-900">7.12 : 1</span>
+                            <span className="text-[10px] text-emerald-700 block mt-0.5">Exceeds AA (4.5:1) & AAA</span>
+                          </div>
+                        </div>
+
+                        {/* Live Code Patch Diff */}
+                        <div className="rounded-lg bg-slate-900 p-4 font-mono text-xs text-slate-200 space-y-1.5 border border-slate-800 shadow-inner overflow-x-auto">
+                          <div className="text-slate-400 text-[11px]">{"// Suggested Source Code Correction"}</div>
+                          <div className="text-rose-400 bg-rose-950/40 px-2 py-0.5 rounded">
+                            - &lt;p className=&quot;checkout-disclaimer text-slate-400&quot;&gt;
+                          </div>
+                          <div className="text-emerald-300 bg-emerald-950/40 px-2 py-0.5 rounded font-semibold">
+                            + &lt;p className=&quot;checkout-disclaimer text-slate-700 font-medium&quot;&gt;
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-slate-600 leading-relaxed">
+                          Increasing the foreground text contrast token resolves the defect with zero layout shift, preserving full design fidelity across all supported display profiles.
+                        </p>
+                      </div>
+
+                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span className="text-slate-600 font-mono text-[11px]">
+                          SHA-256: 7f83b165...e92a
                         </span>
-                        <span className="text-[11px] font-mono text-slate-600">WCAG 2.4.7</span>
-                      </div>
-                      <h3 className="text-sm font-bold text-slate-900 leading-snug">
-                        Keyboard focus visible indicator
-                      </h3>
-                      <div className="p-2.5 bg-slate-50 rounded-lg text-xs font-mono text-slate-700 border border-slate-200 truncate">
-                        :focus-visible ring verified
-                      </div>
-                      <div className="text-xs text-slate-600 font-medium flex items-center gap-1.5 pt-1">
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Zero Regressions Detected</span>
+                        <span className="font-semibold text-indigo-600 hover:text-indigo-800 cursor-pointer">
+                          Inspect in Live Workbench →
+                        </span>
                       </div>
                     </div>
                   </div>
