@@ -95,7 +95,7 @@ export default function FixturesPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <span className="px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-950 text-emerald-300 border border-emerald-800">
-                    Target B — Remediated &amp; Verified
+                    Target B — Remediated & Verified
                   </span>
                   <h2 className="text-lg font-bold text-white mt-2">
                     E-Commerce Portal Remediated
@@ -178,7 +178,7 @@ export default function FixturesPage() {
 
               <ul className="text-xs text-slate-300 space-y-2 list-disc list-inside">
                 <li>
-                  <strong>Dialog &amp; Focus:</strong> <code className="text-blue-300">role=&quot;dialog&quot;</code> with trapped tab navigation &amp; Escape key dismiss
+                  <strong>Dialog & Focus:</strong> <code className="text-blue-300">role=&quot;dialog&quot;</code> with trapped tab navigation & Escape key dismiss
                 </li>
                 <li>
                   <strong>Live Regions:</strong> <code className="text-blue-300">aria-live=&quot;polite&quot;</code> shopping cart status announcement

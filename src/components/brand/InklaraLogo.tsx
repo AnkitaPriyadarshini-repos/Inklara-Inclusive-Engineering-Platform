@@ -5,12 +5,14 @@ interface InklaraLogoProps {
   className?: string;
   size?: "sm" | "md" | "lg";
   withTagline?: boolean;
+  theme?: "light" | "dark"; // "dark" = dark text on light background; "light" = white text on dark background
 }
 
 export function InklaraLogo({
   className = "",
   size = "md",
   withTagline = true,
+  theme = "dark",
 }: InklaraLogoProps) {
   const symbolSizes = {
     sm: "w-7 h-7",
@@ -30,18 +32,27 @@ export function InklaraLogo({
     lg: "text-xs",
   };
 
+  const isLightText = theme === "light";
+
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <InklaraSymbol className={`${symbolSizes[size]} shrink-0`} />
+      <InklaraSymbol
+        className={`${symbolSizes[size]} shrink-0`}
+        variant={isLightText ? "light" : "dark"}
+      />
       <div className="flex flex-col">
         <span
-          className={`font-semibold tracking-tight text-white leading-none ${titleSizes[size]}`}
+          className={`font-bold tracking-tight leading-none ${
+            isLightText ? "text-white" : "text-slate-900"
+          } ${titleSizes[size]}`}
         >
           Inklara
         </span>
         {withTagline && (
           <span
-            className={`text-slate-400 font-normal tracking-normal mt-1 leading-none ${taglineSizes[size]}`}
+            className={`font-medium tracking-normal mt-1 leading-none ${
+              isLightText ? "text-slate-200" : "text-slate-700"
+            } ${taglineSizes[size]}`}
           >
             Inclusive Engineering
           </span>

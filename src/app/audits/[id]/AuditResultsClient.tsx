@@ -323,7 +323,7 @@ export function AuditResultsClient({
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded-lg transition-colors focus-visible:ring-2 focus-visible:ring-apple-focus"
             >
               <Printer className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>Audit Report &amp; PDF</span>
+              <span>Audit Report & PDF</span>
             </Link>
 
             <button
@@ -819,7 +819,7 @@ export function AuditResultsClient({
                         {/* Notes input */}
                         <div>
                           <label className="block text-[11px] font-semibold text-apple-muted mb-1">
-                            Evaluator Notes &amp; Observations:
+                            Evaluator Notes & Observations:
                           </label>
                           <textarea
                             rows={2}

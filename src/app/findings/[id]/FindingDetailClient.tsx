@@ -259,7 +259,7 @@ export function FindingDetailClient({
 
             <div>
               <h3 className="text-xs font-semibold text-white mb-1">
-                Design &amp; Engineering Trade-offs:
+                Design & Engineering Trade-offs:
               </h3>
               <p className="text-xs text-apple-muted leading-relaxed">
                 {guidance.tradeoffs}
@@ -471,7 +471,7 @@ export function FindingDetailClient({
                 ) : (
                   <>
                     <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Re-test &amp; Verify Fix</span>
+                    <span>Re-test & Verify Fix</span>
                   </>
                 )}
               </button>

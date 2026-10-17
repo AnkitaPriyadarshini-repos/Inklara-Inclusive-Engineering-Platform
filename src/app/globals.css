@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #090a0f;
-  --foreground: #f1f3f9;
-  --surface: #12141c;
-  --surface-elevated: #1a1d28;
-  --border: #272b3b;
-  --border-focus: #38bdf8;
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --surface: #f8fafc;
+  --surface-elevated: #f1f5f9;
+  --border: #e2e8f0;
+  --border-focus: #4f46e5;
   --accent: #2563eb;
-  --text-muted: #9ba3b8;
+  --text-muted: #64748b;
 }
 
 @layer base {
@@ -29,7 +29,7 @@
 
   /* Universal high-contrast, WCAG 2.4.11 compliant focus visible indicator */
   :focus-visible {
-    outline: 2px solid #38bdf8 !important;
+    outline: 2px solid #4f46e5 !important;
     outline-offset: 2px !important;
   }
 }

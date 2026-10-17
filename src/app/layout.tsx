@@ -45,9 +45,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#090b14" />
+        <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="min-h-screen bg-apple-canvas text-apple-text antialiased selection:bg-indigo-600 selection:text-white">
+      <body className="min-h-screen bg-white text-slate-900 antialiased selection:bg-indigo-600 selection:text-white">
         {children}
       </body>
     </html>

@@ -88,11 +88,11 @@ export function ScreenReaderClient({
                 Screen Reader Testing Workbench
               </span>
               <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-apple-elevated text-apple-muted border border-apple-border">
-                Screen Reader &amp; VoiceOver Protocol
+                Screen Reader & VoiceOver Protocol
               </span>
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">
-              Screen Reader Scenario Runner &amp; Announcement Timeline
+              Screen Reader Scenario Runner & Announcement Timeline
             </h1>
             <p className="text-xs text-apple-muted mt-1 max-w-3xl">
               Inspects live DOM elements against expected screen reader behavior, evaluates computed Accessibility Tree nodes, and sequences chronological speech announcements.
@@ -294,7 +294,7 @@ export function ScreenReaderClient({
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-                  <span>Evaluating Live DOM &amp; Accessibility Tree...</span>
+                  <span>Evaluating Live DOM & Accessibility Tree...</span>
                 </>
               ) : (
                 <>

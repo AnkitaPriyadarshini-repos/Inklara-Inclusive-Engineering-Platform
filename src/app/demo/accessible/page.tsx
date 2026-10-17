@@ -97,7 +97,7 @@ export default function AccessibleDemoPage() {
         {/* 6. Media & Actions with Full Accessible Names */}
         <section aria-labelledby="security-heading" className="mb-8 p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
           <h2 id="security-heading" className="text-xl font-bold text-slate-900 mb-4">
-            Security &amp; Assistance
+            Security & Assistance
           </h2>
 
           {/* Descriptive Image Alt Attribute */}
@@ -147,7 +147,7 @@ export default function AccessibleDemoPage() {
                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
               </svg>
-              <span>Customer Support &amp; Refund Policy</span>
+              <span>Customer Support & Refund Policy</span>
             </a>
           </div>
         </section>

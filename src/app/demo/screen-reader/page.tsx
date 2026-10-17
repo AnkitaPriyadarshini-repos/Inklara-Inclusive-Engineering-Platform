@@ -50,7 +50,7 @@ export default function ScreenReaderDemoFixturePage() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[11px] text-blue-400 font-bold uppercase tracking-wider">
-                Scenario 1 — Dialogs &amp; Focus Trapping
+                Scenario 1 — Dialogs & Focus Trapping
               </span>
               <h2 id="sec-modal-heading" className="text-base font-bold text-white mt-0.5">
                 Modal Dialog Pattern
@@ -106,7 +106,7 @@ export default function ScreenReaderDemoFixturePage() {
                     onClick={() => setIsModalOpen(false)}
                     className="px-3 py-1.5 text-xs text-white bg-blue-600 hover:bg-blue-500 rounded-md focus-visible:ring-2 focus-visible:ring-blue-400"
                   >
-                    Confirm &amp; Dismiss
+                    Confirm & Dismiss
                   </button>
                 </div>
               </div>
@@ -118,10 +118,10 @@ export default function ScreenReaderDemoFixturePage() {
         <section aria-labelledby="sec-form-heading" className="p-6 bg-slate-800/50 border border-slate-700 rounded-xl space-y-4">
           <div>
             <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider">
-              Scenario 2 — Forms &amp; Error Identification
+              Scenario 2 — Forms & Error Identification
             </span>
             <h2 id="sec-form-heading" className="text-base font-bold text-white mt-0.5">
-              Live Error Announcement &amp; aria-invalid
+              Live Error Announcement & aria-invalid
             </h2>
           </div>
 
@@ -237,7 +237,7 @@ export default function ScreenReaderDemoFixturePage() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
-                Scenario 5 — Controls &amp; Buttons
+                Scenario 5 — Controls & Buttons
               </span>
               <h2 id="sec-icon-heading" className="text-base font-bold text-white mt-0.5">
                 Icon-Only Action Button
@@ -265,7 +265,7 @@ export default function ScreenReaderDemoFixturePage() {
               Scenario 6 — WAI-ARIA Tabs Pattern
             </span>
             <h2 id="sec-tabs-heading" className="text-base font-bold text-white mt-0.5">
-              Accessible Tablist &amp; Panels
+              Accessible Tablist & Panels
             </h2>
           </div>
 
@@ -336,7 +336,7 @@ export default function ScreenReaderDemoFixturePage() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[11px] text-emerald-400 font-bold uppercase tracking-wider">
-                Scenario 7 — Controls &amp; Switches
+                Scenario 7 — Controls & Switches
               </span>
               <h2 id="sec-switch-heading" className="text-base font-bold text-white mt-0.5">
                 Toggle Switch Widget

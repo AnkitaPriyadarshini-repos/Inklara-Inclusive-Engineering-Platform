@@ -412,7 +412,7 @@ export function ShowcaseClient() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 pb-6 border-b border-apple-border/80">
           <div className="max-w-3xl space-y-3">
             <div className="mb-2">
-              <InklaraLogo size="lg" />
+              <InklaraLogo size="lg" theme="light" />
             </div>
             <h1
               id="showcase-hero-heading"
@@ -499,7 +499,7 @@ export function ShowcaseClient() {
           <div className="p-3 bg-apple-surface border border-apple-border rounded-xl">
             <span className="text-apple-muted block text-[11px]">Screen Reader</span>
             <span className="text-base font-bold text-white mt-0.5 block">7 Scenarios</span>
-            <span className="text-[10px] text-purple-400">Timeline &amp; Tree Node</span>
+            <span className="text-[10px] text-purple-400">Timeline & Tree Node</span>
           </div>
 
           <div className="p-3 bg-apple-surface border border-apple-border rounded-xl">
@@ -511,7 +511,7 @@ export function ShowcaseClient() {
           <div className="p-3 bg-apple-surface border border-apple-border rounded-xl">
             <span className="text-apple-muted block text-[11px]">TypeScript Safety</span>
             <span className="text-base font-bold text-white mt-0.5 block">100% Strict</span>
-            <span className="text-[10px] text-cyan-400">0 Errors (tsc &amp; lint)</span>
+            <span className="text-[10px] text-cyan-400">0 Errors (tsc & lint)</span>
           </div>
         </div>
       </section>
@@ -567,10 +567,10 @@ export function ShowcaseClient() {
               <div className="flex items-start justify-between">
                 <div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950 text-blue-300 border border-blue-800 uppercase">
-                    Full-Stack Architecture &amp; Data Pipeline
+                    Full-Stack Architecture & Data Pipeline
                   </span>
                   <h3 className="text-base font-bold text-white mt-1">
-                    End-to-End Type Safety, Dual-Database Engine &amp; SSRF Defense Layer
+                    End-to-End Type Safety, Dual-Database Engine & SSRF Defense Layer
                   </h3>
                 </div>
               </div>
@@ -579,7 +579,7 @@ export function ShowcaseClient() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div className="p-3 bg-apple-elevated/60 border border-apple-border rounded-lg">
-                  <span className="font-semibold text-white block mb-1">REST API &amp; Zod Validation</span>
+                  <span className="font-semibold text-white block mb-1">REST API & Zod Validation</span>
                   <span className="text-apple-muted text-[11px]">Strict runtime schema validation on all inputs; zero unchecked `any` casts.</span>
                 </div>
                 <div className="p-3 bg-apple-elevated/60 border border-apple-border rounded-lg">
@@ -599,10 +599,10 @@ export function ShowcaseClient() {
               <div className="flex items-start justify-between">
                 <div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-950 text-indigo-300 border border-indigo-800 uppercase">
-                    Design Systems &amp; Ergonomic UX
+                    Design Systems & Ergonomic UX
                   </span>
                   <h3 className="text-base font-bold text-white mt-1">
-                    Dark Design Tokens, Focus Trapping, 320px Reflow &amp; Print Optimization
+                    Dark Design Tokens, Focus Trapping, 320px Reflow & Print Optimization
                   </h3>
                 </div>
               </div>
@@ -615,7 +615,7 @@ export function ShowcaseClient() {
                   <span className="text-apple-muted text-[11px]">Explicit focus rings on all interactive elements; high contrast over dark surfaces.</span>
                 </div>
                 <div className="p-3 bg-apple-elevated/60 border border-apple-border rounded-lg">
-                  <span className="font-semibold text-white block mb-1">Focus Trapping &amp; Dismissal</span>
+                  <span className="font-semibold text-white block mb-1">Focus Trapping & Dismissal</span>
                   <span className="text-apple-muted text-[11px]">Modal traps keyboard Tab navigation within dialog and restores focus on Escape.</span>
                 </div>
                 <div className="p-3 bg-apple-elevated/60 border border-apple-border rounded-lg">
@@ -631,10 +631,10 @@ export function ShowcaseClient() {
               <div className="flex items-start justify-between">
                 <div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-950 text-purple-300 border border-purple-800 uppercase">
-                    Accessibility Engineering &amp; AT Evaluation
+                    Accessibility Engineering & AT Evaluation
                   </span>
                   <h3 className="text-base font-bold text-white mt-1">
-                    Screen-Reader Announcement Timeline, 13-Point WCAG-EM &amp; Honest Boundaries
+                    Screen-Reader Announcement Timeline, 13-Point WCAG-EM & Honest Boundaries
                   </h3>
                 </div>
               </div>
@@ -663,10 +663,10 @@ export function ShowcaseClient() {
               <div className="flex items-start justify-between">
                 <div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-800 uppercase">
-                    Test Automation &amp; Platform Quality
+                    Test Automation & Platform Quality
                   </span>
                   <h3 className="text-base font-bold text-white mt-1">
-                    Playwright E2E Isolation, SHA-256 Fingerprinting &amp; Zero-Flake CI
+                    Playwright E2E Isolation, SHA-256 Fingerprinting & Zero-Flake CI
                   </h3>
                 </div>
               </div>
@@ -802,7 +802,7 @@ export function ShowcaseClient() {
                 Stage 1 of 5
               </span>
               <h3 className="text-lg font-bold text-white mt-1">
-                Configure Audit Scope &amp; Target Environment
+                Configure Audit Scope & Target Environment
               </h3>
               <p className="text-xs text-apple-muted mt-1">
                 Choose a pre-configured local benchmark target to analyze. No external API keys or third-party web access required.
@@ -939,7 +939,7 @@ export function ShowcaseClient() {
                   <span className="font-semibold text-white">1. SSRF Guardrail</span>
                 </div>
                 <span className="text-[11px] text-apple-muted">
-                  Pre-resolves DNS and rejects private RFC 1918 &amp; cloud metadata CIDRs.
+                  Pre-resolves DNS and rejects private RFC 1918 & cloud metadata CIDRs.
                 </span>
               </div>
 
@@ -1199,7 +1199,7 @@ export function ShowcaseClient() {
                 Stage 4 of 5
               </span>
               <h3 className="text-lg font-bold text-white mt-1">
-                Actionable Remediation &amp; Live Fix Verification
+                Actionable Remediation & Live Fix Verification
               </h3>
               <p className="text-xs text-apple-muted mt-0.5">
                 Inspect side-by-side Before/After code snippets, understand engineering trade-offs, and run the verification engine to confirm issue resolution.
@@ -1312,7 +1312,7 @@ export function ShowcaseClient() {
                     </div>
 
                     <div className="p-4 bg-apple-surface border border-apple-border rounded-xl space-y-1">
-                      <span className="font-bold text-white block">Engineering &amp; Design Trade-offs</span>
+                      <span className="font-bold text-white block">Engineering & Design Trade-offs</span>
                       <p className="text-apple-muted leading-relaxed">
                         {activeGuidance.tradeoffs}
                       </p>
@@ -1498,7 +1498,7 @@ export function ShowcaseClient() {
             {/* Non-Certification Legal Disclaimer */}
             <div className="p-4 bg-apple-canvas border border-apple-border rounded-xl text-[11px] text-apple-muted space-y-1">
               <span className="font-bold text-slate-300 block">
-                Accessibility Evaluation Notice &amp; Scope Limitations
+                Accessibility Evaluation Notice & Scope Limitations
               </span>
               <p className="leading-relaxed">
                 Automated accessibility testing with axe-core reliably detects approximately 30–40% of WCAG success criteria. An automated audit reporting zero violations does not certify full conformance. Formal digital accessibility compliance requires human expert evaluation using assistive technologies (VoiceOver, NVDA, JAWS), keyboard-only navigation protocols, cognitive evaluations, and color reflow testing.
@@ -1611,7 +1611,7 @@ export function ShowcaseClient() {
                 </span>
               </div>
               <h3 className="font-bold text-white text-sm group-hover:text-indigo-300 transition-colors">
-                Projects &amp; Target Environments
+                Projects & Target Environments
               </h3>
               <p className="text-apple-muted mt-1 leading-relaxed">
                 Organize digital properties by project, configure multi-environment targets (Production, Staging, Dev), and manage audit run cadence.
@@ -1636,7 +1636,7 @@ export function ShowcaseClient() {
                 </span>
               </div>
               <h3 className="font-bold text-white text-sm group-hover:text-amber-300 transition-colors">
-                Audit Runs &amp; Regression History
+                Audit Runs & Regression History
               </h3>
               <p className="text-apple-muted mt-1 leading-relaxed">
                 Review historical audit execution runs, inspect baseline comparison metrics, and generate printable compliance reports.
@@ -1681,7 +1681,7 @@ export function ShowcaseClient() {
           <div className="flex items-center gap-2">
             <Lock className="w-5 h-5 text-red-400" aria-hidden="true" />
             <h2 id="architecture-heading" className="text-xl font-bold text-white">
-              System Architecture &amp; Threat Model
+              System Architecture & Threat Model
             </h2>
           </div>
           <p className="text-xs text-apple-muted mt-1">
@@ -1719,7 +1719,7 @@ export function ShowcaseClient() {
           <div className="p-5 bg-apple-surface border border-apple-border rounded-xl space-y-3">
             <div className="flex items-center gap-2">
               <Cpu className="w-4 h-4 text-blue-400" aria-hidden="true" />
-              <h3 className="font-bold text-white text-sm">Playwright Isolation &amp; XSS Defense</h3>
+              <h3 className="font-bold text-white text-sm">Playwright Isolation & XSS Defense</h3>
             </div>
             <ul className="space-y-2 text-slate-300 list-disc list-inside">
               <li>
@@ -1748,7 +1748,7 @@ export function ShowcaseClient() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-950 text-indigo-300 border border-indigo-800 uppercase">
-                Design Reference &amp; Heritage
+                Design Reference & Heritage
               </span>
               <h3 id="attribution-heading" className="text-base font-bold text-white mt-1">
                 Inspiration from the Snowdog Accessibility Audit Tool
@@ -1799,12 +1799,12 @@ export function ShowcaseClient() {
                 <tr>
                   <td className="px-4 py-2.5 font-semibold text-white">Assistive Tech Testing</td>
                   <td className="px-4 py-2.5 text-apple-muted">Guided manual screen reader testing steps</td>
-                  <td className="px-4 py-2.5 text-emerald-400 font-medium">Dedicated Screen-Reader Workbench with event timeline &amp; tree node</td>
+                  <td className="px-4 py-2.5 text-emerald-400 font-medium">Dedicated Screen-Reader Workbench with event timeline & tree node</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-2.5 font-semibold text-white">Server Scanning Security</td>
                   <td className="px-4 py-2.5 text-apple-muted">Standard local execution</td>
-                  <td className="px-4 py-2.5 text-emerald-400 font-medium">Multi-tier SSRF DNS resolution, IP CIDR filtering &amp; fail-closed</td>
+                  <td className="px-4 py-2.5 text-emerald-400 font-medium">Multi-tier SSRF DNS resolution, IP CIDR filtering & fail-closed</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-2.5 font-semibold text-white">Fix Verification</td>
@@ -1862,7 +1862,7 @@ export function ShowcaseClient() {
             <span className="text-[10px] text-emerald-400 font-bold uppercase block">Gate 4</span>
             <span className="font-bold text-white block">WCAG Automated</span>
             <span className="text-emerald-400 text-[11px] font-semibold">9 / 9 Passed</span>
-            <span className="text-apple-muted text-[10px] block">axe-core &amp; reflow</span>
+            <span className="text-apple-muted text-[10px] block">axe-core & reflow</span>
           </div>
 
           <div className="p-3 bg-apple-surface border border-emerald-900/60 rounded-xl space-y-1">
@@ -1876,7 +1876,7 @@ export function ShowcaseClient() {
             <span className="text-[10px] text-emerald-400 font-bold uppercase block">Gate 6</span>
             <span className="font-bold text-white block">Next.js 15 Build</span>
             <span className="text-emerald-400 text-[11px] font-semibold">14 Routes</span>
-            <span className="text-apple-muted text-[10px] block">Static &amp; dynamic</span>
+            <span className="text-apple-muted text-[10px] block">Static & dynamic</span>
           </div>
         </div>
 
