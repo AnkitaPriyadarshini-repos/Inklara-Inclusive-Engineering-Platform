@@ -18,22 +18,20 @@ export function DashboardClient({ projects }: DashboardClientProps) {
   const [newProjectName, setNewProjectName] = useState("");
   const [newProjectDesc, setNewProjectDesc] = useState("");
   const [newRepoUrl, setNewRepoUrl] = useState("");
-  const [isSeeding, setIsSeeding] = useState(false);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
 
-  const handleSeedDemo = async () => {
-    setIsSeeding(true);
-    try {
-      const res = await fetch("/api/seed", { method: "POST" });
-      if (res.ok) {
-        router.refresh();
-      }
-    } catch {
-      // Fallback
-    } finally {
-      setIsSeeding(false);
-    }
-  };
+  React.useEffect(() => {
+    const handleOpenAudit = () => setIsAuditModalOpen(true);
+    const handleOpenProject = () => setIsProjectModalOpen(true);
+
+    window.addEventListener("inklara:open-audit", handleOpenAudit);
+    window.addEventListener("inklara:open-project", handleOpenProject);
+
+    return () => {
+      window.removeEventListener("inklara:open-audit", handleOpenAudit);
+      window.removeEventListener("inklara:open-project", handleOpenProject);
+    };
+  }, []);
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,44 +66,6 @@ export function DashboardClient({ projects }: DashboardClientProps) {
   return (
     <>
       <Navbar onOpenAuditModal={() => setIsAuditModalOpen(true)} />
-
-      {/* Action banner / top controls */}
-      <div className="bg-apple-surface/50 border-b border-apple-border/70 py-2.5 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-apple-muted">Inklara Engine: Active</span>
-            <span className="text-apple-border">•</span>
-            <span className="text-apple-muted">Playwright Chromium Sandboxed</span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleSeedDemo}
-              disabled={isSeeding}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-slate-300 hover:text-white bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded transition-colors focus-visible:ring-1 focus-visible:ring-apple-focus"
-              title="Initialize standard benchmark project and local fixtures"
-            >
-              {isSeeding ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
-              ) : (
-                <Sparkles className="w-3.5 h-3.5 text-blue-400" aria-hidden="true" />
-              )}
-              <span>{isSeeding ? "Seeding..." : "Seed Benchmark Fixtures"}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsProjectModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-slate-300 hover:text-white bg-apple-elevated hover:bg-apple-subtle border border-apple-border rounded transition-colors focus-visible:ring-1 focus-visible:ring-apple-focus"
-            >
-              <Plus className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>New Project</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Run Audit Modal */}
       <RunAuditModal
