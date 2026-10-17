@@ -29,6 +29,9 @@ prisma/dev.db
 prisma/dev.db-journal
 
 # Vercel
+# Artifacts & Screenshots
+/screenshots/
+
 .vercel
 
 # TypeScript

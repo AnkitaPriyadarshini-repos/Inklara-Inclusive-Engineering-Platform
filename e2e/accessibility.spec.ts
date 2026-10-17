@@ -172,7 +172,7 @@ test.describe("Inklara — Accessibility Compliance & Automated WCAG Audit", () 
     });
 
     // Verify findings are displayed and click "Remediate" on first finding
-    const remediateBtn = page.locator("button:has-text('Remediate')").first();
+    const remediateBtn = page.getByRole("button", { name: /^Remediate$/ }).first();
     await expect(remediateBtn).toBeVisible();
     await remediateBtn.click();
 

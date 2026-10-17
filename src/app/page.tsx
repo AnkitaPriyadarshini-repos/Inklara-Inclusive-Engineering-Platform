@@ -798,21 +798,21 @@ export default async function DashboardPage() {
         {/* ========================================================= */}
         {/* 7. HOW INKLARA WORKS: Large Interactive Demonstration     */}
         {/* ========================================================= */}
-        <section aria-labelledby="walkthrough-heading" className="px-4 sm:px-6 lg:px-8">
+        <section id="walkthrough" aria-labelledby="walkthrough-heading" className="px-4 sm:px-6 lg:px-8 scroll-mt-24">
           <div className="max-w-6xl mx-auto space-y-8">
             <div className="text-center space-y-3">
               <h2
                 id="walkthrough-heading"
                 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900"
               >
-                How Inklara Works
+                See how Inklara works
               </h2>
-              <p className="text-base text-slate-600 max-w-2xl mx-auto">
-                The 5-stage accessibility verification pipeline: Discover programmatic barriers, inspect mathematical evidence, apply code remedies, verify persistence, and generate compliance reports.
+              <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                Follow an accessibility issue from its initial discovery through investigation, remediation, verification, and reporting.
               </p>
             </div>
 
-            {/* Redesigned Clean Interactive Walkthrough */}
+            {/* Polished, Product-Led Interactive Walkthrough */}
             <AnimatedProductDemo />
           </div>
         </section>
