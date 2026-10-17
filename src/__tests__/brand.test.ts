@@ -42,4 +42,13 @@ describe("Inklara Brand Identity & Design System Assets", () => {
     expect(specContent).toContain("#6366f1"); // Primary Brand Indigo
     expect(specContent).toContain("#10b981"); // Verification Emerald
   });
+
+  it("ensures editorial hero preview assets (SVG and PNG) exist for documentation and showcase", () => {
+    const previewSvg = path.join(rootDir, "public", "brand", "inklara-preview.svg");
+    const previewPng = path.join(rootDir, "public", "brand", "inklara-preview.png");
+    expect(fs.existsSync(previewSvg)).toBe(true);
+    expect(fs.existsSync(previewPng)).toBe(true);
+    expect(fs.statSync(previewPng).size).toBeGreaterThan(10000);
+  });
 });
+

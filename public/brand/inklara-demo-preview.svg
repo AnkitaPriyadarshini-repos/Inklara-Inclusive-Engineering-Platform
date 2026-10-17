@@ -1,307 +1,260 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" width="100%" height="100%" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" fill="none">
   <defs>
-    <!-- Dark Surface & Glow Filters -->
-    <radialGradient id="demo-bg" cx="50%" cy="20%" r="80%">
-      <stop offset="0%" stop-color="#121629" />
-      <stop offset="60%" stop-color="#090b14" />
-      <stop offset="100%" stop-color="#05070e" />
-    </radialGradient>
-
-    <linearGradient id="portal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#818cf8" />
-      <stop offset="50%" stop-color="#6366f1" />
-      <stop offset="100%" stop-color="#4338ca" />
+    <!-- Background Gradient -->
+    <linearGradient id="canvas-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="50%" stop-color="#f1f5f9" />
+      <stop offset="100%" stop-color="#e2e8f0" />
     </linearGradient>
 
-    <linearGradient id="lens-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+    <!-- Brand Gradients -->
+    <linearGradient id="portal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#3730a3" />
+    </linearGradient>
+
+    <linearGradient id="lens-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#a5f3fc" />
+      <stop offset="100%" stop-color="#0369a1" />
     </linearGradient>
 
     <linearGradient id="verify-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981" />
-      <stop offset="100%" stop-color="#34d399" />
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
     </linearGradient>
 
-    <linearGradient id="laser-beam" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0" />
-      <stop offset="30%" stop-color="#6366f1" stop-opacity="0.8" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="70%" stop-color="#10b981" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
-    </linearGradient>
-
-    <filter id="laser-glow" x="-20%" y="-100%" width="140%" height="300%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <!-- Shadows -->
+    <filter id="window-shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="20" stdDeviation="25" flood-color="#0f172a" flood-opacity="0.12" />
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.06" />
     </filter>
 
-    <filter id="check-glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    <filter id="float-shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.14" />
     </filter>
-
-    <style>
-      @keyframes sweepLaser {
-        0% { transform: translateY(0px); opacity: 0; }
-        10% { opacity: 1; }
-        50% { transform: translateY(220px); opacity: 1; }
-        60% { opacity: 0; }
-        100% { transform: translateY(0px); opacity: 0; }
-      }
-
-      @keyframes pulseNode {
-        0%, 100% { transform: scale(1); opacity: 0.8; }
-        50% { transform: scale(1.08); opacity: 1; }
-      }
-
-      @keyframes statusCycle {
-        0%, 35% { opacity: 1; }
-        40%, 95% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-
-      @keyframes verifiedCycle {
-        0%, 40% { opacity: 0; transform: translateY(6px); }
-        45%, 95% { opacity: 1; transform: translateY(0px); }
-        100% { opacity: 0; transform: translateY(6px); }
-      }
-
-      .laser-runner {
-        animation: sweepLaser 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      }
-
-      .pulse-item {
-        animation: pulseNode 3s ease-in-out infinite;
-      }
-
-      .open-badge {
-        animation: statusCycle 10s ease-in-out infinite;
-      }
-
-      .verified-badge {
-        animation: verifiedCycle 10s ease-in-out infinite;
-      }
-    </style>
   </defs>
 
-  <!-- Outer Canvas Frame -->
-  <rect width="920" height="540" rx="16" fill="url(#demo-bg)" stroke="#22283d" stroke-width="2" />
+  <style>
+    .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
 
-  <!-- Window Chrome Bar -->
-  <rect width="920" height="46" rx="16" fill="#0b0e1a" />
-  <rect width="920" height="1" y="46" fill="#22283d" />
-  <circle cx="28" cy="23" r="5" fill="#ef4444" opacity="0.8" />
-  <circle cx="46" cy="23" r="5" fill="#f59e0b" opacity="0.8" />
-  <circle cx="64" cy="23" r="5" fill="#10b981" opacity="0.8" />
+  <!-- Clean Canvas Surface -->
+  <rect width="1200" height="680" fill="url(#canvas-bg)" />
 
-  <!-- Logo in Header -->
-  <g transform="translate(95, 12)">
-    <!-- Small Portal -->
-    <path d="M 6 18 L 6 6 C 6 4.5 7.5 3 9 3 L 18 3 C 19.5 3 21 4.5 21 6 L 21 9" stroke="#818cf8" stroke-width="2" stroke-linecap="round" fill="none" />
-    <path d="M 17 8 A 6 6 0 1 0 11 19" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="20 4" fill="none" />
-    <path d="M 9 13 L 12 16 L 19 8" stroke="#10b981" stroke-width="2" stroke-linecap="round" fill="none" />
-    <text x="28" y="16" font-family="-apple-system, sans-serif" font-size="13" font-weight="800" fill="#ffffff">Inklara</text>
-    <rect x="76" y="5" width="55" height="15" rx="3" fill="#1e1b4b" stroke="#4338ca" />
-    <text x="82" y="16" font-family="-apple-system, sans-serif" font-size="8.5" font-weight="700" fill="#a5b4fc">PLATFORM</text>
+  <!-- Subtle Architectural Grid Pattern -->
+  <g opacity="0.4" stroke="#cbd5e1" stroke-width="0.75" stroke-dasharray="4 8">
+    <line x1="80" y1="0" x2="80" y2="680" />
+    <line x1="280" y1="0" x2="280" y2="680" />
+    <line x1="480" y1="0" x2="480" y2="680" />
+    <line x1="680" y1="0" x2="680" y2="680" />
+    <line x1="880" y1="0" x2="880" y2="680" />
+    <line x1="1080" y1="0" x2="1080" y2="680" />
+    <line x1="0" y1="100" x2="1200" y2="100" />
+    <line x1="0" y1="280" x2="1200" y2="280" />
+    <line x1="0" y1="460" x2="1200" y2="460" />
+    <line x1="0" y1="600" x2="1200" y2="600" />
   </g>
 
-  <!-- URL Address Pill -->
-  <rect x="340" y="10" width="360" height="26" rx="6" fill="#141829" stroke="#262d47" />
-  <circle cx="355" cy="23" r="3" fill="#10b981" />
-  <text x="368" y="27" font-family="monospace" font-size="11" fill="#94a3b8">
-    https://app.inklara.dev/audits/eval-checkout
-  </text>
+  <!-- Top Brand Header Bar -->
+  <g transform="translate(60, 36)">
+    <!-- Architectural Inklara Logo Mark -->
+    <g transform="translate(0, 0)">
+      <rect width="40" height="40" rx="10" fill="#0f172a" />
+      <path d="M 12 30 L 12 12 C 12 9 14 7 17 7 L 25 7 C 28 7 30 9 30 12 L 30 18" stroke="url(#portal-grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M 28 17 A 7 7 0 1 0 19 29" stroke="url(#lens-grad)" stroke-width="2.5" stroke-linecap="round" />
+      <path d="M 15 22 L 20 27 L 31 16" stroke="url(#verify-grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
 
-  <!-- 5-Stage Stepper Ribbon -->
-  <g transform="translate(30, 62)">
-    <rect width="860" height="36" rx="8" fill="#101426" stroke="#1f253d" />
-    <!-- Step 1 -->
-    <text x="30" y="23" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#818cf8">01. DISCOVER</text>
-    <circle cx="118" cy="19" r="2" fill="#6366f1" />
-    <!-- Step 2 -->
-    <text x="145" y="23" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">02. UNDERSTAND</text>
-    <circle cx="260" cy="19" r="2" fill="#38bdf8" />
-    <!-- Step 3 -->
-    <text x="288" y="23" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">03. REMEDIATE</text>
-    <circle cx="395" cy="19" r="2" fill="#64748b" />
-    <!-- Step 4 -->
-    <text x="425" y="23" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#34d399">04. VERIFY</text>
-    <circle cx="505" cy="19" r="2" fill="#10b981" />
-    <!-- Step 5 -->
-    <text x="535" y="23" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#cbd5e1">05. REPORT</text>
-    <!-- Status Ticker -->
-    <rect x="690" y="6" width="155" height="24" rx="5" fill="#064e3b" stroke="#059669" />
-    <circle cx="704" cy="18" r="3.5" fill="#34d399" />
-    <text x="716" y="22" font-family="-apple-system, sans-serif" font-size="10.5" font-weight="700" fill="#a7f3d0">
-      axe-core 4.10 Active
-    </text>
+    <!-- Brand Typography -->
+    <text x="52" y="22" class="font-sans" font-size="19" font-weight="800" fill="#0f172a" letter-spacing="-0.5">Inklara</text>
+    <text x="122" y="22" class="font-sans" font-size="12" font-weight="600" fill="#64748b">• Inclusive Engineering Platform</text>
+    <text x="52" y="37" class="font-sans" font-size="11.5" font-weight="500" fill="#64748b">Continuous WCAG 2.2 AA Verification • Playwright Chromium • axe-core 4.10.2</text>
+
+    <!-- Top Status Badges -->
+    <g transform="translate(740, 6)">
+      <rect width="130" height="26" rx="13" fill="#ecfdf5" stroke="#a7f3d0" />
+      <circle cx="14" cy="13" r="3.5" fill="#10b981" />
+      <text x="24" y="17" class="font-sans" font-size="11" font-weight="700" fill="#065f46">WCAG 2.2 Level AA</text>
+
+      <rect x="140" y="0" width="105" height="26" rx="13" fill="#eef2ff" stroke="#c7d2fe" />
+      <text x="152" y="17" class="font-sans" font-size="11" font-weight="700" fill="#3730a3">Prisma SQLite / PG</text>
+
+      <rect x="255" y="0" width="85" height="26" rx="13" fill="#f8fafc" stroke="#cbd5e1" />
+      <text x="268" y="17" class="font-sans" font-size="11" font-weight="700" fill="#334155">MIT License</text>
+    </g>
   </g>
 
-  <!-- Left Main Workspace: Simulated Audited DOM Viewport -->
-  <g transform="translate(30, 114)">
-    <rect width="520" height="395" rx="10" fill="#0c0e1a" stroke="#1f253d" />
+  <!-- Main Window: Snowdog-Style Clean White/Slate Interface -->
+  <g transform="translate(60, 96)" filter="url(#window-shadow)">
+    <!-- Main Window Background -->
+    <rect width="1080" height="520" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
 
-    <!-- Simulated DOM Header -->
-    <rect width="520" height="34" rx="10" fill="#141829" />
-    <rect width="520" height="1" y="34" fill="#1f253d" />
-    <text x="18" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="600" fill="#cbd5e1">
-      DOM Target: Checkout Review Portal (WCAG Benchmark)
-    </text>
-    <text x="400" y="22" font-family="monospace" font-size="10" fill="#64748b">
-      1280 × 720 Viewport
-    </text>
+    <!-- Window Top Chrome -->
+    <rect width="1080" height="44" rx="16" fill="#f8fafc" />
+    <rect width="1080" height="1" y="44" fill="#e2e8f0" />
 
-    <!-- Audited Page Content Elements -->
-    <g transform="translate(20, 50)">
-      <!-- Element 1: Heading -->
-      <text x="0" y="18" font-family="-apple-system, sans-serif" font-size="16" font-weight="700" fill="#ffffff">
-        Order Summary &amp; Payment
+    <!-- Subtle Window Dots -->
+    <circle cx="24" cy="22" r="4.5" fill="#cbd5e1" />
+    <circle cx="38" cy="22" r="4.5" fill="#cbd5e1" />
+    <circle cx="52" cy="22" r="4.5" fill="#cbd5e1" />
+
+    <!-- Breadcrumb URL bar -->
+    <rect x="74" y="10" width="480" height="24" rx="6" fill="#ffffff" stroke="#e2e8f0" />
+    <text x="86" y="26" class="font-mono" font-size="11" fill="#64748b">https://inklara.dev/walkthrough/checkout-portal</text>
+
+    <!-- Right Window Status -->
+    <g transform="translate(860, 11)">
+      <circle cx="8" cy="11" r="3" fill="#10b981" />
+      <text x="18" y="15" class="font-sans" font-size="11" font-weight="600" fill="#475569">Sample Scenario Fixture</text>
+    </g>
+
+    <!-- Stage Navigation Stepper (Snowdog Style Tabs) -->
+    <g transform="translate(0, 45)">
+      <rect width="1080" height="42" fill="#ffffff" />
+      <line x1="0" y1="42" x2="1080" y2="42" stroke="#e2e8f0" />
+
+      <!-- Stage 01: Discover -->
+      <g transform="translate(32, 0)">
+        <text x="0" y="26" class="font-mono" font-size="11" font-weight="700" fill="#94a3b8">01</text>
+        <text x="24" y="26" class="font-sans" font-size="13" font-weight="600" fill="#64748b">Discover</text>
+      </g>
+
+      <!-- Stage 02: Inspect -->
+      <g transform="translate(230, 0)">
+        <text x="0" y="26" class="font-mono" font-size="11" font-weight="700" fill="#94a3b8">02</text>
+        <text x="24" y="26" class="font-sans" font-size="13" font-weight="600" fill="#64748b">Inspect</text>
+      </g>
+
+      <!-- Stage 03: Remediate [Active Tab] -->
+      <g transform="translate(430, 0)">
+        <rect x="-16" y="0" width="180" height="42" fill="#f8fafc" />
+        <text x="0" y="26" class="font-mono" font-size="11" font-weight="800" fill="#4f46e5">03</text>
+        <text x="24" y="26" class="font-sans" font-size="13" font-weight="700" fill="#0f172a">Remediate</text>
+        <!-- Active underline -->
+        <rect x="-16" y="40" width="180" height="2" fill="#4f46e5" />
+      </g>
+
+      <!-- Stage 04: Verify -->
+      <g transform="translate(670, 0)">
+        <text x="0" y="26" class="font-mono" font-size="11" font-weight="700" fill="#94a3b8">04</text>
+        <text x="24" y="26" class="font-sans" font-size="13" font-weight="600" fill="#64748b">Verify</text>
+      </g>
+
+      <!-- Stage 05: Report -->
+      <g transform="translate(870, 0)">
+        <text x="0" y="26" class="font-mono" font-size="11" font-weight="700" fill="#94a3b8">05</text>
+        <text x="24" y="26" class="font-sans" font-size="13" font-weight="600" fill="#64748b">Report</text>
+      </g>
+    </g>
+
+    <!-- Active Stage Context Header -->
+    <g transform="translate(32, 108)">
+      <text x="0" y="18" class="font-sans" font-size="17" font-weight="800" fill="#0f172a">Before &amp; After Code Remediation</text>
+      <text x="0" y="36" class="font-sans" font-size="12" fill="#475569">Side-by-side code corrections showing exact HTML/CSS changes with mathematical relative luminance proof.</text>
+    </g>
+
+    <!-- Side-by-Side Before & After Grid -->
+    <g transform="translate(32, 160)">
+      <!-- BEFORE CARD -->
+      <g transform="translate(0, 0)">
+        <rect width="496" height="205" rx="10" fill="#ffffff" stroke="#fecdd3" stroke-width="1.2" />
+        <rect width="496" height="34" rx="10" fill="#fff1f2" />
+        <rect width="496" height="1" y="34" fill="#fecdd3" />
+
+        <text x="14" y="22" class="font-sans" font-size="11" font-weight="800" fill="#9f1239">BEFORE: ORIGINAL CODE</text>
+        <text x="350" y="22" class="font-mono" font-size="11" font-weight="700" fill="#be123c">Measured: 2.34 : 1 (Fails AA)</text>
+
+        <!-- Code Block -->
+        <g transform="translate(14, 46)">
+          <rect width="468" height="95" rx="8" fill="#0f172a" />
+          <text x="14" y="22" class="font-mono" font-size="10.5" fill="#f43f5e">// Insufficient contrast foreground token</text>
+          <text x="14" y="42" class="font-mono" font-size="11" fill="#94a3b8">&lt;<tspan fill="#f43f5e">p</tspan> className=&quot;<tspan fill="#fda4af">checkout-disclaimer text-zinc-400</tspan>&quot;&gt;</text>
+          <text x="32" y="60" class="font-mono" font-size="11" fill="#cbd5e1">Please review billing terms carefully...</text>
+          <text x="14" y="78" class="font-mono" font-size="11" fill="#94a3b8">&lt;/<tspan fill="#f43f5e">p</tspan>&gt;</text>
+        </g>
+
+        <!-- Defect Analysis -->
+        <text x="14" y="162" class="font-sans" font-size="11" font-weight="700" fill="#0f172a">Defect Analysis:</text>
+        <text x="14" y="180" class="font-sans" font-size="11" fill="#475569">Token #a1a1aa on #f1f5f9 yields 2.34:1 (APCA Lc 46.6), failing WCAG 1.4.3 AA (4.50:1 required).</text>
+      </g>
+
+      <!-- AFTER CARD -->
+      <g transform="translate(520, 0)">
+        <rect width="496" height="205" rx="10" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.2" />
+        <rect width="496" height="34" rx="10" fill="#ecfdf5" />
+        <rect width="496" height="1" y="34" fill="#a7f3d0" />
+
+        <text x="14" y="22" class="font-sans" font-size="11" font-weight="800" fill="#065f46">AFTER: CORRECTED CODE</text>
+        <text x="326" y="22" class="font-mono" font-size="11" font-weight="700" fill="#047857">Calculated: 11.20 : 1 (AAA Pass)</text>
+
+        <!-- Code Block -->
+        <g transform="translate(14, 46)">
+          <rect width="468" height="95" rx="8" fill="#0f172a" />
+          <text x="14" y="22" class="font-mono" font-size="10.5" fill="#34d399">// High-luminance compliant foreground token</text>
+          <text x="14" y="42" class="font-mono" font-size="11" fill="#94a3b8">&lt;<tspan fill="#34d399">p</tspan> className=&quot;<tspan fill="#a7f3d0">checkout-disclaimer text-slate-100 font-medium</tspan>&quot;&gt;</text>
+          <text x="32" y="60" class="font-mono" font-size="11" fill="#f8fafc">Please review billing terms carefully...</text>
+          <text x="14" y="78" class="font-mono" font-size="11" fill="#94a3b8">&lt;/<tspan fill="#34d399">p</tspan>&gt;</text>
+        </g>
+
+        <!-- Verified Fix Analysis -->
+        <text x="14" y="162" class="font-sans" font-size="11" font-weight="700" fill="#0f172a">Verified Solution:</text>
+        <text x="14" y="180" class="font-sans" font-size="11" fill="#047857">Token swapped to #f1f5f9 (11.20:1 AAA, APCA Lc 94.4+). Exceeds 4.5:1 AA with zero layout shift.</text>
+      </g>
+    </g>
+
+    <!-- Bottom Verification Summary Strip -->
+    <g transform="translate(32, 380)">
+      <rect width="1016" height="52" rx="10" fill="#f8fafc" stroke="#e2e8f0" />
+      <circle cx="26" cy="26" r="10" fill="#dcfce7" />
+      <path d="M 21 26 L 24 29 L 31 22" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+      <text x="46" y="24" class="font-sans" font-size="12" font-weight="700" fill="#0f172a">
+        Contrast Upgraded: 2.34:1 → 11.20:1 (+378% Contrast Ratio Improvement across W3C Formula)
+      </text>
+      <text x="46" y="40" class="font-sans" font-size="11" fill="#64748b">
+        Cryptographic Signature: <tspan class="font-mono">sha256:d8c9f28a...</tspan> marked VERIFIED_FIXED in Playwright re-scan. Zero regressions.
       </text>
 
-      <!-- Element 2: Product Image Box (Missing Alt) -->
-      <g transform="translate(0, 32)">
-        <rect width="480" height="60" rx="6" fill="#14192b" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 2" />
-        <rect x="12" y="10" width="40" height="40" rx="4" fill="#252e4f" />
-        <text x="64" y="26" font-family="-apple-system, sans-serif" font-size="12" font-weight="600" fill="#ffffff">
-          Studio Pro ANC Headphones
-        </text>
-        <text x="64" y="44" font-family="monospace" font-size="10" fill="#ef4444">
-          &lt;img src=&quot;/images/anc-pro.webp&quot;&gt; — MISSING ALT ATTRIBUTE
-        </text>
-        <!-- Critical Flag -->
-        <rect x="390" y="18" width="76" height="22" rx="4" fill="#450a0a" stroke="#991b1b" />
-        <text x="400" y="33" font-family="-apple-system, sans-serif" font-size="9" font-weight="700" fill="#fca5a5">
-          WCAG 1.1.1
-        </text>
-      </g>
-
-      <!-- Element 3: Billing Disclaimer (Color Contrast Violation) -->
-      <g transform="translate(0, 106)">
-        <rect width="480" height="65" rx="6" fill="#14192b" stroke="#f97316" stroke-width="1.5" />
-        <text x="14" y="22" font-family="monospace" font-size="10" font-weight="600" fill="#f97316">
-          p.checkout-disclaimer (Computed Contrast 2.3:1)
-        </text>
-        <text x="14" y="42" font-family="-apple-system, sans-serif" font-size="11" fill="#71717a">
-          Subscription automatically renews every 30 days unless cancelled.
-        </text>
-        <!-- Serious Flag -->
-        <rect x="390" y="16" width="76" height="22" rx="4" fill="#431407" stroke="#9a3412" />
-        <text x="400" y="31" font-family="-apple-system, sans-serif" font-size="9" font-weight="700" fill="#fdba74">
-          WCAG 1.4.3
-        </text>
-      </g>
-
-      <!-- Element 4: Button with discernable name issue -->
-      <g transform="translate(0, 185)">
-        <rect width="480" height="50" rx="6" fill="#14192b" stroke="#38bdf8" stroke-width="1.5" />
-        <rect x="14" y="10" width="130" height="30" rx="4" fill="#2563eb" />
-        <text x="32" y="29" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
-          Confirm &amp; Pay
-        </text>
-        <text x="160" y="29" font-family="monospace" font-size="10.5" fill="#a5f3fc">
-          Accessible Name: &quot;Confirm &amp; Pay&quot; (PASSES)
-        </text>
-      </g>
+      <!-- Action Button -->
+      <rect x="860" y="12" width="140" height="28" rx="6" fill="#4f46e5" />
+      <text x="880" y="30" class="font-sans" font-size="11" font-weight="700" fill="#ffffff">Verify Fix in DOM →</text>
     </g>
 
-    <!-- Dynamic Scanning Laser Beam Overlay -->
-    <g class="laser-runner" transform="translate(0, 40)">
-      <line x1="0" y1="0" x2="520" y2="0" stroke="url(#laser-beam)" stroke-width="3" filter="url(#laser-glow)" />
-      <circle cx="260" cy="0" r="4" fill="#38bdf8" />
+    <!-- Bottom Metadata Bar -->
+    <g transform="translate(32, 448)">
+      <text x="0" y="24" class="font-sans" font-size="11" font-weight="600" fill="#94a3b8">
+        Engine: axe-core 4.10.2 • Playwright 1.49 • W3C WCAG 2.2 AA / AAA • Section 508 • EN 301 549
+      </text>
+      <text x="800" y="24" class="font-sans" font-size="11" font-weight="600" fill="#64748b">
+        Open-Source Inclusive Engineering Platform
+      </text>
     </g>
-
-    <!-- Bottom Status Bar -->
-    <rect width="520" height="32" y="363" rx="10" fill="#101426" />
-    <text x="18" y="383" font-family="monospace" font-size="10.5" fill="#38bdf8">
-      Playwright Worker: scanning 84 DOM nodes across 52 WCAG rules...
-    </text>
-    <text x="430" y="383" font-family="monospace" font-size="10.5" font-weight="700" fill="#ef4444">
-      7 Violations
-    </text>
   </g>
 
-  <!-- Right Inspection Panel: Evidence, Remediation, & Verification -->
-  <g transform="translate(566, 114)">
-    <rect width="324" height="395" rx="10" fill="#0f1324" stroke="#22283d" />
+  <!-- Floating Feature Card 1: Screen-Reader Workbench Preview -->
+  <g transform="translate(860, 470)" filter="url(#float-shadow)">
+    <rect width="260" height="135" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" />
+    <rect width="260" height="28" rx="12" fill="#0f172a" />
+    <text x="14" y="19" class="font-sans" font-size="11" font-weight="700" fill="#ffffff">Screen-Reader Workbench</text>
+    <rect x="200" y="6" width="48" height="16" rx="8" fill="#10b981" />
+    <text x="210" y="17" class="font-sans" font-size="9" font-weight="800" fill="#ffffff">LIVE</text>
 
-    <!-- Panel Title -->
-    <rect width="324" height="34" rx="10" fill="#161b30" />
-    <rect width="324" height="1" y="34" fill="#22283d" />
-    <text x="16" y="22" font-family="-apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
-      EVIDENCE &amp; REMEDIATION WORKBENCH
-    </text>
+    <g transform="translate(14, 40)">
+      <circle cx="6" cy="6" r="3" fill="#10b981" />
+      <text x="16" y="9" class="font-sans" font-size="10.5" font-weight="600" fill="#0f172a">Modal Dialog Focus Trap</text>
+      <text x="180" y="9" class="font-mono" font-size="10" font-weight="700" fill="#16a34a">PASS</text>
 
-    <!-- Finding Card with Status Toggle Animation -->
-    <g transform="translate(14, 46)">
-      <rect width="296" height="110" rx="8" fill="#161c32" stroke="#283254" />
+      <circle cx="6" cy="28" r="3" fill="#10b981" />
+      <text x="16" y="31" class="font-sans" font-size="10.5" font-weight="600" fill="#0f172a">ARIA Live Region Polite</text>
+      <text x="180" y="31" class="font-mono" font-size="10" font-weight="700" fill="#16a34a">PASS</text>
 
-      <!-- Rule Header -->
-      <text x="12" y="24" font-family="monospace" font-size="11" font-weight="700" fill="#38bdf8">
-        rule: color-contrast
-      </text>
+      <circle cx="6" cy="50" r="3" fill="#10b981" />
+      <text x="16" y="53" class="font-sans" font-size="10.5" font-weight="600" fill="#0f172a">Escape Key Dismissal</text>
+      <text x="180" y="53" class="font-mono" font-size="10" font-weight="700" fill="#16a34a">PASS</text>
 
-      <!-- Status Indicator Toggle: OPEN (Initial) -->
-      <g class="open-badge">
-        <rect x="210" y="10" width="74" height="20" rx="4" fill="#431407" stroke="#9a3412" />
-        <text x="220" y="24" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#fdba74">
-          STATUS: OPEN
-        </text>
-      </g>
-
-      <!-- Status Indicator Toggle: VERIFIED FIXED (After Re-scan) -->
-      <g class="verified-badge">
-        <rect x="180" y="10" width="104" height="20" rx="4" fill="#064e3b" stroke="#059669" filter="url(#check-glow)" />
-        <text x="190" y="24" font-family="-apple-system, sans-serif" font-size="9.5" font-weight="800" fill="#34d399">
-          ✓ VERIFIED FIXED
-        </text>
-      </g>
-
-      <text x="12" y="52" font-family="-apple-system, sans-serif" font-size="11" fill="#cbd5e1">
-        Current Contrast: <tspan fill="#ef4444" font-weight="700">2.3:1</tspan> (Threshold 4.5:1)
-      </text>
-      <text x="12" y="70" font-family="-apple-system, sans-serif" font-size="11" fill="#cbd5e1">
-        Remediated Ratio: <tspan fill="#10b981" font-weight="700">11.2:1 AAA</tspan>
-      </text>
-      <text x="12" y="94" font-family="monospace" font-size="10" fill="#94a3b8">
-        Target: p.checkout-disclaimer
-      </text>
-    </g>
-
-    <!-- Side-by-Side Remediation Code Diff -->
-    <g transform="translate(14, 168)">
-      <rect width="296" height="130" rx="8" fill="#090b14" stroke="#1f253d" />
-      <text x="12" y="20" font-family="-apple-system, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff">
-        Actionable Remediation Diff
-      </text>
-
-      <!-- Before line -->
-      <rect x="8" y="32" width="280" height="34" rx="4" fill="#450a0a" stroke="#991b1b" stroke-opacity="0.4" />
-      <text x="14" y="46" font-family="monospace" font-size="9.5" fill="#fca5a5">- &lt;p className=&quot;text-zinc-500&quot;&gt;</text>
-      <text x="14" y="59" font-family="monospace" font-size="9" fill="#f87171">  // FAILS WCAG 1.4.3 (2.3:1 ratio)</text>
-
-      <!-- After line -->
-      <rect x="8" y="74" width="280" height="34" rx="4" fill="#064e3b" stroke="#059669" stroke-opacity="0.4" />
-      <text x="14" y="88" font-family="monospace" font-size="9.5" fill="#6ee7b7">+ &lt;p className=&quot;text-slate-100 font-medium&quot;&gt;</text>
-      <text x="14" y="101" font-family="monospace" font-size="9" fill="#34d399">  // PASSES WCAG 1.4.3 Level AAA (11.2:1)</text>
-    </g>
-
-    <!-- Executive Summary Card at Bottom -->
-    <g transform="translate(14, 308)">
-      <rect width="296" height="74" rx="8" fill="#141829" stroke="#22283d" />
-      <text x="12" y="24" font-family="-apple-system, sans-serif" font-size="10" font-weight="700" fill="#94a3b8">
-        REGRESSION COMPARATOR DELTA
-      </text>
-      <text x="12" y="46" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#10b981">
-        -1 Resolved
-      </text>
-      <text x="135" y="46" font-family="-apple-system, sans-serif" font-size="18" font-weight="800" fill="#38bdf8">
-        0 Regressions
-      </text>
-      <text x="12" y="64" font-family="monospace" font-size="9.5" fill="#a5b4fc">
-        SHA-256 fingerprint verified across re-scans
-      </text>
+      <line x1="0" y1="65" x2="232" y2="65" stroke="#f1f5f9" />
+      <text x="0" y="80" class="font-mono" font-size="9.5" fill="#64748b">A11y Tree: role=&quot;dialog&quot; modal=true</text>
     </g>
   </g>
 </svg>
